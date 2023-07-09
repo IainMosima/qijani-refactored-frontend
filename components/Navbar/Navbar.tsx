@@ -21,6 +21,8 @@ interface NavbarProps {
 }
 
 const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenuToogle }: NavbarProps) => {
+    
+
     const [query, setQuery] = useState('');
     const [debouncedQuery] = useDebounce(query, 500);
     const [searchResults, setSearchResults] = useState<Product[]>([]);
