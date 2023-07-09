@@ -1,4 +1,5 @@
 export { default as Navbar } from "./Navbar/Navbar";
+export { default as CategoriesSelector } from "./CategoriesSelector/CategoriesSelector";
 // export { default as Category } from "./Categories/Category/Category";
 // export { default as Categories } from "./Categories/Categories";
 // export { default as LoginSignUp  } from "./LoginSignUp/LoginSignUp";

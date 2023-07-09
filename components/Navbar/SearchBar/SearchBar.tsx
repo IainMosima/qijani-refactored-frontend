@@ -17,11 +17,11 @@ const SearchBar = ({ query, handleInputChange, search }: SearchBarProps) => {
         type="text"
         value={query}
         onChange={handleInputChange}
-        className="lg:w-[25rem] md:w-[22rem] w-[9.5rem] sm:h-[3rem] h-[2.5rem] sm:text-lg text-[12px] sm:pl-[1rem] pl-[.5rem]"
+        className="lg:w-[25rem] md:w-[22rem] w-[11rem] sm:h-[3rem] h-[2.5rem] sm:text-lg text-[14px] sm:pl-[1rem] pl-[.5rem]"
         placeholder="Search product or category "
       />
       <button 
-        className="lg:w-[4.5rem] md:w-[4.5rem] w-[3.5rem] sm:h-[3rem] h-[2.5rem]"
+        className="lg:w-[4.5rem] md:w-[4.5rem] w-[3rem] sm:h-[3rem] h-[2.5rem]"
         onClick={() => search()}
       >
         <Image src={Images.searchIcon} alt="search-icon" height={30} />

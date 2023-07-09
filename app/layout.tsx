@@ -1,4 +1,4 @@
-import { Navbar } from "@/components";
+import { CategoriesSelector, Navbar } from "@/components";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -22,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
           <Navbar />
+          <CategoriesSelector/>
           {children}
       </body>
     </html>
