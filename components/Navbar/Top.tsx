@@ -143,72 +143,38 @@ const Top = () => {
       </div>
 
       <div className="app__navbar-links">
-        <div onClick={() => toggleHandler("categories")}>
-          <Image
-            src={Images.categoryIcon}
-            alt="category-icon"
-            className="icon"
-          />
-          <h4>Categories</h4>
-          <Image src={Images.dropDownIcon} alt="drop-down" />
-
-          {categoryToggle && (
-            <motion.div
-              whileInView={{ y: [0, 10] }}
-              transition={{ duration: 0.1, ease: "easeOut" }}
-              className="more_info"
-            >
-              <ul>
-                {categories.map((item, index) => (
-                  <li onClick={() => navigate.push(`/search/${item}`)} key={index}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          )}
-        </div>
-
         <div onClick={() => packageOnClickHandler()}>
           <Image
             src={Images.packagesIcon}
             alt="package-icon"
             className="icon"
           />
-          <h4>My Packages </h4>
+          <h4>Packages</h4>
         </div>
 
-        {loggedInUser && (
-          <Link
-            href={"/orders"}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <div>
-              <Image
-                src={Images.orderIcon}
-                alt="package-icon"
-                className="icon"
-              />
-              <h4>Orders</h4>
-            </div>
-          </Link>
-        )}
+        <Link
+          href={"/orders"}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <div>
+            <Image src={Images.orderIcon} alt="package-icon" className="icon" />
+            <h4>Orders</h4>
+          </div>
+        </Link>
 
-        {!loggedInUser && (
-          <Link
+        <Link
           href={"/loginSignup/&"}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <div>
-              <Image
-                src={Images.accountIcon}
-                alt="account-icon"
-                className="profile-icon"
-              />
-              <h4>My Account </h4>
-            </div>
-          </Link>
-        )}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <div>
+            <Image
+              src={Images.accountIcon}
+              alt="account-icon"
+              className="profile-icon"
+            />
+            <h4>My Account </h4>
+          </div>
+        </Link>
 
         {loggedInUser && (
           <div onClick={() => toggleHandler("myAccount")}>
@@ -257,193 +223,6 @@ const Top = () => {
             )}
           </div>
         )}
-      </div>
-
-      <div className="app__menu">
-        <Image
-          src={Images.menuIcon}
-          alt="menu-down"
-          className="menu-icon"
-          onClick={() => setMenuToogle(true)}
-        />
-
-        <div
-          className={`menu-body ${
-            menuToogle ? "app__menu-visible" : "app__menu-not-visible"
-          }`}
-        >
-          <Image
-            src={Images.closeIcon}
-            alt="closeIcon"
-            className="close-icon"
-            onClick={() => setMenuToogle(false)}
-          />
-
-          <br />
-          <br />
-          <br />
-
-          <div onClick={() => toggleHandler("categories")}>
-            <div className="information">
-              <Image
-                src={Images.categoryIcon}
-                alt="category-icon"
-                className="icon"
-              />
-              <h4>Categories</h4>
-              <Image
-                className="drop-down"
-                src={Images.dropDownIcon}
-                alt="drop-down"
-              />
-            </div>
-
-            {categoryToggle && (
-              <motion.div
-                whileInView={{ y: [0, 10] }}
-                transition={{ duration: 0.1, ease: "easeOut" }}
-                className="more_info"
-              >
-                <ul>
-                  {categories.map((item, index) => (
-                    <li
-                      onClick={() => {
-                        navigate.push(`/search/${item}`);
-                        setMenuToogle(false);
-                      }}
-                      key={index}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            )}
-          </div>
-
-          <br />
-          <br />
-
-          <div>
-            <div
-              className="information"
-              onClick={() => {
-                packageOnClickHandler();
-              }}
-            >
-              <Image
-                src={Images.packagesIcon}
-                className="packageIcon"
-                alt="package-icon"
-              />
-              <h4>My Packages </h4>
-            </div>
-          </div>
-
-          <br />
-          <br />
-
-          {loggedInUser && (
-            <>
-              <div>
-                <div
-                  onClick={() => {
-                    navigate.push("/orders");
-                    setMenuToogle(false);
-                  }}
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  <div className="information">
-                    <Image
-                      src={Images.orderIcon}
-                      alt="package-icon"
-                      className="icon"
-                    />
-                    <h4>Orders </h4>
-                  </div>
-                </div>
-              </div>
-              <br />
-              <br />
-            </>
-          )}
-
-          {!loggedInUser && (
-            <div>
-              <div onClick={() => setMenuToogle(false)}>
-                <Link
-                  href={"/loginSignup/&"}
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  <div
-                    className="information"
-                    onClick={() => toggleHandler("myAccount")}
-                  >
-                    <Image
-                      src={Images.accountIcon}
-                      alt="account-icon"
-                      className="profile-icon"
-                    />
-                    <h4>My Account </h4>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {loggedInUser && (
-            <div className="information account-mobile">
-              <div onClick={() => toggleHandler("myAccount")}>
-                <div className="loggedInProfile">
-                  {loggedInUser.profileImageKey && (
-                    <Image
-                      src={loggedInUser.profileImageKey}
-                      alt="profile-pic"
-                      className="profile-icon icon"
-                    />
-                  )}
-
-                  {!loggedInUser.profileImageKey && (
-                    <Image
-                      src={Images.accountIcon}
-                      alt="profile-icon"
-                      className="profile-icon"
-                    />
-                  )}
-                  <h4>{loggedInUser.username}</h4>
-                  <Image src={Images.dropDownIcon} alt="drop-icon" />
-                </div>
-                {accountToggle && (
-                  <motion.div
-                    whileInView={{ y: [0, 10] }}
-                    transition={{ duration: 0.1, ease: "easeOut" }}
-                    className="more-info-mobile"
-                  >
-                    <ul>
-                      {myAccount.map((item, index) => (
-                        <li onClick={() => setMenuToogle(false)} key={index}>
-                          <Image
-                            src={item.img}
-                            alt="my-profile-icon"
-                            className="iconDefault"
-                          />{" "}
-                          {item.name}
-                        </li>
-                      ))}
-                      <button
-                        className="link"
-                        style={{ paddingTop: 0 }}
-                        onClick={logout}
-                      >
-                        Log Out
-                      </button>
-                    </ul>
-                  </motion.div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
       </div>
     </nav>
   );

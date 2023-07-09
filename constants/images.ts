@@ -26,6 +26,7 @@ import linkedInIcon from "../public/assets/linkedIn.png";
 import twitterIcon from "../public/assets/twitter.png";
 import facebookIcon from "../public/assets/facebook.png";
 import pendingIcon from "../public/assets/pending.png";
+import searchIcon from "../public/assets/search.png";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     logo,
@@ -55,5 +56,6 @@ export default {
     linkedInIcon,
     twitterIcon,
     facebookIcon,
-    pendingIcon
+    pendingIcon,
+    searchIcon,
 }

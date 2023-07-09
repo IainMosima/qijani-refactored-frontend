@@ -1,5 +1,7 @@
 import React from "react";
 import "./SearchBar.scss";
+import Image from "next/image";
+import { Images } from "@/constants";
 
 interface SearchBarProps {
     query: string,
@@ -13,7 +15,7 @@ const SearchBar = ({ query, handleInputChange, search } : SearchBarProps) => {
     return (
         <div className="app__searchBar">
             <input type='text' value={query} onChange={handleInputChange} placeholder='Search product or category '/>
-            <button onClick={()=>search()}>Search</button>
+            <button onClick={()=>search()}><Image src={Images.searchIcon} alt="search-icon" height={30}/></button>
         </div>
     );
 }
