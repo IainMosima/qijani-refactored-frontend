@@ -1,0 +1,56 @@
+.app__no_orders {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    gap: 35px;
+    width: 80%;
+
+    h2{
+        font-size: 1.6rem;
+        span{
+            font-weight: 100;
+        }
+    }
+
+    ul {
+        margin-left: 15px;
+        li{
+            font-size: 1.4rem;
+        }
+    }
+
+    button {
+        margin-top: 2rem;
+        width: 17rem;
+        height: 5vh;
+        font-size: 1.4rem;
+        text-align: center;
+        background-color: var(--green-color);
+        border: none;
+        cursor: pointer;
+        color: var(--primary-color);
+        border-radius: 7px;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding-inline: 4px;
+    }
+
+    @media screen and (max-width: 768px) {
+        img {
+            width: 10rem;
+            height: 10rem;
+        }
+        ul {
+            li{
+                font-size: 1.1rem;
+            }
+        }
+        button {
+            margin-top: 1rem;
+            width: 2rem;
+            font-size: 1.1rem;
+
+        }
+    }
+}
