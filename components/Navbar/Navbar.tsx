@@ -11,17 +11,19 @@ import * as UserApi from "../../network/users";
 import "./Navbar.scss";
 import { Product } from "../../models/product";
 import { User } from "../../models/user";
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHook";
+import { userLogin, userLogout } from "@/redux/reducers/loginReducer";
+import Image from "next/image";
 
 interface NavbarProps {
-    categories: string[] | undefined,
     menuToogle: boolean
-    loggedInUser: User | null,
     setMenuToogle: React.Dispatch<React.SetStateAction<boolean>>,
-    setLoggedInUser: React.Dispatch<React.SetStateAction<User | null>>
 }
 
-const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenuToogle }: NavbarProps) => {
-    
+const Navbar = ({ menuToogle, setMenuToogle }: NavbarProps) => {
+    const dispatch = useAppDispatch();
+    const loggedInUser = useAppSelector(state => state.login.user);
+    const categories = useAppSelector(state => state.categories.categories);
 
     const [query, setQuery] = useState('');
     const [debouncedQuery] = useDebounce(query, 500);
@@ -71,7 +73,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
     async function logout() {
         try {
             await UserApi.logout();
-            setLoggedInUser(null);
+            dispatch(userLogout());
         } catch (error) {
             console.error(error);
             
@@ -114,7 +116,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
         <nav className="app__navbar" >
             <div className="app__navbar-logo" onClick={()=>setMenuToogle(false)}>
                 <Link to="/">
-                    <img src={Images.logo} alt="logo" className="logo"/>
+                    <Image src={Images.logo} alt="logo" className="logo"/>
                 </Link>
             </div>
 
@@ -146,9 +148,9 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                 
             <div className="app__navbar-links">
                 <div onClick={()=>toggleHandler('categories')}>
-                    <img src={Images.categoryIcon} alt='category-icon' className='icon'/>
+                    <Image src={Images.categoryIcon} alt='category-icon' className='icon'/>
                     <h4>Categories</h4>
-                    <img src={Images.dropDownIcon} alt='drop-down'/>
+                    <Image src={Images.dropDownIcon} alt='drop-down'/>
 
                     {categoryToggle && 
                         <motion.div
@@ -157,7 +159,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                             className="more_info"
                         >
                             <ul>
-                                {categories?.map((item, index) => (
+                                {categories.map((item, index) => (
                                     <li onClick={() => navigate(`/search/${item}`)} key={index}>{item}</li>
                                 ))}
                             </ul>
@@ -166,14 +168,14 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                 </div>
 
                 <div onClick={() => packageOnClickHandler()}>
-                    <img src={Images.packagesIcon} alt='package-icon' className='icon'/>
+                    <Image src={Images.packagesIcon} alt='package-icon' className='icon'/>
                     <h4>My Packages </h4>
                 </div>
                 
                 {loggedInUser &&
                         <Link to={'/orders'} style={{textDecoration: 'none', color: 'black'}}>
                             <div>
-                                <img src={Images.orderIcon} alt='package-icon' className='icon'/>
+                                <Image src={Images.orderIcon} alt='package-icon' className='icon'/>
                                 <h4>Orders</h4>
                             </div>
                         </Link>
@@ -182,7 +184,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                 {!loggedInUser &&
                     <Link to={'/loginSignup/&'} style={{textDecoration: 'none', color: 'black'}}>
                         <div>
-                            <img src={Images.accountIcon} alt='account-icon' className='profile-icon' />
+                            <Image src={Images.accountIcon} alt='account-icon' className='profile-icon' />
                             <h4>My Account </h4>
                         </div>
                     </Link>
@@ -191,15 +193,15 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
 
                 {loggedInUser &&
                     <div onClick={()=>toggleHandler('myAccount')}>
-                        {loggedInUser.profileImgKey &&
-                            <img src={loggedInUser.profileImgKey} alt='profile-pic' className='profile-icon'/>
+                        {loggedInUser.profileImageKey &&
+                            <Image src={loggedInUser.profileImageKey} alt='profile-pic' className='profile-icon'/>
                         }
 
-                        {!loggedInUser.profileImgKey &&
-                            <img src={Images.accountIcon} alt='profile-icon' className='profile-icon'/>
+                        {!loggedInUser.profileImageKey &&
+                            <Image src={Images.accountIcon} alt='profile-icon' className='profile-icon'/>
                         }
                         <h4>{loggedInUser.username}</h4>
-                        <img src={Images.dropDownIcon} alt='drop-icon'/>
+                        <Image src={Images.dropDownIcon} alt='drop-icon'/>
 
                         {accountToggle && 
                             <motion.div
@@ -209,7 +211,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                             > 
                             <ul>
                                {myAccount.map((item, index) => (
-                                <li key={index}>{<img src={item.img} alt='my-profile-icon'/>} {item.name}</li>
+                                <li key={index}>{<Image src={item.img} alt='my-profile-icon'/>} {item.name}</li>
                                 ))}
 
                                 <hr />                                           
@@ -226,11 +228,11 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
             
 
             <div className='app__menu'>
-                <img src={Images.menuIcon} alt='menu-down' className="menu-icon" onClick={()=>setMenuToogle(true)}/>
+                <Image src={Images.menuIcon} alt='menu-down' className="menu-icon" onClick={()=>setMenuToogle(true)}/>
                 
                 
                 <div className={`menu-body ${menuToogle ? 'app__menu-visible' : 'app__menu-not-visible'}`}>
-                    <img src={Images.closeIcon} alt='closeIcon' className="close-icon" onClick={()=>setMenuToogle(false)}/>
+                    <Image src={Images.closeIcon} alt='closeIcon' className="close-icon" onClick={()=>setMenuToogle(false)}/>
                         
                     <br/>
                     <br/>
@@ -238,9 +240,9 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                         
                     <div onClick={()=>toggleHandler('categories')}>
                             <div className="information">
-                                <img src={Images.categoryIcon} alt='category-icon' className='icon'/>
+                                <Image src={Images.categoryIcon} alt='category-icon' className='icon'/>
                                 <h4>Categories</h4>
-                                <img className='drop-down'src={Images.dropDownIcon} alt='drop-down'/>
+                                <Image className='drop-down'src={Images.dropDownIcon} alt='drop-down'/>
                             </div>
                             
 
@@ -251,7 +253,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                             className="more_info"
                         >
                             <ul>
-                                {categories?.map((item, index) => (
+                                {categories.map((item, index) => (
                                     <li onClick={() => {navigate(`/search/${item}`); setMenuToogle(false)}} key={index}>{item}</li>
                                 ))}
                             </ul>
@@ -264,7 +266,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                         
                         <div>
                             <div className="information" onClick={() => {packageOnClickHandler()}}>
-                                <img src={Images.packagesIcon} className='packageIcon' alt='package-icon' />
+                                <Image src={Images.packagesIcon} className='packageIcon' alt='package-icon' />
                                 <h4>My Packages </h4>
                             </div>
                             
@@ -278,7 +280,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                                 <div>
                                     <div onClick={() => {navigate('/orders'); setMenuToogle(false)}} style={{textDecoration: 'none', color: 'black'}}>
                                         <div className="information">
-                                            <img src={Images.orderIcon} alt='package-icon' className='icon'/>
+                                            <Image src={Images.orderIcon} alt='package-icon' className='icon'/>
                                             <h4>Orders </h4>
                                         </div>
                                     </div>
@@ -295,7 +297,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                                 <div onClick={() => setMenuToogle(false)}>
                                     <Link to={'/loginSignup/&'}  style={{textDecoration: 'none', color: 'black'}}>
                                         <div className="information" onClick={()=>toggleHandler('myAccount')}>
-                                            <img src={Images.accountIcon} alt='account-icon' className='profile-icon' />
+                                            <Image src={Images.accountIcon} alt='account-icon' className='profile-icon' />
                                             <h4>My Account </h4>
                                         </div>
                                     </Link>
@@ -308,15 +310,15 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                             <div className="information account-mobile">
                                 <div onClick={()=>toggleHandler('myAccount')}>
                                     <div className="loggedInProfile">
-                                        {loggedInUser.profileImgKey &&
-                                            <img src={loggedInUser.profileImgKey} alt='profile-pic' className='profile-icon icon' />
+                                        {loggedInUser.profileImageKey &&
+                                            <Image src={loggedInUser.profileImageKey} alt='profile-pic' className='profile-icon icon' />
                                         }
 
-                                        {!loggedInUser.profileImgKey &&
-                                            <img src={Images.accountIcon} alt='profile-icon' className='profile-icon'/>
+                                        {!loggedInUser.profileImageKey &&
+                                            <Image src={Images.accountIcon} alt='profile-icon' className='profile-icon'/>
                                         }
                                         <h4>{loggedInUser.username}</h4>
-                                        <img src={Images.dropDownIcon} alt='drop-icon'/>
+                                        <Image src={Images.dropDownIcon} alt='drop-icon'/>
                                     </div>
                                     {accountToggle && 
                                         <motion.div
@@ -326,7 +328,7 @@ const Navbar = ({ categories, menuToogle, loggedInUser, setLoggedInUser, setMenu
                                         > 
                                         <ul>
                                             {myAccount.map((item, index) => (
-                                                <li onClick={() => setMenuToogle(false)} key={index}><img src={item.img} alt='my-profile-icon' className="iconDefault"/> {item.name}</li>
+                                                <li onClick={() => setMenuToogle(false)} key={index}><Image src={item.img} alt='my-profile-icon' className="iconDefault"/> {item.name}</li>
                                                 ))}                                         
                                                 <button className="link" style={{paddingTop: 0}} onClick={logout}>Log Out</button>          
                                         </ul>                                
