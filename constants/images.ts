@@ -1,4 +1,4 @@
-import logo from "../public/assets/logo.jpeg";
+import logo from "../public/assets/logo.png";
 import dropDownIcon from "../public/assets/drop-down-icon.png";
 import packageIcon from "../public/assets/package.png";
 import packagesIcon from "../public/assets/packages.png";

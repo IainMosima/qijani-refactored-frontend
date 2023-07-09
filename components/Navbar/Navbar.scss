@@ -1,13 +1,9 @@
 .app__navbar {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-
     position: fixed;
     top: 0;
     background-color: var(--white-color);
     border-bottom: 1px solid rgb(20, 20, 20);
+    font-family: var(--font-base);
 }
 
 .app__searchBar {
@@ -52,55 +48,7 @@
     }    
 }
 
-.app__navbar-logo {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
 
-    a {
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-    }
-
-    .logo {
-        width: 12rem;
-        height: 3rem;
-    }
-    
-    
-    h3{
-        color: var(--primary-color);
-    }
-    
-    
-    @media (min-width: 1025px) and (max-width: 2000px){
-        .logo{
-            margin-left: 4rem;
-        }
-        h3 {
-            text-transform: uppercase;
-            padding: 0 0 0 1px;
-            font-size: 1.3rem;
-        }
-
-
-    
-    }
-
-    @media screen and (max-width: 768px) {
-        h3 {
-            font-size: 16px;
-        }
-
-        .logo {
-            width: 6rem;
-            height: 1.5rem;
-        }
-    }
-}
 
 .app__navbar-links {
     display: flex;
@@ -237,7 +185,7 @@
 
 
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 820px) {
         display: none;
 
     }

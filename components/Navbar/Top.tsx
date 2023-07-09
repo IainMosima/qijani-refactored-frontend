@@ -105,10 +105,16 @@ const Top = () => {
   }
 
   return (
-    <nav className="app__navbar">
-      <div className="app__navbar-logo" onClick={() => setMenuToogle(false)}>
+    <nav className="flex justify-evenly items-center w-full py-2 app__navbar">
+      <div className="" onClick={() => setMenuToogle(false)}>
         <Link href="/">
-          <Image src={Images.logo} alt="logo" className="logo" />
+          <Image
+            src={Images.logo}
+            alt="logo"
+            className="logo sm:w-[10rem] w-[7rem]"
+            height={50}
+            priority={true}
+          />
         </Link>
       </div>
 
@@ -224,6 +230,16 @@ const Top = () => {
           </div>
         )}
       </div>
+
+      <Link
+        href={"/loginSignup/&"}
+        style={{ textDecoration: "none", color: "black" }}
+        className="lg:hidden md:block sm:block"
+      >
+        <div>
+          <Image src={Images.accountIcon} alt="account-icon" className="" />
+        </div>
+      </Link>
     </nav>
   );
 };
