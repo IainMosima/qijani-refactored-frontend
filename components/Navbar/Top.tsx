@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Images } from "../../constants";
 import { useDebounce } from "use-debounce";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
 
 import SearchBar from "./SearchBar/SearchBar";
 import * as ProductsApi from "../../network/products";
@@ -13,6 +12,8 @@ import { Product } from "../../models/product";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHook";
 import { userLogout } from "@/redux/reducers/loginReducer";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Top = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +27,7 @@ const Top = () => {
   const [accountToggle, setAccountToggle] = useState(false);
   const resultAvailable = searchResults.length > 0 ? true : false;
   const [menuToogle, setMenuToogle] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   const myAccount = [
     {
@@ -56,7 +57,7 @@ const Top = () => {
   }, [debouncedQuery]);
 
   function search() {
-    navigate(`/search/${query}`);
+    navigate.push(`/search/${query}`);
   }
 
   function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -96,17 +97,17 @@ const Top = () => {
   function packageOnClickHandler() {
     if (!loggedInUser) {
       setMenuToogle(false);
-      navigate("/loginSignup/packages");
+      navigate.push("/loginSignup/packages");
     } else {
       setMenuToogle(false);
-      navigate("/packages");
+      navigate.push("/packages");
     }
   }
 
   return (
     <nav className="app__navbar">
       <div className="app__navbar-logo" onClick={() => setMenuToogle(false)}>
-        <Link to="/">
+        <Link href="/">
           <Image src={Images.logo} alt="logo" className="logo" />
         </Link>
       </div>
@@ -127,7 +128,7 @@ const Top = () => {
               {searchResults.map((item, index) => (
                 <div
                   onClick={() => {
-                    navigate(`/search/${item.productName}`);
+                    navigate.push(`/search/${item.productName}`);
                     setSearchResults([]);
                   }}
                   key={index}
@@ -159,7 +160,7 @@ const Top = () => {
             >
               <ul>
                 {categories.map((item, index) => (
-                  <li onClick={() => navigate(`/search/${item}`)} key={index}>
+                  <li onClick={() => navigate.push(`/search/${item}`)} key={index}>
                     {item}
                   </li>
                 ))}
@@ -179,7 +180,7 @@ const Top = () => {
 
         {loggedInUser && (
           <Link
-            to={"/orders"}
+            href={"/orders"}
             style={{ textDecoration: "none", color: "black" }}
           >
             <div>
@@ -195,7 +196,7 @@ const Top = () => {
 
         {!loggedInUser && (
           <Link
-            to={"/loginSignup/&"}
+          href={"/loginSignup/&"}
             style={{ textDecoration: "none", color: "black" }}
           >
             <div>
@@ -307,7 +308,7 @@ const Top = () => {
                   {categories.map((item, index) => (
                     <li
                       onClick={() => {
-                        navigate(`/search/${item}`);
+                        navigate.push(`/search/${item}`);
                         setMenuToogle(false);
                       }}
                       key={index}
@@ -347,7 +348,7 @@ const Top = () => {
               <div>
                 <div
                   onClick={() => {
-                    navigate("/orders");
+                    navigate.push("/orders");
                     setMenuToogle(false);
                   }}
                   style={{ textDecoration: "none", color: "black" }}
@@ -371,7 +372,7 @@ const Top = () => {
             <div>
               <div onClick={() => setMenuToogle(false)}>
                 <Link
-                  to={"/loginSignup/&"}
+                  href={"/loginSignup/&"}
                   style={{ textDecoration: "none", color: "black" }}
                 >
                   <div
