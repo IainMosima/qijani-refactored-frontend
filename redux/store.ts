@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import loginReducer from './reducers/loginReducer';
 import categoriesReducer from './reducers/categoriesReducer';
+import selectedCategoryReducer from './reducers/selectedCategoryReducer';
 
 export const store = configureStore({
     reducer: {
         login: loginReducer,
-        categories: categoriesReducer
+        categories: categoriesReducer,
+        selectedcategory: selectedCategoryReducer
         
     }
 });
