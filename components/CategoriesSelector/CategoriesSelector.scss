@@ -1,0 +1,26 @@
+.swiper-wrapper {
+  div {
+    width: auto !important;
+    margin-right: 1rem !important;
+  }
+}
+
+.swiper-button-prev:after, 
+.swiper-button-next:after {
+    font-size: 25px !important;
+    font-weight: 900;
+    color: var(--primary-color) !important;
+}
+
+.swiper-button-next {
+    right: -6.5px !important;
+    z-index: 20;
+}
+
+.mySwiper {
+    width: 90%;
+}
+
+.swiper-button-disabled{
+    display: none !important;
+}

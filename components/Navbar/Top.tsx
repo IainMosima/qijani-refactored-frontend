@@ -106,7 +106,7 @@ const Top = () => {
 
   return (
     <nav className="flex justify-evenly items-center w-full py-2 app__navbar">
-      <div className="" onClick={() => setMenuToogle(false)}>
+      <div className="basis-1/6" onClick={() => setMenuToogle(false)}>
         <Link href="/">
           <Image
             src={Images.logo}
@@ -148,7 +148,7 @@ const Top = () => {
         )}
       </div>
 
-      <div className="app__navbar-links">
+      <div className="app__navbar-links ml-3">
         <div onClick={() => packageOnClickHandler()}>
           <Image
             src={Images.packagesIcon}

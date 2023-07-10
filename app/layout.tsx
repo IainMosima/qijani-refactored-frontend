@@ -21,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-          <Navbar />
-          <CategoriesSelector/>
+        <Navbar />
+        <div className='sm:w-10/12 mx-auto overflow-x-hidden'>
+          <CategoriesSelector />
           {children}
+        </div>
       </body>
     </html>
   );
