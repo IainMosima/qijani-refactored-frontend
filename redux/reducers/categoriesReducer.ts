@@ -1,18 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { fetchCategories } from "@/network/products";
+import { Dispatch, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    categories: [] 
-}
-
-const categoriesSlice = createSlice({
-    name: 'categories',
-    initialState,
-    reducers: {
-        setCategories: (state, action) => {
-            state.categories = action.payload.categories;
-        }
+export default function categoriesReducer(state = [], action: { type: string, payload: [] }) {
+    if (action.type === 'fetch') {
+        return action.payload;
     }
-});
+    return state
+}
+export async function getAvailableCategories(dispatch: Dispatch) {
+    const res = await fetchCategories();
+    dispatch({ type: 'fetch', payload: ['All', ...res] });
 
-export const { setCategories } = categoriesSlice.actions;
-export default categoriesSlice.reducer;
+
+}

@@ -14,11 +14,13 @@ import { userLogout } from "@/redux/reducers/loginReducer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { setCategories } from "@/redux/reducers/categoriesReducer";
+import { getAvailableCategories } from "@/redux/reducers/categoriesReducer";
+
 
 const Top = () => {
   const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.login.user);
+  
 
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 500);
