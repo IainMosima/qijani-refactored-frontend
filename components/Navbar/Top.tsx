@@ -14,11 +14,11 @@ import { userLogout } from "@/redux/reducers/loginReducer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { setCategories } from "@/redux/reducers/categoriesReducer";
 
 const Top = () => {
   const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.login.user);
-  const categories = useAppSelector((state) => state.categories.categories);
 
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 500);
@@ -46,6 +46,7 @@ const Top = () => {
       const results = await ProductsApi.searchFunction(debouncedQuery);
       setSearchResults(results);
     }
+    
 
     if (debouncedQuery) {
       perfomSearch();
@@ -111,8 +112,8 @@ const Top = () => {
           <Image
             src={Images.logo}
             alt="logo"
-            className="logo sm:w-[10rem] w-[7rem]"
-            height={50}
+            className="logo sm:w-[10rem]"
+            height={70}
             priority={true}
           />
         </Link>
