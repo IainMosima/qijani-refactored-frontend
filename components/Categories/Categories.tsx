@@ -74,7 +74,7 @@ const Categories = () => {
       )} */}
 
       {categoriesData?.map((item, index) => (
-        <div key={index}>
+        <div key={index} className="mb-[2rem]">
           <Category
             categoryName={item.categoryName}
             query={item.categoryName}

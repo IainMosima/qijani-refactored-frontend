@@ -38,10 +38,10 @@ const Category = ({
     <div className="app__card">
       <div className="card-title">
         <div></div>
-        <h3>{categoryName}</h3>
-        <div className="md:flex-basis: 8rem;"/>
-        <section className="seeAll">
-          <h4>
+        <h3 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem]">{categoryName}</h3>
+        <div className="lg:basis-3/4 md:basis-6/12 basis-[8.3rem]"/>
+        <section className="seeAll ">
+          <h4 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] ml-1">
             See all <Image src={Images.nextIcon} alt="next" />{" "}
           </h4>
         </section>
