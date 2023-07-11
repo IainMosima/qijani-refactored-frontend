@@ -108,7 +108,7 @@ const Navbar = () => {
 
   
   return (
-    <nav className="flex justify-evenly items-center w-full py-2 app__navbar">
+    <nav className="flex justify-evenly items-center w-full py-2 app__navbar bg-white z-20">
       <div className="basis-1/6">
         <Link href="/">
           <Image

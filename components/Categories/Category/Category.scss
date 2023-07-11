@@ -29,23 +29,10 @@
       width: 100%;
       height: 1vh;
 
-      &:nth-child(1) {
-        flex-basis: 4rem;
-      }
+      // &:nth-child(3) {
+      //   flex-basis: 72%;
+      // }
 
-      &:nth-child(5) {
-        flex-basis: 5rem;
-      }
-
-      @media screen and (max-width: 768px) {
-        &:nth-child(1) {
-          flex-basis: 2.7rem;
-        }
-
-        &:nth-child(5) {
-          flex-basis: 2.7rem;
-        }
-      }
     }
   }
 

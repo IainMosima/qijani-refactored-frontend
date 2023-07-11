@@ -14,6 +14,8 @@ import { Navigation } from "swiper/modules";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { selectCategory } from "@/redux/reducers/selectedCategoryReducer";
 
+const trial = ['All', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat']
+
 const CategoriesSelector = () => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories);
@@ -22,8 +24,8 @@ const CategoriesSelector = () => {
   );
 
   return (
-    <div className="w-full mt-[5rem] flex place-items-center gap-3 sm:ml-0 ml-1">
-      {categories.map((category, index) => (
+    <div className="w-full sm:mt-[4.2rem] mt-[3.7rem] fixed top-0 right-2 bg-white z-0">
+      {/* {categories.map((category, index) => (
         <div key={index}>
           <button
             className={`border-2 border-green rounded-xl px-4 py-2 hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
@@ -36,27 +38,32 @@ const CategoriesSelector = () => {
             {category}
           </button>
         </div>
-      ))}
+      ))} */}
 
-      {/* <Swiper
+      <Swiper
         navigation={true}
         modules={[Navigation]}
         className="mySwiper"
-        slidesPerView={12}
+        slidesPerView={15}
         spaceBetween={0}
       >
         <div className="flex justify-center gap-2 w-full">
           {categories.map((category, index) => (
             <SwiperSlide key={index}>
-              <button className="border-2 border-green rounded-xl px-4 py-2 hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto"
-              onClick={()=>(selectCategory(category))}
+              <button
+                className={`border-2 border-green rounded-xl px-4 py-2 hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
+                  category === selectedcategory
+                    ? "bg-green font-extrabold text-yellow"
+                    : ""
+                }`}
+                onClick={() => dispatch(selectCategory(category))}
               >
                 {category}
               </button>
             </SwiperSlide>
           ))}
         </div>
-      </Swiper> */}
+      </Swiper>
     </div>
   );
 };

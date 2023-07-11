@@ -1,9 +1,11 @@
 import Image from "next/image";
-import { Images } from "../../../constants";
-import { Product } from "../../../models/product";
-import { User } from "../../../models/user";
+import { Images } from "@/constants";
+import { Product } from "@/models/product";
+import { User } from "@/models/user";
 import { useRouter } from "next/navigation";
 import "./Category.scss";
+import { useAppDispatch } from "@/hooks/reduxHook";
+import { selectCategory } from "@/redux/reducers/selectedCategoryReducer";
 
 interface CategoryProps {
   categoryName: string;
@@ -24,6 +26,7 @@ const Category = ({
   setPrice,
 }: CategoryProps) => {
   const navigate = useRouter();
+  const dispatch = useAppDispatch();
   function selectItemManager(product: Product) {
     if (loggedInUser) {
       setSelectedProduct(product);
@@ -37,15 +40,15 @@ const Category = ({
   return (
     <div className="app__card">
       <div className="card-title">
-        <div></div>
-        <h3 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem]">{categoryName}</h3>
-        <div className="lg:basis-3/4 md:basis-6/12 basis-[8.3rem]"/>
-        <section className="seeAll ">
+        <div className="basis-[4rem]"/>
+        <h3 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] font-bold">{categoryName}</h3>
+        <div className="lg:basis-[80%] md:basis-[53%] basis-[37%]"/>
+        <section className="seeAll" onClick={() => dispatch(selectCategory(categoryName))}>
           <h4 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] ml-1">
             See all <Image src={Images.nextIcon} alt="next" />{" "}
           </h4>
         </section>
-        <div></div>
+        <div className="basis-[4rem]"/>
       </div>
       <hr />
       <br />

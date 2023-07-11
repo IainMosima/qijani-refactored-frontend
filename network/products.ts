@@ -37,11 +37,3 @@ export async function getProduct(productId: string): Promise<Product> {
     const response = await fetchData(`/api/v1/products/${productId}`);
     return response.json();
 }
-
-
-// streaming an image
-export function imageStreamer(key: string) {
-    const url = `https://e-soko.s3.amazonaws.com/${key}`;
-    return url;
-}
-

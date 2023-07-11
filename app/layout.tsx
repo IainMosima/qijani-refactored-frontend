@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Navbar />
-          <div className='sm:w-10/12 mx-auto overflow-x-hidden'>
+          <div className='sm:w-[95%] mx-auto overflow-x-hidden'>
             {children}
           </div>
         </Providers>
