@@ -1,8 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    PRODUCTSBUCKET: process.env.SERVICESBUCKET,
-    USERSBUCKET: process.env.CAROUSELBUCKET,
+ images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname:
+          "e-soko.s3.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
   async rewrites() {
     return [

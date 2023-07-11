@@ -106,6 +106,7 @@ const Navbar = () => {
     }
   }
 
+  
   return (
     <nav className="flex justify-evenly items-center w-full py-2 app__navbar">
       <div className="basis-1/6">

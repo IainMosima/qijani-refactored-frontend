@@ -25,8 +25,6 @@ const Categories = () => {
   const loggedInUser = useAppSelector((state) => state.login.user);
   const myPackages = useAppSelector((state) => state.packages);
 
-  console.log(myPackages);
-
   function handleClose() {
     setOpen(false);
   }
@@ -38,6 +36,9 @@ const Categories = () => {
 
       if (categories) {
         for (const category of categories) {
+          if (category === 'All') {
+            continue;
+          }
           products = await fetchCategory(category, records);
           result.push({
             categoryName: category,

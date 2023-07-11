@@ -5,6 +5,7 @@ import "./AddNewPackageModal.scss";
 import { useForm } from "react-hook-form";
 import { User } from "../../../models/user";
 import { createNewPackage } from "../../../network/package";
+import Image from "next/image";
 
 interface AddNewPackageModalProps {
     open: boolean,
@@ -36,7 +37,7 @@ const AddNewPackageModal = ({open ,onClose, setMyPackages, myPackages, loggedInU
             <div className="app__AddpackageModal">
                 <div className="title">
                     <h2>Add New package</h2>
-                    <img src={Images.closeIcon} alt='close-icon' onClick={onClose}/>
+                    <Image src={Images.closeIcon} alt='close-icon' onClick={onClose}/>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div  className="field">
