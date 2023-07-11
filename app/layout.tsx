@@ -25,7 +25,6 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <div className='sm:w-10/12 mx-auto overflow-x-hidden'>
-            <CategoriesSelector />
             {children}
           </div>
         </Providers>

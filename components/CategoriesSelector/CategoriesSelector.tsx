@@ -14,23 +14,27 @@ import { Navigation } from "swiper/modules";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { selectCategory } from "@/redux/reducers/selectedCategoryReducer";
 
-
 const CategoriesSelector = () => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories);
-  const selectedcategory = useAppSelector((state) => state.selectedcategory.selectedCategory);
+  const selectedcategory = useAppSelector(
+    (state) => state.selectedcategory.selectedCategory
+  );
 
   return (
     <div className="w-full mt-[5rem] flex place-items-center gap-3 sm:ml-0 ml-1">
       {categories.map((category, index) => (
-
         <div key={index}>
-        <button
-          className={`border-2 border-green rounded-xl px-4 py-2 hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${category === selectedcategory ? 'bg-green font-extrabold text-yellow' : ''}`}
-          onClick={() => dispatch(selectCategory(category))}
-        >
-          {category}
-        </button>
+          <button
+            className={`border-2 border-green rounded-xl px-4 py-2 hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
+              category === selectedcategory
+                ? "bg-green font-extrabold text-yellow"
+                : ""
+            }`}
+            onClick={() => dispatch(selectCategory(category))}
+          >
+            {category}
+          </button>
         </div>
       ))}
 

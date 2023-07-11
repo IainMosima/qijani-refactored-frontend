@@ -16,14 +16,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getAvailableCategories } from "@/redux/reducers/categoriesReducer";
 import { store } from "@/redux/store";
+import { getMyPackages } from "@/redux/reducers/packagesReducer";
 
 store.dispatch(getAvailableCategories);
-
+store.dispatch(getMyPackages);
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.login.user);
-  
 
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 500);
@@ -31,7 +31,6 @@ const Navbar = () => {
   const [categoryToggle, setcategoryToggle] = useState(false);
   const [accountToggle, setAccountToggle] = useState(false);
   const resultAvailable = searchResults.length > 0 ? true : false;
-  const [menuToogle, setMenuToogle] = useState(false);
   const navigate = useRouter();
 
   const myAccount = [
@@ -51,7 +50,6 @@ const Navbar = () => {
       const results = await ProductsApi.searchFunction(debouncedQuery);
       setSearchResults(results);
     }
-    
 
     if (debouncedQuery) {
       perfomSearch();
@@ -102,17 +100,15 @@ const Navbar = () => {
 
   function packageOnClickHandler() {
     if (!loggedInUser) {
-      setMenuToogle(false);
       navigate.push("/loginSignup/packages");
     } else {
-      setMenuToogle(false);
       navigate.push("/packages");
     }
   }
 
   return (
     <nav className="flex justify-evenly items-center w-full py-2 app__navbar">
-      <div className="basis-1/6" onClick={() => setMenuToogle(false)}>
+      <div className="basis-1/6">
         <Link href="/">
           <Image
             src={Images.logo}
