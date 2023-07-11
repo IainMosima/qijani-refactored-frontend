@@ -3,8 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { store } from "@/redux/store";
-import { getAvailableCategories } from "@/redux/reducers/categoriesReducer";
+import { Providers } from "@/redux/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        <div className='sm:w-10/12 mx-auto overflow-x-hidden'>
-          <CategoriesSelector />
-          {children}
-        </div>
+        <Providers>
+          <Navbar />
+          <div className='sm:w-10/12 mx-auto overflow-x-hidden'>
+            <CategoriesSelector />
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );
