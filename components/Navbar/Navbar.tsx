@@ -177,7 +177,7 @@ const Navbar = () => {
         >
           <div>
             <Image
-              src={Images.accountIcon}
+              src={Images.profileDefault}
               alt="account-icon"
               className="profile-icon"
             />
