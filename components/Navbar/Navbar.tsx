@@ -172,7 +172,7 @@ const Navbar = () => {
         </Link>
 
         <Link
-          href={"/loginSignup/&"}
+          href={"/loginSignup"}
           style={{ textDecoration: "none", color: "black" }}
         >
           <div>
@@ -235,7 +235,7 @@ const Navbar = () => {
       </div>
 
       <Link
-        href={"/loginSignup/&"}
+        href={"/loginSignup"}
         style={{ textDecoration: "none", color: "black" }}
         className="lg:hidden md:block sm:block"
       >

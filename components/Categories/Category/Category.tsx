@@ -42,7 +42,7 @@ const Category = ({
       <div className="card-title">
         <div className="lg:basis-[4rem] md:basis-[4.1rem] basis-[2.1rem]"/>
         <h3 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] font-bold">{categoryName}</h3>
-        <div className="lg:basis-[80%] md:basis-[53%] basis-[37%]"/>
+        <div className="lg:basis-[77%] md:basis-[53%] basis-[37%]"/>
         <section className="seeAll" onClick={() => dispatch(selectCategory(categoryName))}>
           <h4 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] ml-1">
             See all <Image src={Images.nextIcon} alt="next" />{" "}

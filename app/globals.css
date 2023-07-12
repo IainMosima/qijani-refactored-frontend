@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-base: 'Zilla Slab', serif;
+  --font-base: 'Questrial', serif;
 
   --primary-color: #E09132;
   --secondary-color: #313bac;

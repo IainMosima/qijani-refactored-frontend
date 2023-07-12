@@ -1,28 +1,30 @@
 import { PackageStructure } from "@/models/package";
 import { fetchPackages } from "@/network/package";
-import { Dispatch } from "@reduxjs/toolkit";
+import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Reducer } from "redux";
 
-interface PackagesAction {
-  type: string;
-  payload: PackageStructure[];
+
+const initialState = {
+  packages: [{}] 
 }
 
-const packagesReducer: Reducer<PackageStructure[], PackagesAction> = (
-  state = [],
-  action
-) => {
-  switch (action.type) {
-    case "fetch":
-      return action.payload;
-    default:
-      return state;
+const packagesReducerSlice = createSlice({
+  name: 'packagesReducerSlice',
+  initialState,
+  reducers: {
+      setMypackages: (state, action: PayloadAction<PackageStructure[]>) => {
+          state.packages = action.payload;
+      }
   }
-};
 
-export default packagesReducer;
+})
 
-export async function getMyPackages(dispatch: Dispatch<PackagesAction>) {
+export async function getMyPackages(dispatch: Dispatch) {
   const res = await fetchPackages();
-  dispatch({ type: "fetch", payload: res });
+  dispatch(setMypackages(res));
+
+
 }
+
+export const { setMypackages } = packagesReducerSlice.actions;
+export default packagesReducerSlice.reducer;

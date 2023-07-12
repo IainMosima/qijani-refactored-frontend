@@ -45,7 +45,7 @@ const Categories = () => {
         setCategoriesData([]);
         setFilteredResults([]);
         if (selectedCategory === "All") {
-          for (const category of categories) {
+          for (const category of categories.categories) {
             if (category === "All") {
               continue;
             }
