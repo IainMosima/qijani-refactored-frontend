@@ -1,17 +1,27 @@
 import { fetchCategories } from "@/network/products";
-import { Dispatch } from "@reduxjs/toolkit";
+import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export default function categoriesReducer(state = ['All'], action: { type: string, payload: [] }) {
-    switch (action.type) {
-        case 'fetch':
-            return action.payload;
-        default:
-            return state
-    }
+const initialState = {
+    categories: ['ALl']
 }
+
+const categoriesReducerSlice = createSlice({
+    name: 'categoriesReducer',
+    initialState,
+    reducers: {
+        setAvailableCategories: (state, action: PayloadAction<string[]>) => {
+            state.categories = ['All', ...action.payload];
+        }
+    }
+
+})
+
 export async function getAvailableCategories(dispatch: Dispatch) {
     const res = await fetchCategories();
-    dispatch({ type: 'fetch', payload: ['All', ...res] });
+    dispatch(setAvailableCategories(res));
 
 
 }
+
+export const { setAvailableCategories } = categoriesReducerSlice.actions;
+export default categoriesReducerSlice.reducer;
