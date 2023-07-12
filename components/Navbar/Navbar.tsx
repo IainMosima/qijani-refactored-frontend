@@ -18,9 +18,6 @@ import { getAvailableCategories } from "@/redux/reducers/categoriesReducer";
 import { store } from "@/redux/store";
 import { getMyPackages } from "@/redux/reducers/packagesReducer";
 
-store.dispatch(getAvailableCategories);
-store.dispatch(getMyPackages);
-
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.login.user);
@@ -54,6 +51,9 @@ const Navbar = () => {
     if (debouncedQuery) {
       perfomSearch();
     }
+
+    store.dispatch(getAvailableCategories);
+    store.dispatch(getMyPackages);
 
     return () => {
       setSearchResults([]);
@@ -106,7 +106,6 @@ const Navbar = () => {
     }
   }
 
-  
   return (
     <nav className="flex justify-evenly items-center w-full py-2 app__navbar bg-white z-20">
       <div className="basis-1/6">
@@ -240,7 +239,12 @@ const Navbar = () => {
         className="lg:hidden md:block sm:block"
       >
         <div>
-          <Image src={Images.profileDefault} alt="account-icon" className="" height={39}/>
+          <Image
+            src={Images.profileDefault}
+            alt="account-icon"
+            className=""
+            height={39}
+          />
         </div>
       </Link>
     </nav>
