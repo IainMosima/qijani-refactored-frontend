@@ -40,7 +40,7 @@ const Category = ({
   return (
     <div className="app__card">
       <div className="card-title">
-        <div className="lg:basis-[4rem] md:basis-[4.1rem] basis-[2.1rem]"/>
+        <div className="lg:basis-[4rem] md:basis-[9.6%] basis-[11%]"/>
         <h3 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] font-bold">{categoryName}</h3>
         <div className="lg:basis-[77%] md:basis-[53%] basis-[37%]"/>
         <section className="seeAll" onClick={() => dispatch(selectCategory(categoryName))}>
@@ -48,7 +48,7 @@ const Category = ({
             See all <Image src={Images.nextIcon} alt="next" />{" "}
           </h4>
         </section>
-        <div className="lg:basis-[4rem] md:basis-[4.1rem] basis-[2.1rem]"/>
+        <div className="lg:basis-[4rem] md:basis-[9.6%] basis-[11%]"/>
       </div>
       <hr />
       <br />

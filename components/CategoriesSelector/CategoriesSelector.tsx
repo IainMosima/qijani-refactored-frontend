@@ -24,7 +24,7 @@ const CategoriesSelector = () => {
   );
 
   return (
-    <div className="w-full sm:mt-[4.2rem] mt-[3.7rem] fixed top-0 lg:right-[3rem] md:right-[1rem] right-[1rem] z-0 bg-white">
+    <div className="w-full sm:pt-[4.2rem] pt-[3.7rem] fixed top-0 lg:right-[3rem] md:right-[1rem] right-[-.3rem] z-0 bg-white">
       {/* {categories.map((category, index) => (
         <div key={index}>
           <button
@@ -50,7 +50,7 @@ const CategoriesSelector = () => {
           {categories.categories.map((category, index) => (
             <SwiperSlide key={index}>
               <button
-                className={`mt-3 mb-3 border-2 border-green rounded-[11px] px-4 py-[0.25rem] hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
+                className={`mt-3 mb-3 border-2 border-green rounded-[11px] px-3 py-[0.25rem] hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
                   category === selectedcategory
                     ? "bg-green font-extrabold text-yellow"
                     : "bg-white"

@@ -17,7 +17,7 @@ const SearchBar = ({ query, handleInputChange, search }: SearchBarProps) => {
         type="text"
         value={query}
         onChange={handleInputChange}
-        className="lg:w-[25rem] md:w-[22rem] w-[11rem] sm:h-[3rem] h-[2.5rem] sm:text-lg text-[14px] sm:pl-[1rem] pl-[.5rem]"
+        className="lg:w-[25rem] md:w-[22rem] w-[11rem] sm:h-[3rem] h-[2.5rem] sm:text-lg text-[13px] sm:pl-[1rem] pl-[.5rem]"
         placeholder="Search product or category "
       />
       <button 

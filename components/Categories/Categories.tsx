@@ -38,7 +38,6 @@ const Categories = () => {
   useEffect(() => {
     async function fetchResults(records = 6) {
       const result: SetStateAction<CategoriesData[] | undefined> = [];
-      const filteredResults: SetStateAction<Product[] | undefined> = [];
       let products;
 
       if (categories) {
@@ -70,7 +69,7 @@ const Categories = () => {
   }, [categories, selectedCategory]);
 
   return (
-    <div className="app__category mt-[7.5rem]">
+    <div className="app__category sm:mt-[8.5rem] mt-[7.5rem]">
       {/* {loader &&
                 <div className="spinner">
                     <CircularProgress size="4rem" color="inherit"/>

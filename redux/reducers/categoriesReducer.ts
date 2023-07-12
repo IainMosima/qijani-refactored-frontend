@@ -1,4 +1,5 @@
 import { fetchCategories } from "@/network/products";
+import { arrayShuffler } from "@/utils/arrayShuffler";
 import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -18,7 +19,8 @@ const categoriesReducerSlice = createSlice({
 
 export async function getAvailableCategories(dispatch: Dispatch) {
     const res = await fetchCategories();
-    dispatch(setAvailableCategories(res));
+    const shuffled = arrayShuffler(res)
+    dispatch(setAvailableCategories(shuffled));
 
 
 }
