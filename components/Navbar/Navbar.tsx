@@ -120,7 +120,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="app__searchBar">
+      <div className="app__searchBar basis-[50%]">
         <SearchBar
           query={query}
           handleInputChange={handleSearchInput}

@@ -28,11 +28,6 @@
       background: var(--gray-color);
       width: 100%;
       height: 1vh;
-
-      // &:nth-child(3) {
-      //   flex-basis: 72%;
-      // }
-
     }
   }
 
@@ -46,7 +41,6 @@
       display: inline-grid;
       padding: 0.6rem;
       width: 100%;
-      height: 20rem;
       cursor: pointer;
       grid-template-areas:
         "image image image"
@@ -56,41 +50,16 @@
         "kg kg kg"
         "add add add";
 
-      .product-img {
-        grid-area: image;
-        margin: 1rem auto;
-        width: 9rem;
-        height: 9rem;
-      }
-
       .name {
         grid-area: name;
-        font-weight: 500;
-        font-size: 1.2rem;
-
-        @media screen and (max-width: 768px) {
-          font-size: 1rem;
-        }
       }
 
       .price {
         grid-area: price;
-        font-weight: 800;
-        font-size: 1.3rem;
-
-        @media screen and (max-width: 768px) {
-          font-size: 1.1rem;
-        }
       }
 
       .quantity {
         grid-area: kg;
-        font-weight: 500;
-        font-size: 1.2rem;
-
-        @media screen and (max-width: 768px) {
-          font-size: 1rem;
-        }
       }
 
       .add {
@@ -101,17 +70,6 @@
         justify-content: flex-end;
         align-items: center;
       }
-
-      @media screen and (max-width: 375px) {
-        .product-img {
-          width: 15vw;
-          height: 10vh;
-        }
-      }
     }
-  }
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
   }
 }
