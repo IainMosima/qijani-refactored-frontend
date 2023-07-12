@@ -24,7 +24,7 @@ const CategoriesSelector = () => {
   );
 
   return (
-    <div className="w-full sm:mt-[4.2rem] mt-[3.7rem] fixed top-0 right-2 bg-white z-0">
+    <div className="w-full sm:mt-[4.2rem] mt-[3.7rem] fixed top-0 lg:right-[3rem] md:right-[1rem] right-[1rem] bg-white z-0">
       {/* {categories.map((category, index) => (
         <div key={index}>
           <button

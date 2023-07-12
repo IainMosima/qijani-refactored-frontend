@@ -240,7 +240,7 @@ const Navbar = () => {
         className="lg:hidden md:block sm:block"
       >
         <div>
-          <Image src={Images.accountIcon} alt="account-icon" className="" />
+          <Image src={Images.profileDefault} alt="account-icon" className="" height={39}/>
         </div>
       </Link>
     </nav>

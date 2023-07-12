@@ -40,7 +40,7 @@ const Category = ({
   return (
     <div className="app__card">
       <div className="card-title">
-        <div className="basis-[4rem]"/>
+        <div className="lg:basis-[4rem] md:basis-[4.1rem] basis-[2.1rem]"/>
         <h3 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] font-bold">{categoryName}</h3>
         <div className="lg:basis-[80%] md:basis-[53%] basis-[37%]"/>
         <section className="seeAll" onClick={() => dispatch(selectCategory(categoryName))}>
@@ -48,12 +48,12 @@ const Category = ({
             See all <Image src={Images.nextIcon} alt="next" />{" "}
           </h4>
         </section>
-        <div className="basis-[4rem]"/>
+        <div className="lg:basis-[4rem] md:basis-[4.1rem] basis-[2.1rem]"/>
       </div>
       <hr />
       <br />
 
-      <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+      <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
         {products?.map((item, index) => (
           <div
             key={index}
@@ -64,8 +64,8 @@ const Category = ({
               className="product-img"
               src={`${process.env.NEXT_PUBLIC_PRODUCTSBUCKET}/${item.productImgKey}`}
               alt={item.productName}
-              width={100}
-              height={100}
+              width={200}
+              height={200}
             />
             <p className="name">{item.productName}</p>
             <p className="price">Ksh. {item.price}</p>
