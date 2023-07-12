@@ -25,8 +25,8 @@
   scroll-behavior: smooth;
 }
 
-body, html {
+body,
+html {
   overflow-x: hidden;
   font-family: var(--font-base) !important;
 }
-
