@@ -1,6 +1,7 @@
 import { ProductResults } from '@/components'
 import { CategoriesData } from '@/models/product'
 import { fetchCategories, fetchCategory } from '@/network/products'
+import { arrayShuffler } from '@/utils/arrayShuffler'
 import { GetServerSideProps, GetStaticProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
 
@@ -30,5 +31,6 @@ async function getAllProductResults(categories: string[], records = 6): Promise<
       });
     }
   }
-  return result;
+  const shuffledResult = arrayShuffler(result);
+  return shuffledResult as CategoriesData[];
 }

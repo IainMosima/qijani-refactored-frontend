@@ -66,7 +66,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
             ))}
           </>
         ) : (
-          <div className="mt-[25rem]">
+          <div className="mt-[23rem]">
             <Loading />
           </div>
         )
@@ -98,7 +98,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
           ))}
         </div>
       ) : (
-        <div className="mt-[25rem]">
+        <div className="mt-[23rem]">
           <Loading />
         </div>
       )}

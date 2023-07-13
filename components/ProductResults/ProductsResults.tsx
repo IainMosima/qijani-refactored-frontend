@@ -1,8 +1,6 @@
 import React from "react";
 import Categories from "../Categories/Categories";
 import CategoriesSelector from "../CategoriesSelector/CategoriesSelector";
-import { GetServerSideProps, GetStaticProps, InferGetServerSidePropsType } from "next";
-import { fetchCategories, fetchCategory } from "@/network/products";
 import { CategoriesData } from "@/models/product";
 
 
