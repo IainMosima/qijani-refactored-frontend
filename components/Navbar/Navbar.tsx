@@ -14,7 +14,6 @@ import { userLogout } from "@/redux/reducers/loginReducer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getAvailableCategories } from "@/redux/reducers/categoriesReducer";
 import { store } from "@/redux/store";
 import { getMyPackages } from "@/redux/reducers/packagesReducer";
 
@@ -52,7 +51,6 @@ const Navbar = () => {
       perfomSearch();
     }
 
-    store.dispatch(getAvailableCategories);
     store.dispatch(getMyPackages);
 
     return () => {

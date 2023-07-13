@@ -1,11 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
- images: {
+  env: {
+    BACKEND_API: "http://54.224.198.199:5000"
+  },
+  images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname:
-          "e-soko.s3.amazonaws.com",
+        hostname: "e-soko.s3.amazonaws.com",
         port: "",
         pathname: "/**",
       },
@@ -15,8 +17,7 @@ const nextConfig = {
     return [
       {
         source: "/api/v1/:path*",
-        destination:
-          "http://54.224.198.199:5000/api/v1/:path*",
+        destination: "http://54.224.198.199:5000/api/v1/:path*",
       },
     ];
   },

@@ -16,13 +16,9 @@ import { selectCategory } from "@/redux/reducers/selectedCategoryReducer";
 
 const trial = ['All', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat']
 
-interface CategoriesSelectorProps {
-  categories: string[]
-}
-
-const CategoriesSelector = ({ categories }:CategoriesSelectorProps) => {
+const Categories = () => {
   const dispatch = useAppDispatch();
-  // const categories = useAppSelector((state) => state.categories);
+  const categories = useAppSelector((state) => state.categories);
   const selectedcategory = useAppSelector(
     (state) => state.selectedcategory.selectedCategory
   );
@@ -51,7 +47,7 @@ const CategoriesSelector = ({ categories }:CategoriesSelectorProps) => {
         slidesPerView={15}
         spaceBetween={0} >
         <div className="flex justify-center gap-2 w-full">
-          {categories.map((category, index) => (
+          {categories.categories.map((category, index) => (
             <SwiperSlide key={index}>
               <button
                 className={`mt-3 mb-3 border-2 border-green rounded-[11px] px-3 py-[0.25rem] hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
@@ -71,4 +67,4 @@ const CategoriesSelector = ({ categories }:CategoriesSelectorProps) => {
   );
 };
 
-export default CategoriesSelector;
+export default Categories;
