@@ -1,5 +1,6 @@
 import { ProductResults } from '@/components'
-import { fetchCategories } from '@/network/products'
+import { CategoriesData } from '@/models/product'
+import { fetchCategories, fetchCategory } from '@/network/products'
 import { GetServerSideProps, GetStaticProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
 
@@ -7,10 +8,27 @@ type Data = {
   categories: String[],
 }
 
-export default function Home() {
+export default async function Home() {
+  const categories = await fetchCategories();
+  const sampleProducts = await getAllProductResults(categories);
+
   return (
     <>
-      <ProductResults/>
+      <ProductResults categories={categories} sampleProducts={sampleProducts}/>
     </>
   )
+}
+
+async function getAllProductResults(categories: string[], records = 6): Promise<CategoriesData[]> {
+  const result: CategoriesData[] = [];
+  for (const category of categories) {
+    if (category !== "All") {
+      const products = await fetchCategory(category, records);
+      result.push({
+        categoryName: category,
+        products: products,
+      });
+    }
+  }
+  return result;
 }

@@ -6,10 +6,13 @@ import { fetchCategories, fetchCategory } from "@/network/products";
 import { CategoriesData } from "@/models/product";
 
 
+interface ProductsResultsProps {
+  categories: string[],
+  sampleProducts: CategoriesData[]
+}
 
-const ProductsResults = async () => {
-  const categories = await fetchCategories();
-  const sampleProducts = await getAllProductResults(categories);
+const ProductsResults = ({ categories, sampleProducts }: ProductsResultsProps) => {
+  
   
   return (
     <div>
@@ -20,20 +23,4 @@ const ProductsResults = async () => {
 };
 
 export default ProductsResults;
-
-
-async function getAllProductResults(categories: string[], records = 6): Promise<CategoriesData[]> {
-  const result: CategoriesData[] = [];
-  for (const category of categories) {
-    if (category !== "All") {
-      const products = await fetchCategory(category, records);
-      result.push({
-        categoryName: category,
-        products: products,
-      });
-    }
-  }
-  return result;
-}
-
 
