@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    BACKEND_API: "http://54.224.198.199:5000"
+    BACKEND_API: process.env.BACKEND_API
   },
   images: {
     remotePatterns: [
