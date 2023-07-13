@@ -33,8 +33,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
     setOpen(false);
   }
 
-  console.log(sampleProducts);
-
+  
   useEffect(() => {
     async function fetchResults() {
       setFilteredResults([]);
