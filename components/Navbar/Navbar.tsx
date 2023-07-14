@@ -10,7 +10,7 @@ import * as UserApi from "../../network/users";
 import "./Navbar.scss";
 import { Product } from "../../models/product";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHook";
-import { userLogout } from "@/redux/reducers/loginReducer";
+import { checkLoggedInUser, userLogout } from "@/redux/reducers/loginReducer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -52,7 +52,8 @@ const Navbar = () => {
     }
 
     store.dispatch(getMyPackages);
-
+    store.dispatch(checkLoggedInUser);
+    
     return () => {
       setSearchResults([]);
     };
@@ -184,15 +185,17 @@ const Navbar = () => {
 
         {loggedInUser && (
           <div onClick={() => toggleHandler("myAccount")}>
-            {loggedInUser.profileImageKey && (
+            {loggedInUser.profileImgKey && (
               <Image
-                src={loggedInUser.profileImageKey}
+                src={`${process.env.NEXT_PUBLIC_USERSBUCKET}/${loggedInUser.profileImgKey}`}
                 alt="profile-pic"
                 className="profile-icon"
+                width={50}
+                height={50}
               />
             )}
 
-            {!loggedInUser.profileImageKey && (
+            {!loggedInUser.profileImgKey && (
               <Image
                 src={Images.accountIcon}
                 alt="profile-icon"

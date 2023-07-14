@@ -11,6 +11,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "e-soko-users.s3.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async rewrites() {

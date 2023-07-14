@@ -1,13 +1,8 @@
 import { ProductResults } from '@/components'
 import { CategoriesData } from '@/models/product'
 import { fetchCategories, fetchCategory } from '@/network/products'
-import { arrayShuffler } from '@/utils/arrayShuffler'
-import { GetServerSideProps, GetStaticProps, InferGetServerSidePropsType } from 'next'
+import { arrayShuffler } from '@/utils/arrayShuffler';
 import Image from 'next/image'
-
-type Data = {
-  categories: String[],
-}
 
 export default async function Home() {
   const categories = await fetchCategories();

@@ -24,7 +24,9 @@ export async function fetchCategory(category: string, records?: number): Promise
     let response;
 
     if (records){
-        response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}&records=${records}`);
+        response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}&records=${records}`, {
+            cache: 'no-store'
+        });
     } else {
         response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}`);
     }

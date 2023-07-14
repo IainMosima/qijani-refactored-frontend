@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from "react";
 import LoginForm from "./Login";
 import SignUpForm from "./Signup";
@@ -5,18 +6,17 @@ import SignUpForm from "./Signup";
 import "./forms.scss";
 import { User } from "../../models/user";
 import { PackageStructure } from "../../models/package";
+import { useAppSelector } from "@/hooks/reduxHook";
 
-interface LoginSignUpProps {
-    setLoggedInUser: React.Dispatch<React.SetStateAction<User | null>>,
-    loggedInUser: User | null,
-    setMyPackages: React.Dispatch<React.SetStateAction<PackageStructure[]>>,
-}
 
-const LoginSignUp = ({ loggedInUser, setLoggedInUser, setMyPackages: setmyPackages }: LoginSignUpProps) => {
+const LoginSignUp = () => {
     const [loginToggle, setLoginToggle] = useState(true);
     const [signUpToggle, setSignUpToggle] = useState(false);
     const [errorText, setErrorText] = useState<string | null>(null);
     const [showMessage, setShowMessage] = useState(true);
+    const loggedInUser = useAppSelector(state => state.login.user)
+
+
     let message;
     
     // const { from } = useParams();
@@ -96,15 +96,11 @@ const LoginSignUp = ({ loggedInUser, setLoggedInUser, setMyPackages: setmyPackag
                 {loginToggle &&
                     <LoginForm
                      setErrorText={setErrorText}
-                     setLoggedInUser={setLoggedInUser}
-                     setmyPackages={setmyPackages}
                     />
                 }
 
                 {signUpToggle &&
-                    <SignUpForm
-                     setLoggedInUser={setLoggedInUser}
-                    />
+                    <SignUpForm/>
                 }
                 
             </div>
