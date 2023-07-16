@@ -5,7 +5,7 @@ import { signedUrl } from "../models/signedUrl";
 
 // getting an authenticated user
 export async function getLoggedInUser():Promise<User> {
-    const response = await fetchData('/api/v1/users/', { method: 'GET' });
+    const response = await fetchData(`api/v1/users/`, { method: 'GET' });
     return response.json();
 }
 

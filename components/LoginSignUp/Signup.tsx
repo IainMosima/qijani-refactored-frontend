@@ -57,9 +57,9 @@ const SignUpForm = () => {
       const user = await signUp(formData);
 
       if (user) {
-        if (user.profileImageKey) {
+        if (user.profileImgKey) {
           const signedUrl = await getUserProfileImageSignedUrl(
-            user.profileImageKey
+            user.profileImgKey
           );
           dispatch(
             userLogin({

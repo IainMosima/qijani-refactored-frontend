@@ -46,7 +46,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
           dispatch(
             userLogin({
               ...user,
-              profileImageKey: signedUrl.url,
+              profileImgKey: signedUrl.url,
             })
           );
         } else {

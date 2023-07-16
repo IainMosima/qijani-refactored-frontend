@@ -29,21 +29,6 @@ const CategoriesSelector = ({ categories }:CategoriesSelectorProps) => {
 
   return (
     <div className="w-full sm:pt-[4.2rem] pt-[3.7rem] fixed top-0 lg:right-[3rem] md:right-[1rem] right-[-.3rem] z-0 bg-white">
-      {/* {categories.map((category, index) => (
-        <div key={index}>
-          <button
-            className={`border-2 border-green rounded-xl px-4 py-2 hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
-              category === selectedcategory
-                ? "bg-green font-extrabold text-yellow"
-                : ""
-            }`}
-            onClick={() => dispatch(selectCategory(category))}
-          >
-            {category}
-          </button>
-        </div>
-      ))} */}
-
       <Swiper
         navigation={true}
         modules={[Navigation]}

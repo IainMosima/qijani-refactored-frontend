@@ -1,7 +1,7 @@
-import { CategoriesSelector, Navbar } from "@/components";
-import "./globals.css";
+import { Navbar } from "@/components";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "./globals.css";
 
 import { Providers } from "@/redux/Provider";
 

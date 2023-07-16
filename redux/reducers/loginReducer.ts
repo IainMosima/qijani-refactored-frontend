@@ -34,7 +34,7 @@ export async function checkLoggedInUser(dispatch: Dispatch) {
   if (user) {
     if (user.profileImgKey) {
       const signedUrl = await getUserProfileImageSignedUrl(user.profileImgKey);
-      dispatch(userLogin({ ...user, profileImageKey: signedUrl.url }));
+      dispatch(userLogin({ ...user, profileImgKey: signedUrl.url }));
     } else {
       dispatch(userLogin(user));
     }
