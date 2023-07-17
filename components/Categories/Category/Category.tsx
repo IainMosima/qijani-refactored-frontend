@@ -53,7 +53,7 @@ const Category = ({
       <hr />
       <br />
 
-      <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+      <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
         {products?.map((item, index) => (
           <div
             key={index}
