@@ -10,16 +10,12 @@ import * as UserApi from "../../network/users";
 import "./Navbar.scss";
 import { Product } from "../../models/product";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHook";
-import { userLogout } from "@/redux/reducers/loginReducer";
+import { checkLoggedInUser, userLogout } from "@/redux/reducers/loginReducer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getAvailableCategories } from "@/redux/reducers/categoriesReducer";
 import { store } from "@/redux/store";
 import { getMyPackages } from "@/redux/reducers/packagesReducer";
-
-store.dispatch(getAvailableCategories);
-store.dispatch(getMyPackages);
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -54,6 +50,9 @@ const Navbar = () => {
     if (debouncedQuery) {
       perfomSearch();
     }
+
+    store.dispatch(getMyPackages);
+    store.dispatch(checkLoggedInUser);
 
     return () => {
       setSearchResults([]);
@@ -106,7 +105,6 @@ const Navbar = () => {
     }
   }
 
-  
   return (
     <nav className="flex justify-evenly items-center w-full py-2 app__navbar bg-white z-20">
       <div className="basis-1/6">
@@ -121,7 +119,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="app__searchBar">
+      <div className="app__searchBar basis-[50%]">
         <SearchBar
           query={query}
           handleInputChange={handleSearchInput}
@@ -159,6 +157,7 @@ const Navbar = () => {
             className="icon"
           />
           <h4>Packages</h4>
+          <Image src={Images.dropDownIcon} alt="drop-icon" />
         </div>
 
         <Link
@@ -168,34 +167,37 @@ const Navbar = () => {
           <div>
             <Image src={Images.orderIcon} alt="package-icon" className="icon" />
             <h4>Orders</h4>
+            <Image src={Images.dropDownIcon} alt="drop-icon" />
           </div>
         </Link>
 
-        <Link
-          href={"/loginSignup/&"}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <div>
-            <Image
-              src={Images.accountIcon}
-              alt="account-icon"
-              className="profile-icon"
-            />
-            <h4>My Account </h4>
-          </div>
-        </Link>
-
-        {loggedInUser && (
-          <div onClick={() => toggleHandler("myAccount")}>
-            {loggedInUser.profileImageKey && (
+        {loggedInUser === null ? (
+          <Link
+            href={"/loginSignup"}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <div>
               <Image
-                src={loggedInUser.profileImageKey}
+                src={Images.profileDefault}
+                alt="account-icon"
+                className="profile-icon"
+              />
+              <h4>My Account </h4>
+            </div>
+          </Link>
+        ) : (
+          <div onClick={() => toggleHandler("myAccount")}>
+            {loggedInUser.profileImgKey && (
+              <Image
+                src={loggedInUser.profileImgKey}
                 alt="profile-pic"
                 className="profile-icon"
+                width={40}
+                height={40}
               />
             )}
 
-            {!loggedInUser.profileImageKey && (
+            {!loggedInUser.profileImgKey && (
               <Image
                 src={Images.accountIcon}
                 alt="profile-icon"
@@ -233,16 +235,69 @@ const Navbar = () => {
           </div>
         )}
       </div>
+      {/* For Mobile */}
+      {loggedInUser === null ? (
+        <Link
+          href={"/loginSignup"}
+          style={{ textDecoration: "none", color: "black"}}
+          className="lg:hidden inline-block"
+        >
+          
+            <Image
+              src={Images.profileDefault}
+              alt="account-icon"
+              className="profile-icon"
+              width={40}
+            />
+          
+        </Link>
+      ) : (
+        <div onClick={() => toggleHandler("myAccount")} className="lg:hidden inline-block">
+          {loggedInUser.profileImgKey && (
+            <Image
+              src={loggedInUser.profileImgKey}
+              alt="profile-pic"
+              className="profile-icon"
+              width={40}
+              height={40}
+            />
+          )}
 
-      <Link
-        href={"/loginSignup/&"}
-        style={{ textDecoration: "none", color: "black" }}
-        className="lg:hidden md:block sm:block"
-      >
-        <div>
-          <Image src={Images.accountIcon} alt="account-icon" className="" />
+          {!loggedInUser.profileImgKey && (
+            <Image
+              src={Images.accountIcon}
+              width={40}
+              className="profile-icon"
+              alt="profile-icon"
+            />
+          )}
+          
+          {accountToggle && (
+            <motion.div
+              whileInView={{ y: [0, 10] }}
+              transition={{ duration: 0.1, ease: "easeOut" }}
+              className="more_info my_account"
+            >
+              <ul>
+                {myAccount.map((item, index) => (
+                  <li key={index}>
+                    {<Image src={item.img} alt="my-profile-icon" />} {item.name}
+                  </li>
+                ))}
+
+                <hr />
+                <button
+                  className="link"
+                  style={{ paddingTop: 0 }}
+                  onClick={logout}
+                >
+                  Log Out
+                </button>
+              </ul>
+            </motion.div>
+          )}
         </div>
-      </Link>
+      )}
     </nav>
   );
 };

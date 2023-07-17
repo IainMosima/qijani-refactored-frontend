@@ -1,4 +1,6 @@
-export const arrayShuffler = (intialArray: string[]) => {
+import { CategoriesData } from "@/models/product";
+
+export const arrayShuffler = (intialArray: string[] | CategoriesData[]) => {
     const array = [...intialArray];
     
     for (let i = array.length - 1; i > 0; i--) {

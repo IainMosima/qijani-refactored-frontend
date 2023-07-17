@@ -6,3 +6,8 @@ export interface Product {
     price: number,
     available: boolean
 }
+
+export interface CategoriesData {
+    categoryName: string;
+    products: Product[];
+}
