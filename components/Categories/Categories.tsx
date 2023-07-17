@@ -14,8 +14,8 @@ import Image from "next/image";
 import { Images } from "@/constants";
 
 interface CategoriesProps {
-  categories: string[],
-  sampleProducts: CategoriesData[]
+  categories: string[];
+  sampleProducts: CategoriesData[];
 }
 const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>();
@@ -28,12 +28,11 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
   );
   const loggedInUser = useAppSelector((state) => state.login.user);
   const myPackages = useAppSelector((state) => state.packages);
-  
+
   function handleClose() {
     setOpen(false);
   }
 
-  
   useEffect(() => {
     async function fetchResults() {
       setFilteredResults([]);
@@ -42,11 +41,20 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
     }
 
     fetchResults();
-
   }, [selectedCategory]);
 
   return (
     <div className="app__category sm:mt-[8.5rem] mt-[7.5rem]">
+      {selectedProduct && loggedInUser && (
+        <AddPackageModal
+          open={open}
+          onClose={handleClose}
+          loggedInUser={loggedInUser}
+          product={selectedProduct}
+          price={price}
+          setPrice={setPrice}
+        />
+      )}
       {selectedCategory === "All" ? (
         selectedCategory.length > 1 ? (
           <>
@@ -72,14 +80,14 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
       ) : filteredResults.length > 0 ? (
         <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
           {filteredResults.map((item, index) => (
-            <div key={index} className="card">
-             <Image
-              className="product-img"
-              src={`${process.env.NEXT_PUBLIC_PRODUCTSBUCKET}/${item.productImgKey}`}
-              alt={item.productName}
-              width={400}
-              height={400}
-            />
+            <div key={index} className="card lg:h-auto md:h-auto h-[18rem]">
+              <Image
+                className="product-img"
+                src={`${process.env.NEXT_PUBLIC_PRODUCTSBUCKET}/${item.productImgKey}`}
+                alt={item.productName}
+                width={400}
+                height={400}
+              />
               <p className="name sm:text-[1.2rem] text-[1.1rem] ">
                 {item.productName}
               </p>

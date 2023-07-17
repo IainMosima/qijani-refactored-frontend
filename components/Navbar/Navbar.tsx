@@ -51,8 +51,9 @@ const Navbar = () => {
       perfomSearch();
     }
 
-    store.dispatch(getMyPackages);
     store.dispatch(checkLoggedInUser);
+    
+    store.dispatch(getMyPackages);
 
     return () => {
       setSearchResults([]);

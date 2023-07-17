@@ -53,19 +53,19 @@ const Category = ({
       <hr />
       <br />
 
-      <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
+      <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
         {products?.map((item, index) => (
           <div
             key={index}
-            className="card"
+            className="card lg:h-auto md:h-auto h-[18rem]"
             onClick={() => selectItemManager(item)}
           >
             <Image
               className="product-img"
               src={`${process.env.NEXT_PUBLIC_PRODUCTSBUCKET}/${item.productImgKey}`}
               alt={item.productName}
-              width={400}
-              height={400}
+              width={500}
+              height={500}
             />
             <p className="name sm:text-[1.2rem] text-[1.1rem] ">{item.productName}</p>
             <p className="price sm:text-[1.4rem] text-[1.3rem] font-bold">Ksh. {item.price}</p>
