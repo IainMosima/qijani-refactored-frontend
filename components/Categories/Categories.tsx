@@ -1,17 +1,15 @@
 "use client";
-import Category from "./Category/Category";
-import { fetchCategory } from "../../network/products";
-import { SetStateAction, useEffect, useState } from "react";
-import { CategoriesData, Product } from "../../models/product";
-import "./Categories.scss";
-import CircularProgress from "@mui/material/CircularProgress";
-import { User } from "../../models/user";
-import AddPackageModal from "../Packages/AddPackageModal/AddPackageModal";
-import { PackageStructure } from "../../models/package";
-import { useAppSelector } from "@/hooks/reduxHook";
-import Loading from "../Loading/Loading";
-import Image from "next/image";
 import { Images } from "@/constants";
+import { useAppSelector } from "@/hooks/reduxHook";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { CategoriesData, Product } from "../../models/product";
+import { fetchCategory } from "../../network/products";
+import Loading from "../Loading/Loading";
+import AddPackageModal from "../Packages/AddPackageModal/AddPackageModal";
+import "./Categories.scss";
+import Category from "./Category/Category";
 
 interface CategoriesProps {
   categories: string[];
@@ -23,6 +21,8 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
   const [open, setOpen] = useState(true);
   const [price, setPrice] = useState(0);
 
+  const navigate = useRouter();
+
   const selectedCategory = useAppSelector(
     (state) => state.selectedcategory.selectedCategory
   );
@@ -31,6 +31,16 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
 
   function handleClose() {
     setOpen(false);
+  }
+
+  function selectItemManager(product: Product) {
+    if (loggedInUser) {
+      setSelectedProduct(product);
+      setOpen(true);
+      setPrice(product.price);
+    } else {
+      navigate.push("/loginSignup/add");
+    }
   }
 
   useEffect(() => {
@@ -64,10 +74,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
                   categoryName={item.categoryName}
                   query={item.categoryName}
                   products={item.products}
-                  loggedInUser={loggedInUser}
-                  setSelectedProduct={setSelectedProduct}
-                  setOpen={setOpen}
-                  setPrice={setPrice}
+                  selectItemManager={selectItemManager}
                 />
               </div>
             ))}
@@ -80,7 +87,11 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
       ) : filteredResults.length > 0 ? (
         <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
           {filteredResults.map((item, index) => (
-            <div key={index} className="card lg:h-auto md:h-auto h-[18rem]">
+            <div
+              key={index}
+              className="card lg:h-auto md:h-auto h-[18rem]"
+              onClick={() => selectItemManager(item)}
+            >
               <Image
                 className="product-img"
                 src={`${process.env.NEXT_PUBLIC_PRODUCTSBUCKET}/${item.productImgKey}`}
@@ -98,8 +109,8 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
                 per kg
               </p>
               <div className="add">
-                <Image src={Images.addIcon} alt="add" />
-                <Image src={Images.cartIcon} alt="add" />
+              <Image src={Images.addIcon} alt="add" width={25}/>
+              <Image src={Images.cartIcon} alt="add" width={25}/>
               </div>
             </div>
           ))}

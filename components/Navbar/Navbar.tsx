@@ -158,7 +158,6 @@ const Navbar = () => {
             className="icon"
           />
           <h4>Packages</h4>
-          <Image src={Images.dropDownIcon} alt="drop-icon" />
         </div>
 
         <Link

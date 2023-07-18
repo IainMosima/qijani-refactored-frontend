@@ -11,31 +11,17 @@ interface CategoryProps {
   categoryName: string;
   query: string;
   products: Product[] | undefined;
-  loggedInUser: User | null;
-  setSelectedProduct: React.Dispatch<React.SetStateAction<Product | undefined>>;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setPrice: React.Dispatch<React.SetStateAction<number>>;
+  selectItemManager: (product: Product) => void;
 }
 
 const Category = ({
   categoryName,
   products,
-  loggedInUser,
-  setSelectedProduct,
-  setOpen,
-  setPrice,
+  selectItemManager
 }: CategoryProps) => {
   const navigate = useRouter();
   const dispatch = useAppDispatch();
-  function selectItemManager(product: Product) {
-    if (loggedInUser) {
-      setSelectedProduct(product);
-      setOpen(true);
-      setPrice(product.price);
-    } else {
-      navigate.push("/loginSignup/add");
-    }
-  }
+
 
   return (
     <div className="app__card">
@@ -53,7 +39,7 @@ const Category = ({
       <hr />
       <br />
 
-      <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
+      <div className="card-body grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {products?.map((item, index) => (
           <div
             key={index}
@@ -71,8 +57,8 @@ const Category = ({
             <p className="price sm:text-[1.4rem] text-[1.3rem] font-bold">Ksh. {item.price}</p>
             <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">per kg</p>
             <div className="add">
-              <Image src={Images.addIcon} alt="add" />
-              <Image src={Images.cartIcon} alt="add" />
+              <Image src={Images.addIcon} alt="add" width={25}/>
+              <Image src={Images.cartIcon} alt="add" width={25}/>
             </div>
           </div>
         ))}

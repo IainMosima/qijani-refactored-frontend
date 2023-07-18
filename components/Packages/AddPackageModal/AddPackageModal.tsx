@@ -18,12 +18,12 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { setMypackages } from "@/redux/reducers/packagesReducer";
 
 interface AddPackageModalProps {
-  open: boolean,
-  loggedInUser: User,
-  product: Product,
-  onClose: () => void,
-  price: number,
-  setPrice: React.Dispatch<React.SetStateAction<number>>,
+  open: boolean;
+  loggedInUser: User;
+  product: Product;
+  onClose: () => void;
+  price: number;
+  setPrice: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const AddPackageModal = ({
@@ -33,7 +33,6 @@ const AddPackageModal = ({
   onClose,
   price,
   setPrice,
-
 }: AddPackageModalProps) => {
   const myPackages = useAppSelector((state) => state.packages);
   const dispatch = useAppDispatch();
@@ -206,15 +205,17 @@ const AddPackageModal = ({
         if (response && packageName.current?.value) {
           setisSubmitting(false);
           packageName.current.value = "";
-          dispatch(setMypackages([
-            ...myPackages,
-            {
-              _id: response._id,
-              userId: response.userId,
-              packageName: response.packageName,
-              items: response.items,
-            },
-          ]));
+          dispatch(
+            setMypackages([
+              ...myPackages,
+              {
+                _id: response._id,
+                userId: response.userId,
+                packageName: response.packageName,
+                items: response.items,
+              },
+            ])
+          );
           setNewPackage(null);
           onClose();
         }
@@ -236,9 +237,9 @@ const AddPackageModal = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <div className="app__AddPackagemodal">
+      <div className="app__AddPackagemodal lg:w-[30rem] md:w-[25rem] w-[19rem]">
         <div className="title">
-          <h2>
+          <h2 className="sm:text-2xl text-lg">
             {product.productName}. <span>kshs {product.price}</span>.{" "}
             <span>per kg</span>
           </h2>
@@ -249,8 +250,11 @@ const AddPackageModal = ({
             <div className="field amount">
               <label>Quantity (kg)</label>
               <div>
-                <button className="decrement" onClick={quantityDecrement}>
-                  -
+                <button
+                  className="border border-black w-[1.5rem] flex place-items-center justify-center h-[1.5rem] decrement"
+                  onClick={quantityDecrement}
+                >
+                  <Image src={Images.minusIcon} alt="minus icon" width={10} />
                 </button>
 
                 <input
@@ -261,18 +265,22 @@ const AddPackageModal = ({
                   max="100"
                   step="0.1"
                   onChange={quantityChange}
+                  className=""
                 />
 
-                <button className="increment" onClick={quantityIncrement}>
-                  +
+                <button
+                  className="border border-black w-[1.5rem] flex place-items-center justify-center h-[1.5rem] increment"
+                  onClick={quantityIncrement}
+                >
+                  <Image src={Images.plusIcon} alt="plus icon" width={10} />
                 </button>
               </div>
             </div>
 
             {!existing && myPackages && myPackages.length > 0 && (
               <div className="field package">
-                <label>Add to existing package</label>
-                <select ref={existingPackageValue} onChange={existingPackage}>
+                <label className="sm:text-[1.3rem] text-[1rem]">Add to existing package</label>
+                <select ref={existingPackageValue} onChange={existingPackage} className=" placeholder:text-[1rem] border-black px-1 py-2 rounded-md sm:w-auto w-[11rem]">
                   {myPackages?.map((item, index) => (
                     <option key={index} value={[item._id, item.packageName]}>
                       {item.packageName}
@@ -284,19 +292,20 @@ const AddPackageModal = ({
 
             {existing && myPackages && myPackages.length <= 4 && (
               <div className="field package">
-                <label>Add to new package</label>
+                <label className="sm:text-[1.3rem] text-[1rem]">Add to new package</label>
                 <input
                   type="text"
                   ref={packageName}
                   onChange={newPackageName}
                   placeholder="Enter package name"
+                  className="border h-[1.5rem] placeholder:text-[1rem] border-black px-1 py-2 rounded-md sm:w-auto w-[10rem]"
                 />
               </div>
             )}
 
             {packageNameWarning && (
               <>
-                <p className="package-warning">
+                <p className="package-warning sm:text-[1.2rem] text-[1rem]">
                   Package name already exists, try another name.
                 </p>
                 <br />
@@ -306,7 +315,7 @@ const AddPackageModal = ({
             {existing && myPackages && myPackages.length > 0 && (
               <div>
                 <p
-                  className="destination existing"
+                  className="destination existing sm:text-[1.2rem] text-[1rem]"
                   onClick={() => existingManger()}
                 >
                   Add to an existing package?
@@ -323,7 +332,7 @@ const AddPackageModal = ({
             )}
 
             <div className="footer">
-              <h3>Total: Kshs {price}</h3>
+              <h3 className="sm:text-[1.7rem] text-[1.5rem]">Total: Kshs {price}</h3>
               <button
                 onClick={() => submit()}
                 disabled={submitDisabled}
