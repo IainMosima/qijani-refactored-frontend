@@ -35,7 +35,6 @@ const AddPackageModal = ({
   setPrice,
 }: AddPackageModalProps) => {
   const myPackages = useAppSelector((state) => state.packages);
-  console.log(myPackages);
   const dispatch = useAppDispatch();
   const [existing, setExisting] = useState(
     myPackages.length <= 4 ? true : false
@@ -226,7 +225,6 @@ const AddPackageModal = ({
     } else if (addToExisting) {
       try {
         const response = await updatePackage(addToExisting);
-        console.log(addToExisting);
         const updatedPackages = await fetchPackages();
         if (response) {
           setisSubmitting(false);

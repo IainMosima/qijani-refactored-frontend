@@ -28,7 +28,7 @@ const CategoriesSelector = ({ categories }:CategoriesSelectorProps) => {
   );
 
   return (
-    <div className="w-full sm:pt-[4.2rem] pt-[3.7rem] fixed top-0 lg:right-[-1rem] md:right-[1rem] right-[-.3rem] z-0 bg-white">
+    <div className="w-full sm:pt-[4.2rem] pt-[3.7rem] fixed top-0 lg:right-[-.2rem] md:right-[1rem] right-[-.3rem] z-0 bg-white">
       <Swiper
         navigation={true}
         modules={[Navigation]}
