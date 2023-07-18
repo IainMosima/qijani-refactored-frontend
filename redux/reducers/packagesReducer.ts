@@ -19,7 +19,6 @@ const packagesReducerSlice = createSlice({
 
 export async function getMyPackages(dispatch: Dispatch) {
   const res = await fetchPackages();
-  console.log(res);
   dispatch(setMypackages(res));
 }
 

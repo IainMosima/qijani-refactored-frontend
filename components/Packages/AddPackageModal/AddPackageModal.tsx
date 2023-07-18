@@ -3,13 +3,13 @@ import { Images } from "../../../constants";
 import Dialog from "@mui/material/Dialog";
 import { useRef, useState } from "react";
 import { User } from "../../../models/user";
-import { createNewPackage, updatePackage } from "../../../network/package";
+import { createNewPackage, fetchPackages, updatePackage } from "../../../network/package";
 import { Product } from "../../../models/product";
 import {
   ItemStructure,
   NewPackage,
   PackageStructure,
-  UpdatePackage,
+  UpdatedPackage,
 } from "../../../models/package";
 import CircularProgress from "@mui/material/CircularProgress";
 import { itemManager } from "../../../utils/itemManager";
@@ -35,6 +35,7 @@ const AddPackageModal = ({
   setPrice,
 }: AddPackageModalProps) => {
   const myPackages = useAppSelector((state) => state.packages);
+  console.log(myPackages);
   const dispatch = useAppDispatch();
   const [existing, setExisting] = useState(
     myPackages.length <= 4 ? true : false
@@ -43,7 +44,7 @@ const AddPackageModal = ({
   const [isUpdating, setIsUpdating] = useState(false);
   const [newPackage, setNewPackage] = useState<NewPackage | null>();
   const names = myPackages.map((item) => item.packageName);
-  const [addToExisting, setaddToExisting] = useState<UpdatePackage>({
+  const [addToExisting, setaddToExisting] = useState<UpdatedPackage>({
     packageId: myPackages
       .filter((item) => item.packageName === names[0])
       .map((item) => item._id)[0],
@@ -225,8 +226,13 @@ const AddPackageModal = ({
     } else if (addToExisting) {
       try {
         const response = await updatePackage(addToExisting);
+        console.log(addToExisting);
+        const updatedPackages = await fetchPackages();
         if (response) {
           setisSubmitting(false);
+          dispatch(
+            setMypackages(updatedPackages)
+          );
           onClose();
         }
       } catch (error) {
@@ -279,8 +285,14 @@ const AddPackageModal = ({
 
             {!existing && myPackages && myPackages.length > 0 && (
               <div className="field package">
-                <label className="sm:text-[1.3rem] text-[1rem]">Add to existing package</label>
-                <select ref={existingPackageValue} onChange={existingPackage} className=" placeholder:text-[1rem] border-black px-1 py-2 rounded-md sm:w-auto w-[11rem]">
+                <label className="sm:text-[1.3rem] text-[1rem]">
+                  Add to existing package
+                </label>
+                <select
+                  ref={existingPackageValue}
+                  onChange={existingPackage}
+                  className=" placeholder:text-[1rem] border-black px-1 py-2 rounded-md sm:w-auto w-[11rem]"
+                >
                   {myPackages?.map((item, index) => (
                     <option key={index} value={[item._id, item.packageName]}>
                       {item.packageName}
@@ -292,7 +304,9 @@ const AddPackageModal = ({
 
             {existing && myPackages && myPackages.length <= 4 && (
               <div className="field package">
-                <label className="sm:text-[1.3rem] text-[1rem]">Add to new package</label>
+                <label className="sm:text-[1.3rem] text-[1rem]">
+                  Add to new package
+                </label>
                 <input
                   type="text"
                   ref={packageName}
@@ -332,14 +346,21 @@ const AddPackageModal = ({
             )}
 
             <div className="footer">
-              <h3 className="sm:text-[1.7rem] text-[1.5rem]">Total: Kshs {price}</h3>
+              <h3 className="sm:text-[1.7rem] text-[1.5rem]">
+                Total: Kshs {price}
+              </h3>
               <button
                 onClick={() => submit()}
                 disabled={submitDisabled}
-                className={submitDisabled ? "submit-disabled" : ""}
+                className={`${
+                  submitDisabled ? "submit-disabled" : ""
+                } flex justify-center place-items-center`}
               >
-                {!isSubmitting && <p>Add</p>}
-                {isSubmitting && <CircularProgress color="inherit" />}
+                {!isSubmitting ? (
+                  <p>Add</p>
+                ) : (
+                  <CircularProgress color="inherit" size={30} />
+                )}
               </button>
             </div>
           </div>
