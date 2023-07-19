@@ -16,7 +16,7 @@ const BottomNav = () => {
     };
 
     return (
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+        <Paper className="bottomnav lg:hidden" sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
             <BottomNavigation value={value} onChange={handleChange} showLabels>
                 <BottomNavigationAction
                     label="Home"
