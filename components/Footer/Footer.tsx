@@ -19,8 +19,9 @@ const Footer = () => {
                     <div className="payment-methods">
                         <h3><b>Payment methods</b></h3>
                         <div >
-                            <Image className="icon" src={Images.visaIcon} alt="visa-icon" />
+                            {/* <Image className="cash" src={Images.cashIcon} alt="mpesa-icon" /> */}
                             <Image className="mpesa" src={Images.mpesaIcon} alt="mpesa-icon" />
+                            <Image className="icon" src={Images.visaIcon} alt="visa-icon" />
                         </div>
                     </div>
                 </div>

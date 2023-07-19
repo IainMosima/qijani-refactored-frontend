@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,6 +17,7 @@
   --gray-color: #CDCEC9;
   --brown-color: #46364a;
   --white-color: #ffffff;
+  --zilla-font: 'Zilla Slab', serif;
 }
 
 * {

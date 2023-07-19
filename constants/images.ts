@@ -12,7 +12,7 @@ import nextIcon from "../public/assets/next.png";
 import addIcon from "../public/assets/add.png";
 import cartIcon from "../public/assets/cart.png";
 import passwordLockIcon from "../public/assets/password-lock.png";
-import emailIcon from "../public/assets/emial-icon.png";
+import emailIcon from "../public/assets/email-icon.png";
 import phoneIcon from "../public/assets/phone-icon.png";
 import binoculars from "../public/assets/binoculars.png";
 import addPackageIcon from "../public/assets/addIcon.png";
@@ -27,6 +27,10 @@ import twitterIcon from "../public/assets/twitter.png";
 import facebookIcon from "../public/assets/facebook.png";
 import pendingIcon from "../public/assets/pending.png";
 import searchIcon from "../public/assets/search.png";
+import profile from "../public/assets/profile.png";
+import edit from "../public/assets/edit-icon.png";
+import info from "../public/assets/info.png";
+import cashIcon from "../public/assets/cash.png";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     logo,
@@ -58,4 +62,8 @@ export default {
     facebookIcon,
     pendingIcon,
     searchIcon,
+    profile,
+    edit,
+    info,
+    cashIcon,
 }
