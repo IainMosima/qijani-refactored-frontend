@@ -42,6 +42,8 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
+    store.dispatch(checkLoggedInUser);
+    store.dispatch(getMyPackages);
     async function perfomSearch() {
       const results = await ProductsApi.searchFunction(debouncedQuery);
       setSearchResults(results);
@@ -51,9 +53,7 @@ const Navbar = () => {
       perfomSearch();
     }
 
-    store.dispatch(checkLoggedInUser);
     
-    store.dispatch(getMyPackages);
 
     return () => {
       setSearchResults([]);
