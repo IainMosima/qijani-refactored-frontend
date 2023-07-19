@@ -64,4 +64,10 @@ export default {
     facebookIcon,
     pendingIcon,
     searchIcon,
+    profile,
+    edit,
+    info,
+    cashIcon,
+    plusIcon,
+    minusIcon,
 }
