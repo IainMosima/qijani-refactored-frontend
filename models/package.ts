@@ -10,7 +10,7 @@ export interface NewPackage {
     price?: number
 }
 
-export interface UpdatePackage {
+export interface UpdatedPackage {
     userId: string,
     packageId: string,
     packageName: string,

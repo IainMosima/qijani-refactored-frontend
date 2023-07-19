@@ -4,17 +4,15 @@ import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Reducer } from "redux";
 
 
-const initialState = {
-  packages: [{}] 
-}
+const initialState: PackageStructure[] = []
 
 const packagesReducerSlice = createSlice({
   name: 'packagesReducerSlice',
   initialState,
   reducers: {
-      setMypackages: (state, action: PayloadAction<PackageStructure[]>) => {
-          state.packages = action.payload;
-      }
+    setMypackages: (state, action: PayloadAction<PackageStructure[]>) => {
+      return [...action.payload];
+    }
   }
 
 })
@@ -22,8 +20,6 @@ const packagesReducerSlice = createSlice({
 export async function getMyPackages(dispatch: Dispatch) {
   const res = await fetchPackages();
   dispatch(setMypackages(res));
-
-
 }
 
 export const { setMypackages } = packagesReducerSlice.actions;

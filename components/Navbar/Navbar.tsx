@@ -51,8 +51,9 @@ const Navbar = () => {
       perfomSearch();
     }
 
-    store.dispatch(getMyPackages);
     store.dispatch(checkLoggedInUser);
+    
+    store.dispatch(getMyPackages);
 
     return () => {
       setSearchResults([]);
@@ -130,8 +131,8 @@ const Navbar = () => {
         />
 
         {resultAvailable && (
-          <div className="search-results">
-            <ul>
+          <div className="search-results lg:left-[8.5rem]">
+            <ul className="lg:w-[40rem] md:w-[23rem] w-[13rem]">
               {searchResults.map((item, index) => (
                 <div
                   onClick={() => {
@@ -157,7 +158,6 @@ const Navbar = () => {
             className="icon"
           />
           <h4>Packages</h4>
-          <Image src={Images.dropDownIcon} alt="drop-icon" />
         </div>
 
         <Link
@@ -167,7 +167,6 @@ const Navbar = () => {
           <div>
             <Image src={Images.orderIcon} alt="package-icon" className="icon" />
             <h4>Orders</h4>
-            <Image src={Images.dropDownIcon} alt="drop-icon" />
           </div>
         </Link>
 
@@ -249,10 +248,9 @@ const Navbar = () => {
               className="profile-icon"
               width={40}
             />
-          
         </Link>
       ) : (
-        <div onClick={() => toggleHandler("myAccount")} className="lg:hidden inline-block">
+        <div onClick={() => toggleHandler("myAccount")} className="lg:hidden relative">
           {loggedInUser.profileImgKey && (
             <Image
               src={loggedInUser.profileImgKey}
@@ -276,18 +274,18 @@ const Navbar = () => {
             <motion.div
               whileInView={{ y: [0, 10] }}
               transition={{ duration: 0.1, ease: "easeOut" }}
-              className="more_info my_account"
+              className="bg-white border w-[10rem] absolute right-[0.1rem] p-3 rounded-[10px] border-black"
             >
-              <ul>
+              <ul className="flex justify-center place-items-center flex-col rounded-[10px] gap-3">
                 {myAccount.map((item, index) => (
-                  <li key={index}>
-                    {<Image src={item.img} alt="my-profile-icon" />} {item.name}
+                  <li key={index} className="flex place-items-center gap-3">
+                    <Image src={item.img} alt="my-profile-icon" width={30} /> {item.name}
                   </li>
                 ))}
 
-                <hr />
+                
                 <button
-                  className="link"
+                  className="bg-green text-yellow rounded-md w-full"
                   style={{ paddingTop: 0 }}
                   onClick={logout}
                 >

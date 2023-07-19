@@ -3,22 +3,21 @@ import Categories from "../Categories/Categories";
 import CategoriesSelector from "../CategoriesSelector/CategoriesSelector";
 import { CategoriesData } from "@/models/product";
 
-
 interface ProductsResultsProps {
-  categories: string[],
-  sampleProducts: CategoriesData[]
+  categories: string[];
+  sampleProducts: CategoriesData[];
 }
 
-const ProductsResults = ({ categories, sampleProducts }: ProductsResultsProps) => {
-  
-  
+const ProductsResults = ({
+  categories,
+  sampleProducts,
+}: ProductsResultsProps) => {
   return (
     <div>
-      <CategoriesSelector categories={['All',...categories]}/>
-      <Categories categories={categories} sampleProducts={sampleProducts}/>
+      <CategoriesSelector categories={["All", ...categories]} />
+      <Categories categories={categories} sampleProducts={sampleProducts} />
     </div>
   );
 };
 
 export default ProductsResults;
-

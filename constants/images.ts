@@ -31,6 +31,8 @@ import profile from "../public/assets/profile.png";
 import edit from "../public/assets/edit-icon.png";
 import info from "../public/assets/info.png";
 import cashIcon from "../public/assets/cash.png";
+import plusIcon from "../public/assets/plus.png";
+import minusIcon from "../public/assets/minus.png";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     logo,
@@ -62,8 +64,4 @@ export default {
     facebookIcon,
     pendingIcon,
     searchIcon,
-    profile,
-    edit,
-    info,
-    cashIcon,
 }
