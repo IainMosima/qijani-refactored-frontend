@@ -28,15 +28,3 @@ const loginSlice = createSlice({
 
 export const { userLogin, userLogout } = loginSlice.actions;
 export default loginSlice.reducer;
-
-export async function checkLoggedInUser(dispatch: Dispatch) {
-  const user = await getLoggedInUser();
-  if (user) {
-    if (user.profileImgKey) {
-      const signedUrl = await getUserProfileImageSignedUrl(user.profileImgKey);
-      dispatch(userLogin({ ...user, profileImgKey: signedUrl.url }));
-    } else {
-      dispatch(userLogin(user));
-    }
-  }
-}

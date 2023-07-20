@@ -1,22 +1,21 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Images } from "../../constants";
-import { useDebounce } from "use-debounce";
 import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+import { Images } from "../../constants";
 
-import SearchBar from "./SearchBar/SearchBar";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
+import { userLogin, userLogout } from "@/redux/reducers/loginReducer";
+import { getMyPackages } from "@/redux/reducers/packagesReducer";
+import { store } from "@/redux/store";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Product } from "../../models/product";
 import * as ProductsApi from "../../network/products";
 import * as UserApi from "../../network/users";
 import "./Navbar.scss";
-import { Product } from "../../models/product";
-import { useAppSelector, useAppDispatch } from "@/hooks/reduxHook";
-import { checkLoggedInUser, userLogin, userLogout } from "@/redux/reducers/loginReducer";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { store } from "@/redux/store";
-import { getMyPackages } from "@/redux/reducers/packagesReducer";
-import { getUserProfileImageSignedUrl } from "../../network/users";
+import SearchBar from "./SearchBar/SearchBar";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -43,8 +42,6 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
-    // store.dispatch(checkLoggedInUser);
-    // store.dispatch(getMyPackages);
     async function perfomSearch() {
       const results = await ProductsApi.searchFunction(debouncedQuery);
       setSearchResults(results);
@@ -58,13 +55,7 @@ const Navbar = () => {
       const user = await UserApi.getLoggedInUser();
       if (user) {
         dispatch(userLogin(user));
-        // if (user.profileImgKey) {
-        //   // const signedUrl = await getUserProfileImageSignedUrl(
-        //   //   user.profileImgKey
-        //   // );
-        // } else {
-        //   dispatch(userLogin(user));
-        // }
+        store.dispatch(getMyPackages);
       }
     }
     checkLoggedInUser();
