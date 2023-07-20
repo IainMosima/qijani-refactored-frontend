@@ -7,9 +7,13 @@ import "./forms.scss";
 import { User } from "../../models/user";
 import { PackageStructure } from "../../models/package";
 import { useAppSelector } from "@/hooks/reduxHook";
+import { useRouter } from "next/navigation";
 
+interface LoginSignUpProps {
+    message?: string,
+}
 
-const LoginSignUp = () => {
+const LoginSignUp = ({ message }: LoginSignUpProps) => {
     const [loginToggle, setLoginToggle] = useState(true);
     const [signUpToggle, setSignUpToggle] = useState(false);
     const [errorText, setErrorText] = useState<string | null>(null);
@@ -17,30 +21,31 @@ const LoginSignUp = () => {
     const loggedInUser = useAppSelector(state => state.login.user)
 
 
-    let message;
     
-    // const { from } = useParams();
-    // const navigate = useNavigate();
+    const navigate = useRouter();
 
-    // const messages = {
-    //     packages: 'Login in to access packages',
-    //     add: 'Login to add an item to a package'
-    // }
+    const messages = {
+        packages: 'Login in to access packages',
+        add: 'Login to add an item to a package',
+        orders: 'Login to access orders',
+    }
 
-    // if (from === 'packages') {
-    //     message = messages.packages;
+    if (message === 'packages') {
+        message = messages.packages;
 
-    // } else if (from === 'add') {
-    //     message = messages.add;
-    // } 
+    } else if (message === 'add') {
+        message = messages.add;
+    } 
     
-    // if (loggedInUser) {
-    //     if (from === 'packages') {
-    //         navigate('/packages');
-    //     } else {
-    //         navigate('/');
-    //     }
-    // }
+    if (loggedInUser) {
+        if (message === 'packages') {
+            navigate.push('/packages');
+        } else if(message === 'orders'){
+            navigate.push('/orders');
+        } else {
+            navigate.push('/');
+        }
+    }
 
     useEffect(() => {
         const messageTimer = setTimeout(() => {

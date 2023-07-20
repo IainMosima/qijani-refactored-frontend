@@ -27,7 +27,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
     (state) => state.selectedcategory.selectedCategory
   );
   const loggedInUser = useAppSelector((state) => state.login.user);
-  const myPackages = useAppSelector((state) => state.packages);
+  
 
   function handleClose() {
     setOpen(false);
@@ -39,7 +39,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
       setOpen(true);
       setPrice(product.price);
     } else {
-      navigate.push("/loginSignup/add");
+      navigate.push("/loginSignup?message=add");
     }
   }
 
