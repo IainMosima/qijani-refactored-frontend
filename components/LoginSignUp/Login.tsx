@@ -39,19 +39,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
       const user = await login(credentials);
 
       if (user) {
-        if (user.profileImgKey) {
-          const signedUrl = await getUserProfileImageSignedUrl(
-            user.profileImgKey
-          );
-          dispatch(
-            userLogin({
-              ...user,
-              profileImgKey: signedUrl.url,
-            })
-          );
-        } else {
-          dispatch(userLogin(user));
-        }
+        dispatch(userLogin(user));
         const myPackages = await fetchPackages();
         if (myPackages) dispatch(setMypackages(myPackages));
       }
