@@ -10,12 +10,13 @@ import * as UserApi from "../../network/users";
 import "./Navbar.scss";
 import { Product } from "../../models/product";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHook";
-import { checkLoggedInUser, userLogout } from "@/redux/reducers/loginReducer";
+import { checkLoggedInUser, userLogin, userLogout } from "@/redux/reducers/loginReducer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { store } from "@/redux/store";
 import { getMyPackages } from "@/redux/reducers/packagesReducer";
+import { getUserProfileImageSignedUrl } from "../../network/users";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -42,8 +43,8 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
-    store.dispatch(checkLoggedInUser);
-    store.dispatch(getMyPackages);
+    // store.dispatch(checkLoggedInUser);
+    // store.dispatch(getMyPackages);
     async function perfomSearch() {
       const results = await ProductsApi.searchFunction(debouncedQuery);
       setSearchResults(results);
@@ -53,12 +54,24 @@ const Navbar = () => {
       perfomSearch();
     }
 
-    
-
+    async function checkLoggedInUser() {
+      const user = await UserApi.getLoggedInUser();
+      if (user) {
+        dispatch(userLogin(user));
+        // if (user.profileImgKey) {
+        //   // const signedUrl = await getUserProfileImageSignedUrl(
+        //   //   user.profileImgKey
+        //   // );
+        // } else {
+        //   dispatch(userLogin(user));
+        // }
+      }
+    }
+    checkLoggedInUser();
     return () => {
       setSearchResults([]);
     };
-  }, [debouncedQuery]);
+  }, [debouncedQuery, dispatch]);
 
   function search() {
     navigate.push(`/search/${query}`);
@@ -188,7 +201,7 @@ const Navbar = () => {
           <div onClick={() => toggleHandler("myAccount")}>
             {loggedInUser.profileImgKey && (
               <Image
-                src={loggedInUser.profileImgKey}
+                src={`${process.env.NEXT_PUBLIC_USERSBUCKET}/${loggedInUser.profileImgKey}`}
                 alt="profile-pic"
                 className="profile-icon"
                 width={40}
@@ -238,22 +251,24 @@ const Navbar = () => {
       {loggedInUser === null ? (
         <Link
           href={"/loginSignup"}
-          style={{ textDecoration: "none", color: "black"}}
+          style={{ textDecoration: "none", color: "black" }}
           className="lg:hidden inline-block"
         >
-          
-            <Image
-              src={Images.profileDefault}
-              alt="account-icon"
-              className="profile-icon"
-              width={40}
-            />
+          <Image
+            src={Images.profileDefault}
+            alt="account-icon"
+            className="profile-icon"
+            width={40}
+          />
         </Link>
       ) : (
-        <div onClick={() => toggleHandler("myAccount")} className="lg:hidden relative">
+        <div
+          onClick={() => toggleHandler("myAccount")}
+          className="lg:hidden relative"
+        >
           {loggedInUser.profileImgKey && (
             <Image
-              src={loggedInUser.profileImgKey}
+              src={`${process.env.NEXT_PUBLIC_USERSBUCKET}/${loggedInUser.profileImgKey}`}
               alt="profile-pic"
               className="profile-icon"
               width={40}
@@ -269,7 +284,7 @@ const Navbar = () => {
               alt="profile-icon"
             />
           )}
-          
+
           {accountToggle && (
             <motion.div
               whileInView={{ y: [0, 10] }}
@@ -279,11 +294,11 @@ const Navbar = () => {
               <ul className="flex justify-center place-items-center flex-col rounded-[10px] gap-3">
                 {myAccount.map((item, index) => (
                   <li key={index} className="flex place-items-center gap-3">
-                    <Image src={item.img} alt="my-profile-icon" width={30} /> {item.name}
+                    <Image src={item.img} alt="my-profile-icon" width={30} />{" "}
+                    {item.name}
                   </li>
                 ))}
 
-                
                 <button
                   className="bg-green text-yellow rounded-md w-full"
                   style={{ paddingTop: 0 }}
