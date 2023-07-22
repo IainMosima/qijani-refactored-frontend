@@ -1,6 +1,7 @@
 import logo from "../public/assets/logo.png";
 import dropDownIcon from "../public/assets/drop-down-icon.png";
 import packageIcon from "../public/assets/package.png";
+import packageIcon2 from "../public/assets/package2.png";
 import packagesIcon from "../public/assets/packages.png";
 import accountIcon from "../public/assets/account.png";
 import categoryIcon from "../public/assets/category.png";
@@ -38,6 +39,7 @@ export default {
     logo,
     dropDownIcon,
     packageIcon,
+    packageIcon2,
     packagesIcon,
     accountIcon,
     categoryIcon,

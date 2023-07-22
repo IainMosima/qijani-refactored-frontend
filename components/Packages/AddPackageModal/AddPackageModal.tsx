@@ -24,6 +24,9 @@ interface AddPackageModalProps {
   onClose: () => void;
   price: number;
   setPrice: React.Dispatch<React.SetStateAction<number>>;
+  setSetsuccessfulyAdded: React.Dispatch<React.SetStateAction<boolean>>;
+  setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
+  selectedProduct: Product;
 }
 
 const AddPackageModal = ({
@@ -33,6 +36,9 @@ const AddPackageModal = ({
   onClose,
   price,
   setPrice,
+  setSetsuccessfulyAdded,
+  setSuccessMessage,
+  selectedProduct
 }: AddPackageModalProps) => {
   const myPackages = useAppSelector((state) => state.packages);
   const dispatch = useAppDispatch();
@@ -159,7 +165,7 @@ const AddPackageModal = ({
       priceCalc();
     }
     if (isUpdating) {
-      const updatedPrice = priceCalc() || price;
+      let updatedPrice = priceCalc() || price;
       let updatedItems = itemManager(
         addToExisting.items,
         product._id,
@@ -183,7 +189,7 @@ const AddPackageModal = ({
       ).toFixed(1);
       priceCalc();
       if (isUpdating) {
-        const updatedPrice = priceCalc() || price;
+        let updatedPrice = priceCalc() || price;
         let updatedItems = itemManager(
           addToExisting.items,
           product._id,
@@ -217,6 +223,8 @@ const AddPackageModal = ({
             ])
           );
           setNewPackage(null);
+          setSuccessMessage(`Successfully added ${selectedProduct.productName} to package "${response.packageName}"`);
+          setSetsuccessfulyAdded(true);
           onClose();
         }
       } catch (error) {
@@ -228,9 +236,9 @@ const AddPackageModal = ({
         const updatedPackages = await fetchPackages();
         if (response) {
           setisSubmitting(false);
-          dispatch(
-            setMypackages(updatedPackages)
-          );
+          dispatch(setMypackages(updatedPackages));
+          setSuccessMessage(`Successfully updated ${selectedProduct.productName} to package "${response.data.packageName}"`);
+          setSetsuccessfulyAdded(true);
           onClose();
         }
       } catch (error) {

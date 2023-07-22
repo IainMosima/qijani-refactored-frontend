@@ -104,7 +104,7 @@ const Navbar = () => {
 
   function packageOnClickHandler() {
     if (!loggedInUser) {
-      navigate.push("/loginSignup/packages");
+      navigate.push("/loginSignup?message=packages");
     } else {
       navigate.push("/packages");
     }
@@ -218,7 +218,7 @@ const Navbar = () => {
               >
                 <ul>
                   {myAccount.map((item, index) => (
-                    <li key={index}>
+                    <li key={index} onClick={()=>navigate.push('/profile')}>
                       {<Image src={item.img} alt="my-profile-icon" />}{" "}
                       {item.name}
                     </li>
@@ -284,7 +284,7 @@ const Navbar = () => {
             >
               <ul className="flex justify-center place-items-center flex-col rounded-[10px] gap-3">
                 {myAccount.map((item, index) => (
-                  <li key={index} className="flex place-items-center gap-3">
+                  <li key={index} className="flex place-items-center gap-3" onClick={()=>navigate.push('/profile')}>
                     <Image src={item.img} alt="my-profile-icon" width={30} />{" "}
                     {item.name}
                   </li>

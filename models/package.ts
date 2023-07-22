@@ -16,6 +16,16 @@ export interface UpdatedPackage {
     packageName: string,
     items: ItemStructure[],
 }
+export interface UpdatedPackageResponse {
+    success: boolean,
+    message: string,
+    data: {
+        userId: string,
+        packageId: string,
+        packageName: string,
+        items: ItemStructure[],
+    }
+}
 
 export interface PackageStructure {
     _id: string,
@@ -23,4 +33,3 @@ export interface PackageStructure {
     packageName: string,
     items?: ItemStructure[]
 }
-

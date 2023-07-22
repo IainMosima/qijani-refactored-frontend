@@ -23,6 +23,7 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
 
     
     const navigate = useRouter();
+    let displayMessage;
 
     const messages = {
         packages: 'Login in to access packages',
@@ -31,13 +32,14 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
     }
 
     if (message === 'packages') {
-        message = messages.packages;
+        displayMessage = messages.packages;
 
     } else if (message === 'add') {
-        message = messages.add;
+        displayMessage = messages.add;
     } 
     
     if (loggedInUser) {
+        console.log(message);
         if (message === 'packages') {
             navigate.push('/packages');
         } else if(message === 'orders'){
@@ -81,7 +83,7 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
     return (
         <div className="app__loginSignUp login-only">
             {showMessage &&
-                <h3 className="message">{message}</h3>
+                <h3 className="message">{displayMessage}</h3>
             }
             {errorText &&
                 <h3 className="message">{errorText}</h3>

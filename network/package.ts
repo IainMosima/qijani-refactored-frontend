@@ -1,5 +1,5 @@
 import { fetchData } from "./fetchData";
-import { NewPackage, PackageStructure, UpdatedPackage } from "../models/package";
+import { NewPackage, PackageStructure, UpdatedPackage, UpdatedPackageResponse } from "../models/package";
 
 
 // creating new package
@@ -16,7 +16,7 @@ export async function createNewPackage(newPackage: NewPackage): Promise<PackageS
 }
 
 // updating a package
-export async function updatePackage(updateInfo: UpdatedPackage) {
+export async function updatePackage(updateInfo: UpdatedPackage): Promise<UpdatedPackageResponse> {
     const updatadedPackage = {
         userId: updateInfo.userId,
         packageName: updateInfo.packageName,
