@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom";
+import Image from "next/image";
+
 import { Images } from "../../../constants";
 import "./NoOrders.scss";
+import Link from "next/link";
 
 
 const NoOrders = () => {
     return ( 
         <div className="app__no_orders">
-            <img src={Images.noOrderIcon} alt="binoculars"/>
+            <Image src={Images.noOrderIcon} alt="binoculars"/>
 
             <div>
                 <h2>Oops! No Orders Found</h2>
@@ -15,7 +17,7 @@ const NoOrders = () => {
                     <li>Try checking out a package
                     </li>
                 </ul>
-                <Link to='/packages'>
+                <Link href='/packages'>
                     <button>Go To My Packages</button>
                 </Link>
             </div>
