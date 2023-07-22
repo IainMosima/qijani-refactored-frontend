@@ -19,12 +19,7 @@ export interface UpdatedPackage {
 export interface UpdatedPackageResponse {
     success: boolean,
     message: string,
-    data: {
-        userId: string,
-        packageId: string,
-        packageName: string,
-        items: ItemStructure[],
-    }
+    data: PackageStructure
 }
 
 export interface PackageStructure {

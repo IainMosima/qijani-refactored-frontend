@@ -1,0 +1,108 @@
+.app__prodcutDetails {
+  border-bottom: 3px solid var(--gray-color);
+
+  .table-body {
+    display: grid;
+    grid-template-columns: 2.3fr 1.1fr 2fr 1.1fr 0.3fr;
+    align-items: center;
+    height: 5rem;
+
+
+    @media screen and (max-width: 768px) {
+    }
+
+   
+    p {
+      font-size: 1.5rem;
+
+      @media screen and (max-width: 768px) {
+        font-size: 1.2rem;
+      }
+    }
+
+    .product-name {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      @media screen and (max-width: 768px) {
+        gap: 0;
+      }
+    }
+
+    .amount {
+      display: flex;
+      place-items: center;
+
+      @media screen and (max-width: 768px) {
+        flex-basis: 30rem;
+      }
+
+      input {
+        width: 2.7rem;
+        height: 3vh;
+        border: none;
+        text-align: center;
+        font-size: 1.2rem;
+
+        @media screen and (max-width: 768px) {
+          width: 2.2rem;
+        }
+      }
+      button {
+        width: 2.4rem;
+        height: 3vh;
+        font-size: 1.8rem;
+        border: none;
+        text-align: center;
+
+        @media screen and (max-width: 768px) {
+          width: 2rem;
+        }
+      }
+
+      .increment {
+        border-radius: 10px 200px 200px 10px;
+        -moz-border-radius: 10px 200px 200px 10px;
+        -webkit-border-radius: 10px 200px 200px 10px;
+      }
+
+      .decrement {
+        border-radius: 200px 0px 10px 200px;
+        -moz-border-radius: 200px 0px 10px 200px;
+        -webkit-border-radius: 200px 0px 10px 200px;
+      }
+
+      &.amount input::-webkit-inner-spin-button,
+      &.amount input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+
+    .price {
+      flex-basis: 9rem;
+
+      @media screen and (max-width: 768px) {
+        flex-basis: 17rem;
+      }
+    }
+
+    .delete {
+      cursor: pointer;
+      img {
+        place-self: center;
+        width: 2rem;
+        height: 2rem;
+      }
+
+      @media screen and (max-width: 768px) {
+        padding: 0.5rem;
+        img {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+    }
+  }
+}
