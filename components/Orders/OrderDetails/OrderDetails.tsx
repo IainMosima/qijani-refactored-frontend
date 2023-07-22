@@ -4,6 +4,7 @@ import "./OrderDetails.scss";
 import { getPackage } from "../../../network/package";
 import { OrderStructure } from "../../../models/order";
 import { Images } from "../../../constants";
+import Image from "next/image";
 
 
 
@@ -41,7 +42,7 @@ const OrderDetails = ({ order } : OrderDetailsProps) => {
                   <p >{packageInfo.packageName}</p>
                   <p>Ksh {order.price}</p>
                   <div className="pending">
-                    <img src={Images.pendingIcon} alt="pending Icon"/>
+                    <Image src={Images.pendingIcon} alt="pending Icon"/>
                     <p>Pending</p>
                   </div>
                   <p>...</p>
