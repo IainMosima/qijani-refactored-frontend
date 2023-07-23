@@ -1,23 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-base: 'Questrial', serif;
+  --font-base: "Questrial", serif;
 
-  --primary-color: #E09132;
+  --primary-color: #e09132;
   --secondary-color: #313bac;
   --red-color: #a83e4e;
-  --success-color: #4BB543;
+  --success-color: #4bb543;
   --green-color: #454230;
   --black-color: #030303;
   --lightGray-color: #faf4f4;
-  --gray-color: #CDCEC9;
+  --gray-color: #cdcec9;
   --brown-color: #46364a;
   --white-color: #ffffff;
-  --zilla-font: 'Zilla Slab', serif;
+  --zilla-font: "Zilla Slab", serif;
 }
 
 * {
@@ -31,4 +31,20 @@ body,
 html {
   overflow-x: hidden;
   font-family: var(--font-base) !important;
+}
+/* Target the scrollbar */
+::-webkit-scrollbar {
+  width: 2px; /* Change the width of the vertical scrollbar */
+  height: 2px; /* Change the height of the horizontal scrollbar */
+}
+
+/* Track (background) of the scrollbar */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* You can set any background color you want */
+}
+
+/* Handle (thumb) of the scrollbar */
+::-webkit-scrollbar-thumb {
+  background: #888; /* You can set any color for the scrollbar thumb */
+  border-radius: 4px; 
 }

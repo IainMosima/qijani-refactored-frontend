@@ -61,7 +61,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
   }, [selectedCategory]);
 
   return (
-    <div className="app__category sm:mt-[8.5rem] mt-[7.5rem]">
+    <div className="app__category sm:mt-[8.5rem] mt-[7.5rem] mb-[3rem]">
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={setsuccessfulyAdded}

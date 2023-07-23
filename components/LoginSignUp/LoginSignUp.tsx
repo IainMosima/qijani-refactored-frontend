@@ -39,7 +39,6 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
     } 
     
     if (loggedInUser) {
-        console.log(message);
         if (message === 'packages') {
             navigate.push('/packages');
         } else if(message === 'orders'){

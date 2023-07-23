@@ -1,7 +1,7 @@
 import "./AddPackageModal.scss";
 import { Images } from "../../../constants";
 import Dialog from "@mui/material/Dialog";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { User } from "../../../models/user";
 import { createNewPackage, fetchPackages, updatePackage } from "../../../network/package";
 import { Product } from "../../../models/product";
@@ -71,6 +71,14 @@ const AddPackageModal = ({
   );
   const [packageNameWarning, setPackageNameWarning] = useState(false);
   const packagenames = myPackages?.map((item) => item.packageName);
+
+  useEffect(() => {
+    if (quantityInput.current) {
+      quantityInput.current.value = "1";
+      console.log("quantity");
+    }
+  }, []);
+  
 
   function priceCalc() {
     if (quantityInput.current?.value) {
@@ -345,7 +353,7 @@ const AddPackageModal = ({
 
             {!existing && myPackages && myPackages.length <= 4 && (
               <div>
-                <p className="destination" onClick={() => addToNewManager()}>
+                <p className="destination" text-yellow onClick={() => addToNewManager()}>
                   Add to a new package?
                 </p>
               </div>

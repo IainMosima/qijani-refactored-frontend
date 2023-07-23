@@ -129,11 +129,9 @@
     margin-top: -1rem;
     margin-left: 1.1rem;
     cursor: pointer;
+    color: var(--primary-color);
 
-    &:hover {
-      color: var(--primary-color);
     }
-  }
   .existing {
     color: var(--primary-color);
   }

@@ -71,9 +71,9 @@ const Packages = () => {
             </Breadcrumbs>
           </div>
 
-          <div className="package-card grid lg:grid-cols-6 md:grid-cols-3 grid-cols-2">
+          <div className="package-card grid lg:grid-cols-6 md:grid-cols-3 grid-cols-2 h-[24rem]">
             {myPackages.map((item, index) => (
-              <div key={index} className="card">
+              <div key={index} className="card h-[90%]">
                 <Image
                   className="package-img"
                   src={Images.packageIcon2}
@@ -126,7 +126,7 @@ const Packages = () => {
             ))}
 
             {myPackages.length <= 4 ? (
-              <div className="card add-new" onClick={() => setOpen(true)}>
+              <div className="card h-[90%] add-new" onClick={() => setOpen(true)}>
                 <Image
                   src={Images.addPackageIcon}
                   className="package-img"
@@ -137,7 +137,7 @@ const Packages = () => {
                 <h3 className="package-name">Add New</h3>
               </div>
             ) : (
-              <div className="card cannot-add">
+              <div className="card h-[90%] cannot-add">
                 <Image
                   src={Images.forbiddenIcon}
                   className="package-img"
