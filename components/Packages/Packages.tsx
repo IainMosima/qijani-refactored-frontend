@@ -1,35 +1,31 @@
+"use client";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
-import { PackageStructure } from "../../models/package";
-import { User } from "../../models/user";
 import { Images } from "../../constants";
 
-import "./Packages.scss";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
+import { setMypackages } from "@/redux/reducers/packagesReducer";
+import CircularProgress from "@mui/material/CircularProgress";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { deletePackage } from "../../network/package";
 import AddNewPackageModal from "./AddNewPackageModal/AddNewPackageModal";
-import { useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+import "./Packages.scss";
 
-interface PackageProps {
-  loggedInUser: User | null;
-  myPackages: PackageStructure[];
-  setMyPackages: React.Dispatch<React.SetStateAction<PackageStructure[]>>;
-}
-
-const Packages = ({
-  loggedInUser,
-  myPackages,
-  setMyPackages: setmyPackages,
-}: PackageProps) => {
+const Packages = () => {
+  const loggedInUser = useAppSelector((state) => state.login.user);
+  const myPackages = useAppSelector((state) => state.packages);
   const [open, setOpen] = useState(false);
   const navigate = useRouter();
+  const dispatch = useAppDispatch();
 
-  if (!loggedInUser) {
-    navigate.push("/loginSignup/packages");
-  }
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate.push("/loginSignup?message=packages");
+    }
+  }, [loggedInUser, navigate]);
 
   function onClose() {
     setOpen(false);
@@ -37,7 +33,7 @@ const Packages = ({
 
   async function removePackage(itemId: string) {
     const updatedPackages = myPackages.filter((item) => item._id !== itemId);
-    setmyPackages(updatedPackages);
+    dispatch(setMypackages(updatedPackages));
     try {
       await deletePackage(itemId);
     } catch (err) {
@@ -59,7 +55,6 @@ const Packages = ({
         <AddNewPackageModal
           open={open}
           onClose={onClose}
-          setMyPackages={setmyPackages}
           myPackages={myPackages}
           loggedInUser={loggedInUser}
         />
@@ -67,26 +62,21 @@ const Packages = ({
 
       {myPackages && (
         <>
-          <div className="crumbs">
+          <div className="crumbs mt-[5rem] cursor-pointer">
             <Breadcrumbs>
-              <Link underline="hover" href="/" style={{ color: "#E09132" }}>
-                Home
+              <Link underline="hover" style={{ color: "#E09132" }}>
+                <span onClick={()=>navigate.push('/')}>Home</span>
               </Link>
               <Typography color="text.primary">Packages</Typography>
             </Breadcrumbs>
           </div>
 
-          {!myPackages && (
-            <div className="spinner">
-              <CircularProgress size="4rem" color="inherit" />
-            </div>
-          )}
-          <div className="package-card">
+          <div className="package-card grid lg:grid-cols-6 md:grid-cols-3 grid-cols-2">
             {myPackages.map((item, index) => (
-              <div key={index} className="card">
+              <div key={index} className="card h-[23rem]">
                 <Image
                   className="package-img"
-                  src={Images.packageIcon}
+                  src={Images.packageIcon2}
                   alt="package-cion"
                 />
                 <h3 className="package-name">{item.packageName}</h3>
@@ -109,12 +99,16 @@ const Packages = ({
                     className="delete"
                     onClick={() => removePackage(item._id)}
                   >
-                    <Image src={Images.deleteIcon} alt="delete-icon" />
+                    <Image
+                      src={Images.deleteIcon}
+                      alt="delete-icon"
+                      width={30}
+                    />
                   </div>
 
                   {item.items && item.items.length > 1 ? (
                     <button
-                      className="view-checkout"
+                      className="view-checkout sm:text-[15px] text-[.8rem] px-1"
                       onClick={() => checkout(item._id)}
                     >
                       View / Checkout
@@ -132,20 +126,23 @@ const Packages = ({
             ))}
 
             {myPackages.length <= 4 ? (
-              <div className="card add-new" onClick={() => setOpen(true)}>
+              <div className="card h-[23rem] add-new flex place-items-center" onClick={() => setOpen(true)}>
                 <Image
                   src={Images.addPackageIcon}
                   className="package-img"
                   alt="add-icon"
+                  priority={true}
+                  width={130}
                 />
                 <h3 className="package-name">Add New</h3>
               </div>
             ) : (
-              <div className="card cannot-add">
+              <div className="car:h-[23rem] cannot-add">
                 <Image
                   src={Images.forbiddenIcon}
                   className="package-img"
                   alt="forbidden-icon"
+                  priority={true}
                 />
                 <h3 className="package-name">Cannot add</h3>
                 <p className="package-total">Only 5 packages allowed</p>

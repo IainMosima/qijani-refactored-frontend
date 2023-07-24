@@ -1,21 +1,21 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Images } from "../../constants";
-import { useDebounce } from "use-debounce";
 import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+import { Images } from "../../constants";
 
-import SearchBar from "./SearchBar/SearchBar";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
+import { userLogin, userLogout } from "@/redux/reducers/loginReducer";
+import { getMyPackages } from "@/redux/reducers/packagesReducer";
+import { store } from "@/redux/store";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Product } from "../../models/product";
 import * as ProductsApi from "../../network/products";
 import * as UserApi from "../../network/users";
 import "./Navbar.scss";
-import { Product } from "../../models/product";
-import { useAppSelector, useAppDispatch } from "@/hooks/reduxHook";
-import { checkLoggedInUser, userLogout } from "@/redux/reducers/loginReducer";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { store } from "@/redux/store";
-import { getMyPackages } from "@/redux/reducers/packagesReducer";
+import SearchBar from "./SearchBar/SearchBar";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -51,14 +51,18 @@ const Navbar = () => {
       perfomSearch();
     }
 
-    store.dispatch(checkLoggedInUser);
-    
-    store.dispatch(getMyPackages);
-
+    async function checkLoggedInUser() {
+      const user = await UserApi.getLoggedInUser();
+      if (user) {
+        dispatch(userLogin(user));
+        store.dispatch(getMyPackages);
+      }
+    }
+    checkLoggedInUser();
     return () => {
       setSearchResults([]);
     };
-  }, [debouncedQuery]);
+  }, [debouncedQuery, dispatch]);
 
   function search() {
     navigate.push(`/search/${query}`);
@@ -100,7 +104,7 @@ const Navbar = () => {
 
   function packageOnClickHandler() {
     if (!loggedInUser) {
-      navigate.push("/loginSignup/packages");
+      navigate.push("/loginSignup?message=packages");
     } else {
       navigate.push("/packages");
     }
@@ -188,7 +192,7 @@ const Navbar = () => {
           <div onClick={() => toggleHandler("myAccount")}>
             {loggedInUser.profileImgKey && (
               <Image
-                src={loggedInUser.profileImgKey}
+                src={`${process.env.NEXT_PUBLIC_USERSBUCKET}/${loggedInUser.profileImgKey}`}
                 alt="profile-pic"
                 className="profile-icon"
                 width={40}
@@ -214,7 +218,7 @@ const Navbar = () => {
               >
                 <ul>
                   {myAccount.map((item, index) => (
-                    <li key={index}>
+                    <li key={index} onClick={()=>navigate.push('/profile')}>
                       {<Image src={item.img} alt="my-profile-icon" />}{" "}
                       {item.name}
                     </li>
@@ -238,22 +242,24 @@ const Navbar = () => {
       {loggedInUser === null ? (
         <Link
           href={"/loginSignup"}
-          style={{ textDecoration: "none", color: "black"}}
+          style={{ textDecoration: "none", color: "black" }}
           className="lg:hidden inline-block"
         >
-          
-            <Image
-              src={Images.profileDefault}
-              alt="account-icon"
-              className="profile-icon"
-              width={40}
-            />
+          <Image
+            src={Images.profileDefault}
+            alt="account-icon"
+            className="profile-icon"
+            width={40}
+          />
         </Link>
       ) : (
-        <div onClick={() => toggleHandler("myAccount")} className="lg:hidden relative">
+        <div
+          onClick={() => toggleHandler("myAccount")}
+          className="lg:hidden relative"
+        >
           {loggedInUser.profileImgKey && (
             <Image
-              src={loggedInUser.profileImgKey}
+              src={`${process.env.NEXT_PUBLIC_USERSBUCKET}/${loggedInUser.profileImgKey}`}
               alt="profile-pic"
               className="profile-icon"
               width={40}
@@ -269,7 +275,7 @@ const Navbar = () => {
               alt="profile-icon"
             />
           )}
-          
+
           {accountToggle && (
             <motion.div
               whileInView={{ y: [0, 10] }}
@@ -278,12 +284,12 @@ const Navbar = () => {
             >
               <ul className="flex justify-center place-items-center flex-col rounded-[10px] gap-3">
                 {myAccount.map((item, index) => (
-                  <li key={index} className="flex place-items-center gap-3">
-                    <Image src={item.img} alt="my-profile-icon" width={30} /> {item.name}
+                  <li key={index} className="flex place-items-center gap-3" onClick={()=>navigate.push('/profile')}>
+                    <Image src={item.img} alt="my-profile-icon" width={30} />{" "}
+                    {item.name}
                   </li>
                 ))}
 
-                
                 <button
                   className="bg-green text-yellow rounded-md w-full"
                   style={{ paddingTop: 0 }}

@@ -10,6 +10,7 @@ import Loading from "../Loading/Loading";
 import AddPackageModal from "../Packages/AddPackageModal/AddPackageModal";
 import "./Categories.scss";
 import Category from "./Category/Category";
+import { Alert, Snackbar } from "@mui/material";
 
 interface CategoriesProps {
   categories: string[];
@@ -20,6 +21,13 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
   const [filteredResults, setFilteredResults] = useState<Product[]>([]);
   const [open, setOpen] = useState(true);
   const [price, setPrice] = useState(0);
+  const [successMessage, setSuccessMessage] = useState("Testing");
+
+  const [setsuccessfulyAdded, setSetsuccessfulyAdded] = useState(false);
+
+  function handleCloseSetsuccessfulyAdded() {
+    setSetsuccessfulyAdded(false);
+  }
 
   const navigate = useRouter();
 
@@ -27,7 +35,6 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
     (state) => state.selectedcategory.selectedCategory
   );
   const loggedInUser = useAppSelector((state) => state.login.user);
-  const myPackages = useAppSelector((state) => state.packages);
 
   function handleClose() {
     setOpen(false);
@@ -39,7 +46,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
       setOpen(true);
       setPrice(product.price);
     } else {
-      navigate.push("/loginSignup/add");
+      navigate.push("/loginSignup?message=add");
     }
   }
 
@@ -54,7 +61,17 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
   }, [selectedCategory]);
 
   return (
-    <div className="app__category sm:mt-[8.5rem] mt-[7.5rem]">
+    <div className="app__category sm:mt-[8.5rem] mt-[7.5rem] mb-[3rem]">
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={setsuccessfulyAdded}
+        onClose={handleCloseSetsuccessfulyAdded}
+        autoHideDuration={3000}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+        {successMessage}
+        </Alert>
+      </Snackbar>
       {selectedProduct && loggedInUser && (
         <AddPackageModal
           open={open}
@@ -63,6 +80,9 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
           product={selectedProduct}
           price={price}
           setPrice={setPrice}
+          setSetsuccessfulyAdded={setSetsuccessfulyAdded}
+          setSuccessMessage={setSuccessMessage}
+          selectedProduct={selectedProduct}
         />
       )}
       {selectedCategory === "All" ? (
@@ -109,8 +129,8 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
                 per kg
               </p>
               <div className="add">
-              <Image src={Images.addIcon} alt="add" width={25}/>
-              <Image src={Images.cartIcon} alt="add" width={25}/>
+                <Image src={Images.addIcon} alt="add" width={25} />
+                <Image src={Images.cartIcon} alt="add" width={25} />
               </div>
             </div>
           ))}

@@ -1,0 +1,56 @@
+.app__orders {
+    margin: 8rem auto 0;
+    height: 60vh;
+    
+
+    @media screen and (max-width: 768px){
+        margin-top: 6rem;
+    }
+
+    .results{
+        width: 90%;
+        margin-inline: auto;
+        .heading {
+            text-align: center;
+            color: var(--primary-color);
+        }
+    
+        .underline {
+            width: 3rem;
+            height: 0.5vh;
+            background-color: var(--primary-color);
+            margin: 0.3rem auto 4rem;
+        }
+    
+        .table-head {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            font-weight: 400;
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            @media screen and (max-width: 768px){
+                font-size: 1rem;
+            }
+        }
+    
+        .frame {
+            border-top: 3px solid var(--gray-color);
+            border-bottom: 3px solid var(--gray-color);
+            height: 25rem;
+            overflow-y: auto;
+        }
+
+        .order {
+            grid-template-columns: repeat(5, 1fr);
+
+        }
+
+    
+       
+    }   
+    
+
+
+
+}

@@ -1,3 +1,4 @@
+'use client';
 import Dialog from "@mui/material/Dialog";
 import { PackageStructure } from "../../../models/package";
 import { Images } from "../../../constants";
@@ -6,23 +7,24 @@ import { useForm } from "react-hook-form";
 import { User } from "../../../models/user";
 import { createNewPackage } from "../../../network/package";
 import Image from "next/image";
+import { useAppDispatch } from "@/hooks/reduxHook";
+import { setMypackages } from "@/redux/reducers/packagesReducer";
 
 interface AddNewPackageModalProps {
     open: boolean,
     onClose: () => void,
-    setMyPackages: React.Dispatch<React.SetStateAction<PackageStructure[]>>,
     myPackages: PackageStructure[],
     loggedInUser: User
 }
 
-const AddNewPackageModal = ({open ,onClose, setMyPackages, myPackages, loggedInUser } : AddNewPackageModalProps) => {
+const AddNewPackageModal = ({open ,onClose, myPackages, loggedInUser } : AddNewPackageModalProps) => {
     const { register, handleSubmit } = useForm();
-
+    const dispatch = useAppDispatch();
     async function onSubmit(data: Record<string, any>){
         const packageName = data.packageName;
         try {
           const newPackages = await createNewPackage({userId: loggedInUser._id, packageName: packageName});
-          setMyPackages([...myPackages, {_id: newPackages._id, userId: loggedInUser._id, packageName: packageName, items: packageName.items}]);
+          dispatch(setMypackages([...myPackages, {_id: newPackages._id, userId: loggedInUser._id, packageName: packageName, items: packageName.items}]));
             onClose();
         } catch (error) {
           console.log(error);
