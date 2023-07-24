@@ -166,7 +166,7 @@ const ProductDetails = ({
               type="number"
               ref={quantityInput}
               min="0"
-              defaultValue="1"
+              defaultValue={(calculatedPrice/productInfo.price).toFixed(1)}
               max="100"
               step="0.1"
               onChange={quantityChange}
@@ -185,7 +185,7 @@ const ProductDetails = ({
             <p className="sm:w-auto w-[1.2rem]">Ksh {calculatedPrice}</p>
           </div>
 
-          <Image src={Images.trashIcon} alt="delete-icon" className="cursor-pointer" width={25}/>
+          <Image src={Images.trashIcon} alt="delete-icon" className="cursor-pointer" width={25} onClick={()=>deleteItem(productInfo._id)}/>
         </div>
       )}
     </div>

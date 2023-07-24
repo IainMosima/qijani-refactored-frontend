@@ -30,7 +30,8 @@ export async function updatePackage(updateInfo: UpdatedPackage): Promise<Updated
         },
         body: JSON.stringify(updatadedPackage)
     });
-
+    
+    
     return response.json();
 }
 

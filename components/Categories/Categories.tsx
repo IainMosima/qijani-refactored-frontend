@@ -68,7 +68,7 @@ const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
         onClose={handleCloseSetsuccessfulyAdded}
         autoHideDuration={3000}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+        <Alert onClose={handleCloseSetsuccessfulyAdded} severity="success" sx={{ width: "100%" }}>
         {successMessage}
         </Alert>
       </Snackbar>

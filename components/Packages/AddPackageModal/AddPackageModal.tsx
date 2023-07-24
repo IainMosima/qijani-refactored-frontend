@@ -3,7 +3,11 @@ import { Images } from "../../../constants";
 import Dialog from "@mui/material/Dialog";
 import { useEffect, useRef, useState } from "react";
 import { User } from "../../../models/user";
-import { createNewPackage, fetchPackages, updatePackage } from "../../../network/package";
+import {
+  createNewPackage,
+  fetchPackages,
+  updatePackage,
+} from "../../../network/package";
 import { Product } from "../../../models/product";
 import {
   ItemStructure,
@@ -38,7 +42,7 @@ const AddPackageModal = ({
   setPrice,
   setSetsuccessfulyAdded,
   setSuccessMessage,
-  selectedProduct
+  selectedProduct,
 }: AddPackageModalProps) => {
   const myPackages = useAppSelector((state) => state.packages);
   const dispatch = useAppDispatch();
@@ -75,10 +79,8 @@ const AddPackageModal = ({
   useEffect(() => {
     if (quantityInput.current) {
       quantityInput.current.value = "1";
-      console.log("quantity");
     }
   }, []);
-  
 
   function priceCalc() {
     if (quantityInput.current?.value) {
@@ -231,7 +233,9 @@ const AddPackageModal = ({
             ])
           );
           setNewPackage(null);
-          setSuccessMessage(`Successfully added ${selectedProduct.productName} to package "${response.packageName}"`);
+          setSuccessMessage(
+            `Successfully added ${selectedProduct.productName} to package "${response.packageName}"`
+          );
           setSetsuccessfulyAdded(true);
           onClose();
         }
@@ -242,10 +246,13 @@ const AddPackageModal = ({
       try {
         const response = await updatePackage(addToExisting);
         const updatedPackages = await fetchPackages();
+
         if (response) {
           setisSubmitting(false);
           dispatch(setMypackages(updatedPackages));
-          setSuccessMessage(`Successfully updated ${selectedProduct.productName} to package "${response.data.packageName}"`);
+          setSuccessMessage(
+            `Successfully updated ${selectedProduct.productName} to package "${response.data.packageName}"`
+          );
           setSetsuccessfulyAdded(true);
           onClose();
         }
@@ -353,7 +360,11 @@ const AddPackageModal = ({
 
             {!existing && myPackages && myPackages.length <= 4 && (
               <div>
-                <p className="destination" text-yellow onClick={() => addToNewManager()}>
+                <p
+                  className="destination"
+                  text-yellow
+                  onClick={() => addToNewManager()}
+                >
                   Add to a new package?
                 </p>
               </div>
