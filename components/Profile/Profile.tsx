@@ -6,30 +6,34 @@ import Loading from '../Loading/Loading';
 import Image from "next/image";
 import { Images } from "@/constants";
 import { Input, Tooltip, Select, Button } from '@mantine/core';
+import { useAppSelector } from '@/hooks/reduxHook';
 
 
 interface ViewUserProfileProps {
     loggedInUser: User;
 }
 
-const ViewUserProfile = (/*{ loggedInUser }: ViewUserProfileProps*/) => {
-    // const userId = loggedInUser._id;
-    // const username = loggedInUser.username;
-    // const location = loggedInUser.location;
-    // const phoneNumber = loggedInUser.phoneNumber;
-    //    const navigate = useRouter();
+const ViewUserProfile = () => {
+    const user = useAppSelector(state => state.login.user)
 
     return (
         <div className="app__profile sm:mt-[8.5rem] mt-[7.5rem]">
             <div className="profile_intro">
                 <div className="mini_intro">
-                    <Image className="intro_image" src={Images.profile} alt="default" />
+                    {user?.profileImgKey && (
+                        <Image
+                            className="intro_image"
+                            width={40}
+                            height={40}
+                            src={user?.profileImgKey}
+                            alt="default" />
+                    )}
                     <Image className="edit1" src={Images.edit} alt="edit-icon" />
                 </div>
                 <div className="mini_intro">
                     <div className="mini_details">
-                        <p><b>Default User</b></p>
-                        <small>Location</small>
+                        <p><b>{user?.username}</b></p>
+                        <small>{user?.location}</small>
                     </div>
                     <Image className="edit1" src={Images.edit} alt="edit-icon" />
                 </div>
@@ -40,7 +44,7 @@ const ViewUserProfile = (/*{ loggedInUser }: ViewUserProfileProps*/) => {
                     <div className="phone_mini">
                         <h3><b>PHONE</b></h3>
                         <div className="number">
-                            <p>+25412345678</p>
+                            <p>{user?.phoneNumber}</p>
                             <Image className="edit1" src={Images.edit} alt="edit-icon" />
                         </div>
                     </div>
@@ -50,7 +54,7 @@ const ViewUserProfile = (/*{ loggedInUser }: ViewUserProfileProps*/) => {
                     <div className="email_mini">
                         <h3><b>EMAIL</b></h3>
                         <div className="mail">
-                            <p>user@gmail.com</p>
+                            <p>{user?.email}</p>
                             <Image className="edit1" src={Images.edit} alt="edit-icon" />
                         </div>
                     </div>

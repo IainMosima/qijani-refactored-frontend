@@ -1,4 +1,6 @@
 .app__footer {
+    bottom: 0;
+    position: relative;
     width: 100%;
     height: auto;
     margin-top: 7rem;
@@ -6,6 +8,10 @@
     display: flex;
     flex-direction: column;
     font-family: var(--zilla-font);
+
+    @media screen and (max-width: 768px) {
+        margin-bottom: 60px;
+    }
 
     .upper-section {
         display: flex;
