@@ -6,6 +6,7 @@ import { getPackage } from "../../network/package";
 import CheckOutModal from "./CheckOutModal/CheckOutModal";
 import "./Checkout.scss";
 import ProductDetails from "./ProductDetails/ProductDetails";
+import Loading from "../Loading/Loading";
 
 interface CheckoutProps {
   packageId: string | null;
@@ -65,7 +66,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           onClose={onClose}
         />
       )}
-      {packageInfo && (
+      {packageInfo.items && packageInfo.items?.length > 0 ? (
         <div>
           <h2 className="package-name font-bold text-xl">
             Checking out: {packageName.current} ({items?.length} items)
@@ -98,23 +99,31 @@ const Checkout = ({ packageId }: CheckoutProps) => {
             ))}
           </div>
         </div>
-      )}
-      <div className="footer-price">
-        <div className="price-card">
-          <h3>Subtotal</h3>
-          <h3 className="price">Ksh {total * 0.8}</h3>
-
-          <h3>VAT</h3>
-          <h3 className="price">Ksh {total * 0.2}</h3>
-
-          <h3>Grand Total</h3>
-          <h3 className="price grand-total">Ksh {total}</h3>
+      ) : (
+        <div className="h-[50vh] flex justify-center  place-items-center">
+        <Loading />
         </div>
-      </div>
+      )}
+      {packageInfo.items && packageInfo.items?.length > 0 && (
+        <>
+          <div className="footer-price">
+            <div className="price-card">
+              <h3>Subtotal</h3>
+              <h3 className="price">Ksh {total * 0.8}</h3>
 
-      <div className="footer-checkout">
-        <button onClick={() => setOpen(true)}>Checkout</button>
-      </div>
+              <h3>VAT</h3>
+              <h3 className="price">Ksh {total * 0.2}</h3>
+
+              <h3>Grand Total</h3>
+              <h3 className="price grand-total">Ksh {total}</h3>
+            </div>
+          </div>
+
+          <div className="footer-checkout">
+            <button onClick={() => setOpen(true)}>Checkout</button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
