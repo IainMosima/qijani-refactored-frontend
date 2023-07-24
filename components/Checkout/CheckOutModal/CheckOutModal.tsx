@@ -92,7 +92,7 @@ const CheckOutModal = ({ loggedInUser, price, packageId, open, onClose }: CheckO
 
                 <div className={`${phoneNumberClassName} phone-stuff`}>
                     <Image priority={true} src={Images.phoneIcon} alt='profile-icon'/>
-                    <p className="mobile-number">+254</p>
+                    <div className="mobile-number">+254</div>
                     <input type='text' placeholder="Mpesa Number" value={phoneNumber} ref={fieldPhoneNumber} onChange={onPhoneNumberChange}/>
                 </div>
 
@@ -105,7 +105,7 @@ const CheckOutModal = ({ loggedInUser, price, packageId, open, onClose }: CheckO
                         <p>Pay Now</p>
                     }
                     {isSubmitting &&
-                        <CircularProgress color="inherit"/>
+                        <CircularProgress color="inherit" size={30}/>
                     }
                 </button>
             </div>
