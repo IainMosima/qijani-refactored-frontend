@@ -8,6 +8,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import { useAppSelector } from '@/hooks/reduxHook';
 // import { useRouter } from 'next/navigation';
 
 const BottomNav = () => {
@@ -15,7 +16,10 @@ const BottomNav = () => {
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
-    };
+    }
+
+    const loggedInUser = useAppSelector((state) => state.login.user);
+
 
     // const router = useRouter();
 
@@ -45,13 +49,25 @@ const BottomNav = () => {
                         icon={<InventoryIcon />}
                     />
                 </Link>
-                <Link href="/profile">
-                    <BottomNavigationAction
-                        label="Profile"
-                        value="profile"
-                        icon={<AccountBoxIcon />}
-                    />
-                </Link>
+
+                {loggedInUser === null ? (
+                    <Link href="/loginSignup">
+                        <BottomNavigationAction
+                            label="Profile"
+                            value="profile"
+                            icon={<AccountBoxIcon />}
+                        />
+                    </Link>
+                ) : (
+                    <Link href="/profile">
+                        <BottomNavigationAction
+                            label="Profile"
+                            value="profile"
+                            icon={<AccountBoxIcon />}
+                        />
+                    </Link>
+                )}
+
             </BottomNavigation>
         </Paper>
     );

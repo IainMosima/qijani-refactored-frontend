@@ -8,6 +8,7 @@
         font-family: var(--zilla-font);
 
         .mini_intro {
+            margin-top: 5px;
             display: flex;
             flex-direction: row;
             gap: 30px;
@@ -34,6 +35,17 @@
                 flex-direction: column;
                 gap: 0;
             }
+
+            .mini_details2 {
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+
+                .mini_details3 {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
         }
 
         .edit1 {
@@ -51,7 +63,7 @@
         display: flex;
         flex-direction: column;
         margin-left: 3%;
-        margin-top: 10vh;
+        margin-top: 7vh;
         margin-bottom: 10px;
         margin-right: 7px;
         padding-top: 10px;
@@ -182,6 +194,12 @@
                     width: 35vw !important;
                 }
             }
+
+            .info {
+                opacity: 0.4;
+                width: 20px;
+                height: 20px;
+            }
         }
 
         .landmark {
@@ -226,12 +244,12 @@
         }
 
         .save {
+            height: 50px;
             font-family: var(--zilla-font) !important;
             float: right;
             background-color: #F5F5F5 !important;
 
             :hover {
-                transform: scale(1.04);
                 opacity: 0.9;
             }
 
@@ -242,5 +260,72 @@
                 }
             }
         }
+    }
+
+    .input-warning {
+        input {
+            &:focus {
+                outline-color: var(--red-color);
+            }
+        }
+    }
+
+    .input-ok {
+        input {
+            &:focus {
+                outline-color: var(--success-color);
+            }
+        }
+    }
+
+    .usernameInput {
+        display: none;
+    }
+
+    .username-input {
+        display: block;
+    }
+
+    .icon {
+        height: 35px;
+        width: 30px;
+    }
+
+    .icon2 {
+        height: 35px;
+        width: 30px;
+        margin-top: 15px;
+    }
+
+    .input {
+        border: solid !important;
+        border-width: 1px !important;
+        border-color: rgb(165, 164, 164) !important;
+        border-radius: 3px;
+        padding-left: 5px;
+        width: 51vw;
+        height: 35px !important;
+
+        @media screen and (min-width: 600px) {
+            width: 35vw !important;
+        }
+    }
+
+    .label {
+        color: var(--primary-color);
+    }
+
+    .select {
+        width: 51vw;
+        height: 35px !important;
+        opacity: 0.6;
+
+        @media screen and (min-width: 600px) {
+            width: 35vw !important;
+        }
+    }
+
+    .text-danger {
+        color: red;
     }
 }

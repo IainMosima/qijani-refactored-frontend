@@ -51,7 +51,7 @@ const SignUpForm = () => {
     formData.append("phoneNumber", credentials.phoneNumber);
     formData.append("location", credentials.location);
     formData.append("password", credentials.password);
-    formData.append("profileImg", credentials.profileImg[0]);
+    // formData.append("profileImg", credentials.profileImg[0]);
 
     try {
       const user = await signUp(formData);
@@ -171,7 +171,7 @@ const SignUpForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         {usernameMessage && <p className="text-danger">{usernameMessage}</p>}
         <div className={usernameClassname}>
-          <Image src={Images.accountIcon} alt="profile-icon" />
+          <Image className="icon" src={Images.accountIcon} alt="profile-icon" />
           <input
             type="text"
             placeholder="Username"
@@ -182,7 +182,7 @@ const SignUpForm = () => {
 
         {emailMessage && <p className="text-danger">{emailMessage}</p>}
         <div className={emailClassname}>
-          <Image src={Images.emailIcon} alt="profile-icon" />
+          <Image className="icon" src={Images.emailIcon} alt="profile-icon" />
           <input
             type="email"
             placeholder="Email"
@@ -195,7 +195,7 @@ const SignUpForm = () => {
           <p className="text-danger">{phoneNumberMessage}</p>
         )}
         <div className={phoneNumberClassName}>
-          <Image src={Images.phoneIcon} alt="profile-icon" />
+          <Image className="icon" src={Images.phoneIcon} alt="profile-icon" />
           <p className="mobile-number">+254</p>
           <input
             type="text"
@@ -206,7 +206,7 @@ const SignUpForm = () => {
 
         {passwordMessage && <p className="text-danger">{passwordMessage}</p>}
         <div className={passwordClassname}>
-          <Image src={Images.passwordLockIcon} alt="profile-icon" />
+          <Image className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
           <input
             type="password"
             placeholder="Password"
@@ -218,7 +218,7 @@ const SignUpForm = () => {
           <p className="text-danger">{confirmPasswordMessage}</p>
         )}
         <div className={confirmPasswordClassName}>
-          <Image src={Images.passwordLockIcon} alt="profile-icon" />
+          <Image className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
           <input
             type="password"
             placeholder="Confirm Password"
@@ -226,14 +226,14 @@ const SignUpForm = () => {
           />
         </div>
 
-        <div>
+        {/* <div className="input">
           <p>Profile picture</p>
           <input
             type="file"
             placeholder="profile"
             {...register("profileImg", { onChange: profileImageChange })}
           />
-        </div>
+        </div> */}
         {selectedProfileImage && (
           <div>
             <p>Profile Image:</p>

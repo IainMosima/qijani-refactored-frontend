@@ -60,7 +60,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
           <p className="text-danger">Email or Username is required</p>
         )}
         <div>
-          <Image src={Images.accountIcon} alt="profile-icon" />
+          <Image className="icon" src={Images.accountIcon} alt="profile-icon" />
           <input
             type="text"
             placeholder="Username or Email"
@@ -70,7 +70,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
 
         {errors.password && <p className="text-danger">Password is required</p>}
         <div>
-          <Image src={Images.passwordLockIcon} alt="profile-icon" />
+          <Image className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
           <input
             type="password"
             placeholder="Password"
