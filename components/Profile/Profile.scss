@@ -328,4 +328,24 @@
     .text-danger {
         color: red;
     }
+
+    .modal {
+        .submit {
+            margin-top: 5px !important;
+            margin-right: 2px;
+            position: absolute;
+
+            @media screen and (max-width: 500px) {
+                :hover {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+        }
+
+        .confirm {
+            margin-bottom: 8px;
+        }
+    }
+
 }

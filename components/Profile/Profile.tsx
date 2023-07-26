@@ -7,7 +7,8 @@ import Loading from '../Loading/Loading';
 import isEmailValid from "../../utils/isEmailValid";
 import Image from "next/image";
 import { Images } from "@/constants";
-import { Input, Tooltip, Select, Button } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { Input, Tooltip, Select, Button, Modal, PasswordInput } from '@mantine/core';
 import { useAppSelector } from '@/hooks/reduxHook';
 import { useAppDispatch } from "@/hooks/reduxHook";
 import { updateProfile } from '@/network/users';
@@ -39,12 +40,12 @@ const ViewUserProfile = () => {
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumberClassName2, setPhoneNumberClassName2] = useState("phone");
 
-    // const [passwordClassname, setPasswordClassname] = useState("");
-    // const [passwordMessage, setPasswordMessage] = useState("");
-    // const [password, setPassword] = useState("");
+    const [passwordClassname, setPasswordClassname] = useState("");
+    const [passwordMessage, setPasswordMessage] = useState("");
+    const [password, setPassword] = useState("");
 
-    // const [confirmPasswordClassName, setConfirmPasswordClassName] = useState("");
-    // const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
+    const [confirmPasswordClassName, setConfirmPasswordClassName] = useState("");
+    const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
 
     const [username, setUsername] = useState(user?.username);
     const [location, setLocation] = useState(user?.location);
@@ -56,6 +57,8 @@ const ViewUserProfile = () => {
     // const [selectedProfileImage, setSelectedProfileImage] = useState<
     //     File | undefined
     // >();
+
+    const [opened, { open, close }] = useDisclosure(false);
 
     const {
         register,
@@ -203,35 +206,35 @@ const ViewUserProfile = () => {
         }, 1500);
     }
 
-    // function onPasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
-    //     const password = event.target.value;
+    function onPrevPasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const prevPassword = event.target.value;
 
-    //     setTimeout(() => {
-    //         const message = isPasswordOk(password);
-    //         if (typeof message === "string") {
-    //             setPasswordClassname("input-warning");
-    //             setPasswordMessage(message);
-    //         } else {
-    //             setPasswordClassname("input-ok");
-    //             setPasswordMessage("");
-    //             setPassword(password);
-    //         }
-    //     }, 1700);
-    // }
+        setTimeout(() => {
+            const message = isPasswordOk(prevPassword);
+            if (typeof message === "string") {
+                setPasswordClassname("input-warning");
+                setPasswordMessage(message);
+            } else {
+                setPasswordClassname("input-ok");
+                setPasswordMessage("");
+                setPassword(prevPassword);
+            }
+        }, 1700);
+    }
 
-    // function confirmPasswordChange(event: any) {
-    //     const confirmPassword = event.target.value;
+    function onNewPasswordChange(event: any) {
+        const newPassword = event.target.value;
 
-    //     setTimeout(() => {
-    //         if (confirmPassword !== password) {
-    //             setConfirmPasswordClassName("input-warning");
-    //             setConfirmPasswordMessage("Passwords do not match");
-    //         } else {
-    //             setConfirmPasswordClassName("input-ok");
-    //             setConfirmPasswordMessage("");
-    //         }
-    //     }, 1000);
-    // }
+        setTimeout(() => {
+            if (newPassword !== password) {
+                setConfirmPasswordClassName("input-warning");
+                setConfirmPasswordMessage("Passwords do not match");
+            } else {
+                setConfirmPasswordClassName("input-ok");
+                setConfirmPasswordMessage("");
+            }
+        }, 1000);
+    }
 
     // function profileImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     //     let file;
@@ -473,7 +476,9 @@ const ViewUserProfile = () => {
                     </div>
                 </div>
                 <div className="bottom_details">
-                    <p className="change">Change password?</p>
+                    <a onClick={open}>
+                        <p className="change">Change password?</p>
+                    </a>
                     <Button type='submit' className="save" variant="white" color="gray">
                         {!isSubmitting && <p>Save Changes</p>}
                         {isSubmitting && <CircularProgress color="inherit" />}
@@ -481,6 +486,37 @@ const ViewUserProfile = () => {
 
                 </div>
             </form>
+            <Modal className="modal" opened={opened} onClose={close} title="Password Reset" centered>
+                <div className="">
+                    <div>
+                        {passwordMessage && <small className="text-danger">{passwordMessage}</small>}
+                        <PasswordInput
+                            label="Old Password"
+                            description="Password must include at least one letter, number and special character!!"
+                            withAsterisk
+                            required
+                            {...register("prevPassword", { onChange: onPrevPasswordChange })}
+                            placeholder="Enter your previous password..."
+                        />
+                    </div>
+                </div>
+                <div className="confirm">
+                    <div>
+                        {confirmPasswordMessage && <small className="text-danger">{confirmPasswordMessage}</small>}
+                        <PasswordInput
+                            label="New Password"
+                            description="Password must include at least one letter, number and special character!!"
+                            withAsterisk
+                            required
+                            {...register("newPassword", { onChange: onNewPasswordChange })}
+                            placeholder="Enter your new password..."
+                        />
+                    </div>
+                </div>
+                <div className="submit">
+                    <Button type='submit'>Submit</Button>
+                </div>
+            </Modal>
             {/* <div className="mt-[23rem]">
                 <Loading />
             </div> */}
