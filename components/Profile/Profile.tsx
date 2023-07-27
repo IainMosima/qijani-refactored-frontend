@@ -8,7 +8,7 @@ import isEmailValid from "../../utils/isEmailValid";
 import Image from "next/image";
 import { Images } from "@/constants";
 import { useDisclosure } from '@mantine/hooks';
-import { Input, Tooltip, Select, Button, Modal, PasswordInput } from '@mantine/core';
+import { Input, Tooltip, Select, Button, Modal, PasswordInput, Group } from '@mantine/core';
 import { useAppSelector } from '@/hooks/reduxHook';
 import { useAppDispatch } from "@/hooks/reduxHook";
 import { updateProfile } from '@/network/users';
@@ -486,14 +486,23 @@ const ViewUserProfile = () => {
 
                 </div>
             </form>
-            <Modal className="modal" opened={opened} onClose={close} title="Password Reset" centered>
-                <div className="">
+            <Modal
+                size="md"
+                className="modal"
+                opened={opened}
+                onClose={close}
+                title="Password Reset"
+                centered
+                transitionProps={{ transition: 'fade', duration: 600, timingFunction: 'linear' }}
+            >
+                <div className="new">
                     <div>
                         {passwordMessage && <small className="text-danger">{passwordMessage}</small>}
                         <PasswordInput
                             label="Old Password"
                             description="Password must include at least one letter, number and special character!!"
                             withAsterisk
+                            data-autofocus
                             required
                             {...register("prevPassword", { onChange: onPrevPasswordChange })}
                             placeholder="Enter your previous password..."
@@ -513,8 +522,10 @@ const ViewUserProfile = () => {
                         />
                     </div>
                 </div>
-                <div className="submit">
-                    <Button type='submit'>Submit</Button>
+                <div className="submit mt-4">
+                    <Group position="center">
+                        <Button variant="outline" type='submit'>Submit</Button>
+                    </Group>
                 </div>
             </Modal>
             {/* <div className="mt-[23rem]">
