@@ -15,7 +15,7 @@ const ProductsResults = ({
   return (
     <div>
       <CategoriesSelector categories={["All", ...categories]} />
-      <Categories categories={categories} sampleProducts={sampleProducts} />
+      <Categories sampleProducts={sampleProducts} />
     </div>
   );
 };

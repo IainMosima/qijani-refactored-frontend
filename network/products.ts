@@ -20,16 +20,27 @@ export async function fetchCategories(): Promise<string[]> {
 }
 
 // fetching a category
-export async function fetchCategory(category: string, records?: number): Promise<Product[]> {
+export async function fetchCategory(category: string, records?: number, server=false): Promise<Product[]> {
     let response;
 
-    if (records){
-        response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}&records=${records}`, {
-            cache: 'no-store'
-        });
+    if(server) {
+        if (records){
+            response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}&records=${records}`, {
+                cache: 'no-store'
+            });
+        } else {
+            response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}`);
+        }
     } else {
-        response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}`);
+        if (records){
+            response = await fetchData(`/api/v1/products/category?category=${category}&records=${records}`, {
+                cache: 'no-store'
+            });
+        } else {
+            response = await fetchData(`/api/v1/products/category?category=${category}`);
+        }
     }
+
 
     return response.json();
 }

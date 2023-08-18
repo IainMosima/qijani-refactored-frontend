@@ -13,10 +13,9 @@ import Category from "./Category/Category";
 import { Alert, Snackbar } from "@mui/material";
 
 interface CategoriesProps {
-  categories: string[];
   sampleProducts: CategoriesData[];
 }
-const Categories = ({ categories, sampleProducts }: CategoriesProps) => {
+const Categories = ({ sampleProducts }: CategoriesProps) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>();
   const [filteredResults, setFilteredResults] = useState<Product[]>([]);
   const [open, setOpen] = useState(true);
