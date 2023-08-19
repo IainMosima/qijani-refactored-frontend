@@ -57,11 +57,7 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
 
         return () => clearTimeout(messageTimer);
 
-    }, [errorText, loggedInUser, message, messages.add, messages.orders, messages.packages, navigate])
-
-    console.log(message);
-
-
+    }, [errorText, loggedInUser, message, messages.add, messages.orders, messages.packages, navigate]);
 
     function toggleHandler(option: string) {
         switch (option) {
