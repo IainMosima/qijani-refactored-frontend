@@ -1,9 +1,5 @@
-import { loginCredentials } from "@/models/loginCredentials";
 import { User } from "@/models/user";
-import { fetchPackages } from "@/network/package";
-import { getLoggedInUser, getUserProfileImageSignedUrl, login } from "@/network/users";
-import { Dispatch, createSlice } from "@reduxjs/toolkit";
-import { setMypackages } from "./packagesReducer";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface LoginState {
   user: User | null,

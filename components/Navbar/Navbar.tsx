@@ -26,7 +26,7 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [categoryToggle, setcategoryToggle] = useState(false);
   const [accountToggle, setAccountToggle] = useState(false);
-  const resultAvailable = searchResults.length > 0 ? true : false;
+  const [resultAvailable, setResultAvailable] = useState(searchResults.length > 0 ? true : false); 
   const navigate = useRouter();
 
   const myAccount = [
@@ -45,6 +45,8 @@ const Navbar = () => {
     async function perfomSearch() {
       const results = await ProductsApi.searchFunction(debouncedQuery);
       setSearchResults(results);
+      setResultAvailable(true);
+
     }
 
     if (debouncedQuery) {
@@ -64,8 +66,14 @@ const Navbar = () => {
     };
   }, [debouncedQuery, dispatch]);
 
+  function clear() {
+    setQuery('');
+    setResultAvailable(false);
+  }
+
   function search() {
     navigate.push(`/search/${query}`);
+    setResultAvailable(false);
   }
 
   function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -132,11 +140,12 @@ const Navbar = () => {
             throw new Error("Function not implemented.");
           }}
           search={search}
+          clear={clear}
         />
 
-        {resultAvailable && (
+        {resultAvailable &&  searchResults.length > 0 && (
           <div className="search-results lg:left-[8.5rem]">
-            <ul className="lg:w-[40rem] md:w-[23rem] w-[13rem]">
+            <ul className="lg:w-[30rem] md:w-[23rem] w-[13rem]">
               {searchResults.map((item, index) => (
                 <div
                   onClick={() => {

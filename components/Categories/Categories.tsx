@@ -20,7 +20,7 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
   const [filteredResults, setFilteredResults] = useState<Product[]>([]);
   const [open, setOpen] = useState(true);
   const [price, setPrice] = useState(0);
-  const [successMessage, setSuccessMessage] = useState("Testing");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [setsuccessfulyAdded, setSetsuccessfulyAdded] = useState(false);
 
