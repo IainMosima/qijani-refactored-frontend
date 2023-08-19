@@ -16,6 +16,7 @@ import * as ProductsApi from "../../network/products";
 import * as UserApi from "../../network/users";
 import "./Navbar.scss";
 import SearchBar from "./SearchBar/SearchBar";
+import { getMyOrders } from "@/redux/reducers/OrdersReducer";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -58,6 +59,7 @@ const Navbar = () => {
       if (user) {
         dispatch(userLogin(user));
         store.dispatch(getMyPackages);
+        store.dispatch(getMyOrders);
       }
     }
     checkLoggedInUser();
@@ -118,6 +120,14 @@ const Navbar = () => {
     }
   }
 
+  function orderOnClickHandler() {
+    if (!loggedInUser) {
+      navigate.push("/loginSignup?message=orders");
+    } else {
+      navigate.push("/orders");
+    }
+  }
+
   return (
     <nav className="flex justify-evenly items-center w-full py-2 app__navbar bg-white z-20">
       <div className="basis-1/6">
@@ -139,6 +149,7 @@ const Navbar = () => {
           setQuery={function (event: string): void {
             throw new Error("Function not implemented.");
           }}
+          setResultAvailable={setResultAvailable}
           search={search}
           clear={clear}
         />
@@ -173,15 +184,15 @@ const Navbar = () => {
           <h4>Packages</h4>
         </div>
 
-        <Link
-          href={"/orders"}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <div>
-            <Image src={Images.orderIcon} alt="package-icon" className="icon" />
-            <h4>Orders</h4>
-          </div>
-        </Link>
+        <div onClick={() => orderOnClickHandler()}>
+          <Image
+            src={Images.orderIcon}
+            alt="order-icon"
+            className="icon"
+          />
+          <h4>Orders</h4>
+        </div>
+
 
         {loggedInUser === null ? (
           <Link

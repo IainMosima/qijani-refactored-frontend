@@ -9,18 +9,24 @@ interface SearchBarProps {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   search: () => void;
   clear: () => void;
+  setResultAvailable: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
 
-const SearchBar = ({ query, handleInputChange, search, clear }: SearchBarProps) => {
+const SearchBar = ({ query, handleInputChange, search, clear, setResultAvailable }: SearchBarProps) => {
   function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
       const searchButton = document.getElementById('searchButton') as HTMLButtonElement | null;
       if (searchButton) {
         searchButton.click();
+        
       }
 
     }
+  }
+  function searchHandler() {
+    search();
+    setResultAvailable(false);
   }
 
   return (
@@ -37,13 +43,13 @@ const SearchBar = ({ query, handleInputChange, search, clear }: SearchBarProps) 
         <div
           className="absolute p-2 bg-green rounded-full sm:h-[1.7rem] sm:w-[1.7rem] h-[1.5rem] w-[1.5rem] lg:left-[37.5rem] md:left-[19.5rem] left-[9rem] sm:top-[9px] top-[8px] cursor-pointer flex justify-center place-items-center"
           onClick={() => clear()}>
-          <Image src={Images.closeWhiteIcon} alt="close-white-icon" width={15} />
+          <Image src={Images.closeWhiteIcon} alt="close-white-icon" width={15} priority={true}/>
         </div>
       }
       <button
         className="lg:w-[4.5rem] md:w-[4.5rem] w-[3rem] sm:h-[3rem] h-[2.5rem]"
         id='searchButton'
-        onClick={() => { search() }}
+        onClick={() => searchHandler()}
       >
         <Image src={Images.searchIcon} alt="search-icon" height={30} />
       </button>

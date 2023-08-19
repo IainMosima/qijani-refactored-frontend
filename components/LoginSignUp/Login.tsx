@@ -28,7 +28,6 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
   } = useForm<loginCredentials>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.login.user);
-  // console.log(user);
   const registerOptions = {
     usernameEmail: { required: "Name or UserName is required" },
     password: { required: "Password is required" },

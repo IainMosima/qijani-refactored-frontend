@@ -3,11 +3,9 @@ import { useEffect, useState } from "react";
 import LoginForm from "./Login";
 import SignUpForm from "./Signup";
 
-import "./forms.scss";
-import { User } from "../../models/user";
-import { PackageStructure } from "../../models/package";
 import { useAppSelector } from "@/hooks/reduxHook";
 import { useRouter } from "next/navigation";
+import "./forms.scss";
 
 interface LoginSignUpProps {
     message?: string,
@@ -18,47 +16,51 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
     const [signUpToggle, setSignUpToggle] = useState(false);
     const [errorText, setErrorText] = useState<string | null>(null);
     const [showMessage, setShowMessage] = useState(true);
-    const loggedInUser = useAppSelector(state => state.login.user)
+    const loggedInUser = useAppSelector(state => state.login.user);
+    const [displayMessage, setDisplayMessage] = useState('');
 
 
-    
     const navigate = useRouter();
-    let displayMessage;
-
+    
+    
     const messages = {
         packages: 'Login in to access packages',
         add: 'Login to add an item to a package',
         orders: 'Login to access orders',
     }
-
-    if (message === 'packages') {
-        displayMessage = messages.packages;
-
-    } else if (message === 'add') {
-        displayMessage = messages.add;
-    } 
     
-    if (loggedInUser) {
-        if (message === 'packages') {
-            navigate.push('/packages');
-        } else if(message === 'orders'){
-            navigate.push('/orders');
-        } else {
-            navigate.push('/');
-        }
-    }
-
     useEffect(() => {
+        function messager() {
+            if (message === 'packages') {
+                setDisplayMessage(messages.packages);
+
+            } else if (message === 'add') {
+                setDisplayMessage(messages.add);
+            } else if (message === 'orders') {
+                setDisplayMessage(messages.orders);
+            }
+
+            if (loggedInUser) {
+                if (message === 'packages') {
+                    navigate.push('/packages');
+                } else if (message === 'orders') {
+                    navigate.push('/orders');
+                } else {
+                    navigate.push('/');
+                }
+            }
+        }
+        messager();
         const messageTimer = setTimeout(() => {
             setShowMessage(false);
         }, 3000);
-        
-      return () => clearTimeout(messageTimer);
 
-    }, [errorText])
+        return () => clearTimeout(messageTimer);
 
-    
-    
+    }, [errorText, loggedInUser, message, messages.add, messages.orders, messages.packages, navigate])
+
+    console.log(message);
+
 
 
     function toggleHandler(option: string) {
@@ -72,7 +74,7 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
                 setSignUpToggle(true);
                 setLoginToggle(false);
                 break;
-            
+
             default:
                 setSignUpToggle(false);
                 setLoginToggle(false);
@@ -89,29 +91,29 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
             }
             <div className="body">
                 <div className="navigators">
-                    <h3 
-                     className={loginToggle ? 'active': ''}
-                     onClick={()=>toggleHandler('login')}
-                     >login</h3>
                     <h3
-                     className={signUpToggle ? 'active' : ''}
-                     onClick={()=>toggleHandler('signup')}
+                        className={loginToggle ? 'active' : ''}
+                        onClick={() => toggleHandler('login')}
+                    >login</h3>
+                    <h3
+                        className={signUpToggle ? 'active' : ''}
+                        onClick={() => toggleHandler('signup')}
                     >signup</h3>
                 </div>
-                
+
                 {loginToggle &&
                     <LoginForm
-                     setErrorText={setErrorText}
+                        setErrorText={setErrorText}
                     />
                 }
 
                 {signUpToggle &&
-                    <SignUpForm/>
+                    <SignUpForm />
                 }
-                
+
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default LoginSignUp;

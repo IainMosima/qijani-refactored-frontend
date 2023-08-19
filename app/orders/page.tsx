@@ -1,8 +1,11 @@
-import React from 'react';
+import { Orders } from '@/components'
+import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <Orders/>
+    </div>
   )
 }
 
