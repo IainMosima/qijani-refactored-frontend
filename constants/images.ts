@@ -35,6 +35,7 @@ import cashIcon from "../public/assets/cash.png";
 import plusIcon from "../public/assets/plus.png";
 import minusIcon from "../public/assets/minus.png";
 import closeWhiteIcon from "../public/assets/close-white.png";
+import locationIcon from "../public/assets/location.png";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     logo,
@@ -74,4 +75,5 @@ export default {
     cashIcon,
     plusIcon,
     minusIcon,
+    locationIcon,
 }
