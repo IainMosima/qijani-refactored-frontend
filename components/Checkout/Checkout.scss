@@ -25,7 +25,7 @@
     grid-template-columns: 2.3fr 1.1fr 2fr 1.1fr 1fr;
     font-weight: 400 !important;
     font-size: 2rem;
-    
+
     place-items: center;
     align-items: center;
     @media screen and (max-width: 768px) {
@@ -40,10 +40,10 @@
     overflow-y: auto;
   }
 
-  .footer-price {
+  .footer {
     margin-top: 1.3rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 
     .price-card {
@@ -93,6 +93,82 @@
       cursor: pointer;
       border-radius: 7px;
       font-size: 1.3rem;
+    }
+  }
+}
+
+.delivery_details {
+  .input-warning {
+    input {
+      &:focus {
+        outline-color: var(--red-color);
+      }
+    }
+  }
+
+  .input-ok {
+    input {
+      &:focus {
+        outline-color: var(--success-color);
+      }
+    }
+  }
+
+  .usernameInput {
+    display: none;
+  }
+
+  .county {
+    margin-top: 15px;
+    margin-left: 2%;
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+
+    .mantine-Input-input {
+      @media screen and (min-width: 600px) {
+        width: 35vw !important;
+      }
+    }
+  }
+
+  .area {
+    margin-top: 15px;
+    margin-left: 2%;
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+
+    .mantine-Input-input {
+      @media screen and (min-width: 600px) {
+        width: 35vw !important;
+      }
+    }
+
+    .info {
+      opacity: 0.4;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .landmark {
+    margin-top: 15px;
+    margin-left: 2%;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+
+    .mantine-Input-input {
+      @media screen and (min-width: 600px) {
+        width: 35vw !important;
+      }
+    }
+
+    .info {
+      opacity: 0.4;
+      width: 20px;
+      height: 20px;
     }
   }
 }

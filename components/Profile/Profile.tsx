@@ -1,19 +1,17 @@
 "use client";
-import "./Profile.scss";
+import { Images } from "@/constants";
+import { useAppSelector } from '@/hooks/reduxHook';
+import { updateProfile } from '@/network/users';
+import isPasswordOk from '@/utils/isPasswordOk';
+import { Button, Group, Input, Modal, PasswordInput, Tooltip } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import CircularProgress from "@mui/material/CircularProgress";
+import Image from "next/image";
+import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from 'next/navigation';
-import Loading from '../Loading/Loading';
 import isEmailValid from "../../utils/isEmailValid";
-import Image from "next/image";
-import { Images } from "@/constants";
-import { useDisclosure } from '@mantine/hooks';
-import { Input, Tooltip, Select, Button, Modal, PasswordInput, Group } from '@mantine/core';
-import { useAppSelector } from '@/hooks/reduxHook';
-import { useAppDispatch } from "@/hooks/reduxHook";
-import { updateProfile } from '@/network/users';
-import CircularProgress from "@mui/material/CircularProgress";
-import isPasswordOk from '@/utils/isPasswordOk';
+import "./Profile.scss";
 
 
 const ViewUserProfile = () => {

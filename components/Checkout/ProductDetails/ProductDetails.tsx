@@ -52,8 +52,8 @@ const ProductDetails = ({
 
     fetchProduct(productId);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    
+  }, [price, productId]);
 
   function priceCalc() {
     if (quantityInput.current?.value && productInfo) {
