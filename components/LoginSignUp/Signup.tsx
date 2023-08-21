@@ -215,7 +215,7 @@ const SignUpForm = () => {
             placeholder="Password"
             {...register("password", { onChange: onPasswordChange })}
           />
-          {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={() => setShowPassword(false)} /> : <Image priority={true} src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={() => setShowPassword(true)} />}
+          {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setShowPassword(false)} /> : <Image priority={true} src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setShowPassword(true)} />}
         </div>
         {passwordMessage && (
           <>
@@ -236,7 +236,7 @@ const SignUpForm = () => {
             placeholder="Confirm Password"
             onChange={confirmPasswordChange}
           />
-          {showConfirmPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(false)} /> : <Image priority={true} src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(true)} />}
+          {showConfirmPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(false)} /> : <Image priority={true} src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(true)} />}
         </div>
 
         {confirmPasswordMessage && (
