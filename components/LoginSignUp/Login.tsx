@@ -57,7 +57,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
           <p className="text-danger">Email or Username is required</p>
         )}
         <div>
-          <Image className="icon" src={Images.accountIcon} alt="profile-icon" />
+          <Image priority={true} className="icon" src={Images.accountIcon} alt="profile-icon" />
           <input
             type="text"
             placeholder="Username or Email"
@@ -67,14 +67,14 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
 
         {errors.password && <p className="text-danger">Password is required</p>}
         <div>
-          <Image className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
+          <Image priority={true} className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
           <input
             type={`${showPassword ? 'text' : 'password'}`}
             placeholder="Password"
             {...register("password", registerOptions.password)}
             className="relative"
           />
-          {showPassword ? <Image src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={()=>setShowPassword(false)}/> : <Image src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={()=>setShowPassword(true)}/>}
+          {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={()=>setShowPassword(false)}/> : <Image src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={()=>setShowPassword(true)}/>}
         </div>
 
         <button disabled={isSubmitting}>
