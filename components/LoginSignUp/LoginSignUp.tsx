@@ -21,14 +21,14 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
 
 
     const navigate = useRouter();
-    
-    
+
+
     const messages = {
         packages: 'Login in to access packages',
         add: 'Login to add an item to a package',
         orders: 'Login to access orders',
     }
-    
+
     useEffect(() => {
         function messager() {
             if (message === 'packages') {
@@ -78,15 +78,15 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
     }
 
     return (
-        <div className="app__loginSignUp login-only">
+        <div className="app__loginSignUp bg-white sm:mt-[10rem] mt-[7rem]">
             {showMessage &&
                 <h3 className="message">{displayMessage}</h3>
             }
             {errorText &&
                 <h3 className="message">{errorText}</h3>
             }
-            <div className="body">
-                <div className="navigators">
+            <div className="body sm:w-[30rem] w-[22.5rem]">
+                <div className="navigators sm:gap-[10rem] gap-[7rem]">
                     <h3
                         className={loginToggle ? 'active' : ''}
                         onClick={() => toggleHandler('login')}

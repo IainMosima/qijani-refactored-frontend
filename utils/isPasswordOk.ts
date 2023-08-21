@@ -10,21 +10,21 @@ export default function isPasswordOk(password: string): string | true {
 
   // Check if the password meets the minimum length requirement
   if (password.length < 8) {
-    missingCriteria.push("at least 8 characters");
+    missingCriteria.push("At least 8 characters");
   }
 
   // Check if the password contains at least one uppercase letter, one lowercase letter, one digit, and one special character
   if (!uppercaseRegex.test(password)) {
-    missingCriteria.push("at least one uppercase letter");
+    missingCriteria.push("At least one uppercase letter");
   }
   if (!lowercaseRegex.test(password)) {
-    missingCriteria.push("at least one lowercase letter");
+    missingCriteria.push("At least one lowercase letter");
   }
   if (!digitRegex.test(password)) {
     missingCriteria.push("at least one digit");
   }
   if (!specialCharRegex.test(password)) {
-    missingCriteria.push("at least one special character");
+    missingCriteria.push("At least one special character");
   }
 
   // If the password meets all criteria, return true

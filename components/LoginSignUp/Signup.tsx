@@ -36,6 +36,9 @@ const SignUpForm = () => {
     File | undefined
   >();
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setshowConfirmPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -204,27 +207,44 @@ const SignUpForm = () => {
           />
         </div>
 
-        {passwordMessage && <p className="text-danger">{passwordMessage}</p>}
+
         <div className={passwordClassname}>
           <Image className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
           <input
-            type="password"
+            type={`${showPassword ? 'text' : 'password'}`}
             placeholder="Password"
             {...register("password", { onChange: onPasswordChange })}
           />
+          {showPassword ? <Image src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={() => setShowPassword(false)} /> : <Image src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={() => setShowPassword(true)} />}
         </div>
-
-        {confirmPasswordMessage && (
-          <p className="text-danger">{confirmPasswordMessage}</p>
+        {passwordMessage && (
+          <>
+            <ul className="list-disc text-danger list-inside">
+              {passwordMessage.split(",").map((message, index) => (
+                <li key={index}>{message}</li>
+              ))}
+            </ul>
+            <br />
+          </>
         )}
+
+
         <div className={confirmPasswordClassName}>
           <Image className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
           <input
-            type="password"
+            type={`${showConfirmPassword ? 'text' : 'password'}`}
             placeholder="Confirm Password"
             onChange={confirmPasswordChange}
           />
+          {showConfirmPassword ? <Image src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(false)} /> : <Image src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(true)} />}
         </div>
+
+        {confirmPasswordMessage && (
+          <>
+            <p className="text-danger">{confirmPasswordMessage}</p>
+            <br />
+          </>
+        )}
 
         {/* <div className="input">
           <p>Profile picture</p>
