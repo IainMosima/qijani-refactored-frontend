@@ -21,14 +21,15 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
     const loggedInUser = useAppSelector(state => state.login.user)
 
 
-    
+
     const navigate = useRouter();
     let displayMessage;
 
     const messages = {
-        packages: 'Login in to access packages',
+        packages: 'Login to access packages',
         add: 'Login to add an item to a package',
         orders: 'Login to access orders',
+        profile: 'Login to view profile page',
     }
 
     if (message === 'packages') {
@@ -36,12 +37,20 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
 
     } else if (message === 'add') {
         displayMessage = messages.add;
-    } 
-    
+
+    } else if (message === 'orders') {
+        displayMessage = messages.orders;
+
+    } else if (message === 'profile') {
+        displayMessage = messages.profile;
+
+    }
+
+
     if (loggedInUser) {
         if (message === 'packages') {
             navigate.push('/packages');
-        } else if(message === 'orders'){
+        } else if (message === 'orders') {
             navigate.push('/orders');
         } else {
             navigate.push('/');
@@ -52,13 +61,13 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
         const messageTimer = setTimeout(() => {
             setShowMessage(false);
         }, 3000);
-        
-      return () => clearTimeout(messageTimer);
+
+        return () => clearTimeout(messageTimer);
 
     }, [errorText])
 
-    
-    
+
+
 
 
     function toggleHandler(option: string) {
@@ -72,7 +81,7 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
                 setSignUpToggle(true);
                 setLoginToggle(false);
                 break;
-            
+
             default:
                 setSignUpToggle(false);
                 setLoginToggle(false);
@@ -89,29 +98,29 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
             }
             <div className="body">
                 <div className="navigators">
-                    <h3 
-                     className={loginToggle ? 'active': ''}
-                     onClick={()=>toggleHandler('login')}
-                     >login</h3>
                     <h3
-                     className={signUpToggle ? 'active' : ''}
-                     onClick={()=>toggleHandler('signup')}
+                        className={loginToggle ? 'active' : ''}
+                        onClick={() => toggleHandler('login')}
+                    >login</h3>
+                    <h3
+                        className={signUpToggle ? 'active' : ''}
+                        onClick={() => toggleHandler('signup')}
                     >signup</h3>
                 </div>
-                
+
                 {loginToggle &&
                     <LoginForm
-                     setErrorText={setErrorText}
+                        setErrorText={setErrorText}
                     />
                 }
 
                 {signUpToggle &&
-                    <SignUpForm/>
+                    <SignUpForm />
                 }
-                
+
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default LoginSignUp;

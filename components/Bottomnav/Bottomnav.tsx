@@ -9,7 +9,10 @@ import CategoryIcon from '@mui/icons-material/Category';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { useAppSelector } from '@/hooks/reduxHook';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { Images } from "../../constants";
+import Image from "next/image";
+import packagesIcon from "../../public/assets/packages.png"
 
 const BottomNav = () => {
     const [value, setValue] = React.useState('home');
@@ -18,55 +21,71 @@ const BottomNav = () => {
         setValue(newValue);
     }
 
+    const navigate = useRouter();
     const loggedInUser = useAppSelector((state) => state.login.user);
+
+    function packageOnClickHandler() {
+        if (!loggedInUser) {
+            navigate.push("/loginSignup?message=packages");
+        } else {
+            navigate.push("/packages");
+        }
+    }
+
+    function ordersOnClickHandler() {
+        if (!loggedInUser) {
+            navigate.push("/loginSignup?message=orders");
+        } else {
+            navigate.push("/orders");
+        }
+    }
+
+    function profileOnClickHandler() {
+        if (!loggedInUser) {
+            navigate.push("/loginSignup?message=profile");
+        } else {
+            navigate.push("/profile");
+        }
+    }
+
+    function homeNavigation() {
+        navigate.push("/");
+    }
 
 
     // const router = useRouter();
 
     return (
+
         <Paper className="bottomnav lg:hidden" sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
             <BottomNavigation value={value} onChange={handleChange} showLabels>
-                <Link href="/">
-                    <BottomNavigationAction
-                        label="Home"
-                        value="home"
-                        icon={<HomeIcon />}
-                    />
-                </Link>
+                <BottomNavigationAction
+                    label="Home"
+                    value="home"
+                    icon={<HomeIcon />}
+                    onClick={() => homeNavigation()}
+                />
 
-                <Link href="/categories">
-                    <BottomNavigationAction
-                        label="Categories"
-                        value="categories"
-                        icon={<CategoryIcon />}
-                    />
-                </Link>
+                <BottomNavigationAction
+                    label="Packages"
+                    value="packages"
+                    icon={<Image src={Images.packagesIcon} alt='packages' width={30} height={30} />}
+                    onClick={() => packageOnClickHandler()}
+                />
 
-                <Link href="/packages">
-                    <BottomNavigationAction
-                        label="Packages"
-                        value="packages"
-                        icon={<InventoryIcon />}
-                    />
-                </Link>
+                <BottomNavigationAction
+                    label="Orders"
+                    value="orders"
+                    icon={<Image src={Images.orderIcon} alt='packages' width={30} height={30} />}
+                    onClick={() => ordersOnClickHandler()}
+                />
 
-                {loggedInUser === null ? (
-                    <Link href="/loginSignup">
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountBoxIcon />}
-                        />
-                    </Link>
-                ) : (
-                    <Link href="/profile">
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountBoxIcon />}
-                        />
-                    </Link>
-                )}
+                <BottomNavigationAction
+                    label="Profile"
+                    value="profile"
+                    icon={<Image src={Images.profileDefault} alt='packages' width={30} height={30} />}
+                    onClick={() => profileOnClickHandler()}
+                />
 
             </BottomNavigation>
         </Paper>
