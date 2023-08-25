@@ -45,10 +45,6 @@
         padding: 0.5rem;
         border-radius: 50%;
         text-align: center;
-
-        &:hover {
-          background-color: var(--primary-color);
-        }
       }
 
       &.amount input::-webkit-inner-spin-button,

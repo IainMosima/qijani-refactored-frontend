@@ -16,6 +16,7 @@ import * as ProductsApi from "../../network/products";
 import * as UserApi from "../../network/users";
 import "./Navbar.scss";
 import SearchBar from "./SearchBar/SearchBar";
+import { getMyOrders } from "@/redux/reducers/OrdersReducer";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +27,7 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [categoryToggle, setcategoryToggle] = useState(false);
   const [accountToggle, setAccountToggle] = useState(false);
-  const resultAvailable = searchResults.length > 0 ? true : false;
+  const [resultAvailable, setResultAvailable] = useState(searchResults.length > 0 ? true : false); 
   const navigate = useRouter();
 
   const myAccount = [
@@ -45,6 +46,8 @@ const Navbar = () => {
     async function perfomSearch() {
       const results = await ProductsApi.searchFunction(debouncedQuery);
       setSearchResults(results);
+      setResultAvailable(true);
+
     }
 
     if (debouncedQuery) {
@@ -56,6 +59,7 @@ const Navbar = () => {
       if (user) {
         dispatch(userLogin(user));
         store.dispatch(getMyPackages);
+        store.dispatch(getMyOrders);
       }
     }
     checkLoggedInUser();
@@ -64,8 +68,14 @@ const Navbar = () => {
     };
   }, [debouncedQuery, dispatch]);
 
+  function clear() {
+    setQuery('');
+    setResultAvailable(false);
+  }
+
   function search() {
     navigate.push(`/search/${query}`);
+    setResultAvailable(false);
   }
 
   function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -110,6 +120,14 @@ const Navbar = () => {
     }
   }
 
+  function orderOnClickHandler() {
+    if (!loggedInUser) {
+      navigate.push("/loginSignup?message=orders");
+    } else {
+      navigate.push("/orders");
+    }
+  }
+
   return (
     <nav className="flex justify-evenly items-center w-full py-2 app__navbar bg-white z-20">
       <div className="basis-1/6">
@@ -131,12 +149,14 @@ const Navbar = () => {
           setQuery={function (event: string): void {
             throw new Error("Function not implemented.");
           }}
+          setResultAvailable={setResultAvailable}
           search={search}
+          clear={clear}
         />
 
-        {resultAvailable && (
+        {resultAvailable &&  searchResults.length > 0 && (
           <div className="search-results lg:left-[8.5rem]">
-            <ul className="lg:w-[40rem] md:w-[23rem] w-[13rem]">
+            <ul className="lg:w-[30rem] md:w-[23rem] w-[13rem]">
               {searchResults.map((item, index) => (
                 <div
                   onClick={() => {
@@ -164,15 +184,15 @@ const Navbar = () => {
           <h4>Packages</h4>
         </div>
 
-        <Link
-          href={"/orders"}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <div>
-            <Image src={Images.orderIcon} alt="package-icon" className="icon" />
-            <h4>Orders</h4>
-          </div>
-        </Link>
+        <div onClick={() => orderOnClickHandler()}>
+          <Image
+            src={Images.orderIcon}
+            alt="order-icon"
+            className="icon"
+          />
+          <h4>Orders</h4>
+        </div>
+
 
         {loggedInUser === null ? (
           <Link

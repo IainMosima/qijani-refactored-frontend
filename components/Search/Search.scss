@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card-body {
+  align-items: center;
+  gap: 5px;
+
+  .card {
+    border: 4px solid var(--lightGray-color);
+    border-radius: 7px;
+    display: inline-grid;
+    padding: 0.6rem;
+    width: 100%;
+    cursor: pointer;
+    grid-template-areas:
+      "image image image"
+      "image image image"
+      "name name name"
+      "price price price"
+      "kg kg kg"
+      "add add add";
+
+      @layer components {
+        .product-img {
+          grid-area: image;
+          margin: 1rem auto;
+          @apply lg:h-[7.2rem] md:h-[7rem] h-[6rem] object-contain
+        }
+
+      }
+
+    .name {
+      grid-area: name;
+      
+     
+    }
+
+    .price {
+      grid-area: price;
+      
+
+    }
+
+    .quantity {
+      grid-area: kg;
+      
+    
+    }
+
+    .add {
+      grid-area: add;
+      justify-self: end;
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+  }
+}

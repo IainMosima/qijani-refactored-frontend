@@ -1,20 +1,18 @@
 "use client";
-import { Images } from "../../constants";
-import React from "react";
-import { loginCredentials } from "../../models/loginCredentials";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Images } from "../../constants";
 import { UnauthorizedError } from "../../errors/http_errors";
-import { getUserProfileImageSignedUrl, login } from "../../network/users";
+import { loginCredentials } from "../../models/loginCredentials";
+import { login } from "../../network/users";
 
-import "./forms.scss";
-import { User } from "../../models/user";
-import CircularProgress from "@mui/material/CircularProgress";
-import { PackageStructure } from "../../models/package";
-import { fetchPackages } from "../../network/package";
-import Image from "next/image";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
+import { useAppDispatch } from "@/hooks/reduxHook";
 import { userLogin } from "@/redux/reducers/loginReducer";
 import { setMypackages } from "@/redux/reducers/packagesReducer";
+import CircularProgress from "@mui/material/CircularProgress";
+import Image from "next/image";
+import { fetchPackages } from "../../network/package";
+import "./forms.scss";
 
 interface LoginProps {
   setErrorText: React.Dispatch<React.SetStateAction<string | null>>;
@@ -27,8 +25,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
     formState: { errors, isSubmitting },
   } = useForm<loginCredentials>();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.login.user);
-  // console.log(user);
+  const [showPassword, setShowPassword] = useState(false);
   const registerOptions = {
     usernameEmail: { required: "Name or UserName is required" },
     password: { required: "Password is required" },
@@ -60,7 +57,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
           <p className="text-danger">Email or Username is required</p>
         )}
         <div>
-          <Image className="icon" src={Images.accountIcon} alt="profile-icon" />
+          <Image priority={true} className="icon" src={Images.accountIcon} alt="profile-icon" />
           <input
             type="text"
             placeholder="Username or Email"
@@ -70,12 +67,14 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
 
         {errors.password && <p className="text-danger">Password is required</p>}
         <div>
-          <Image className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
+          <Image priority={true} className="icon" src={Images.passwordLockIcon} alt="profile-icon" />
           <input
-            type="password"
+            type={`${showPassword ? 'text' : 'password'}`}
             placeholder="Password"
             {...register("password", registerOptions.password)}
+            className="relative"
           />
+          {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[80%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={()=>setShowPassword(false)}/> : <Image src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[58%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={()=>setShowPassword(true)}/>}
         </div>
 
         <button disabled={isSubmitting}>

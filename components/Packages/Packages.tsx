@@ -126,7 +126,7 @@ const Packages = () => {
             ))}
 
             {myPackages.length <= 4 ? (
-              <div className="card h-[23rem] add-new flex place-items-center" onClick={() => setOpen(true)}>
+              <div className="card h-[23rem] add-new flex place-items-center flex-col justify-center" onClick={() => setOpen(true)}>
                 <Image
                   src={Images.addPackageIcon}
                   className="package-img"

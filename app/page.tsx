@@ -19,7 +19,7 @@ async function getAllProductResults(categories: string[], records = 6): Promise<
   const result: CategoriesData[] = [];
   for (const category of categories) {
     if (category !== "All") {
-      const products = await fetchCategory(category, records);
+      const products = await fetchCategory(category, records, true);
       result.push({
         categoryName: category,
         products: products,
