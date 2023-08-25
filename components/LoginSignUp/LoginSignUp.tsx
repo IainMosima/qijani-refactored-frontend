@@ -52,6 +52,8 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
             navigate.push('/packages');
         } else if (message === 'orders') {
             navigate.push('/orders');
+        } else if (message === 'profile') {
+            navigate.push('/profile');
         } else {
             navigate.push('/');
         }
