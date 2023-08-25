@@ -45,58 +45,34 @@ const ViewUserProfile = () => {
     const [confirmPasswordClassName, setConfirmPasswordClassName] = useState("");
     const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
 
-    const [username, setUsername] = useState(user?.username);
-    const [location, setLocation] = useState(user?.location);
-    const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
-    const [email, setEmail] = useState(user?.email);
-    // const [county, setCounty] = useState(user?.county);
-    // const [area, setArea] = useState(user?.area);
-    // const [landmark, setLandmark] = useState(user?.landmark);
     // const [selectedProfileImage, setSelectedProfileImage] = useState<
     //     File | undefined
     // >();
 
     const [opened, { open, close }] = useDisclosure(false);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { isSubmitting },
-    } = useForm();
+    const [formData, setFormData] = useState({
+        username: user?.username,
+        location: user?.location,
+        phoneNumber: user?.phoneNumber,
+        email: user?.email,
+        county: user?.county,
+        area: user?.area,
+        landmark: user?.landmark,
+    });
+
+    // const {
+    //     formState: { isSubmitting },
+    // } = useForm();
 
     const navigate = useRouter();
 
-    const onSubmit: SubmitHandler<FieldValues> = async (
-        credentials: FieldValues
-    ) => {
-        const formData = new FormData();
-        formData.append("username", credentials.username);
-        formData.append("email", credentials.email);
-        formData.append("phoneNumber", credentials.phoneNumber);
-        formData.append("location", credentials.location);
-        // formData.append("prevPassword", credentials.prevPassword);
-        // formData.append("newPassword", credentials.newPassword);
-        // formData.append("profileImg", credentials.profileImg[0]);
-        formData.append("county", credentials.county);
-        formData.append("area", credentials.area);
-        formData.append("landmark", credentials.landmark);
-
-        console.log(formData);
-
-        try {
-            const client = await updateProfile(formData, user?._id!);
-
-            if (client) {
-                navigate.push("/profile");;
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    function onUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleUsernameChange = (event: { target: { value: any; }; }) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            username: event.target.value,
+        }));
         const username = event.target.value;
-        setUsername(username);
 
         setTimeout(() => {
             if (username.length < 5) {
@@ -107,11 +83,14 @@ const ViewUserProfile = () => {
                 setUsernameMessage("");
             }
         }, 1500);
-    }
+    };
 
-    function onLocationChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleLocationChange = (event: { target: { value: any; }; }) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            location: event.target.value,
+        }));
         const location = event.target.value;
-        setLocation(location);
 
         setTimeout(() => {
             if (location.length < 3) {
@@ -122,11 +101,14 @@ const ViewUserProfile = () => {
                 setUsernameMessage("");
             }
         }, 1500);
-    }
+    };
 
-    function onEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleEmailChange = (event: { target: { value: any; }; }) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            email: event.target.value,
+        }));
         const email = event.target.value;
-        setEmail(email);
         const validEmail = isEmailValid(email);
 
         setTimeout(() => {
@@ -138,13 +120,16 @@ const ViewUserProfile = () => {
                 setEmailMessage("");
             }
         }, 1500);
-    }
+    };
 
-    function onPhoneNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const handlePhoneNumberChange = (event: { target: { value: any; }; }) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            phoneNumber: event.target.value,
+        }));
         const phoneNumber = event.target.value;
         const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         const intPhoneNumber = parseInt(phoneNumber);
-        setPhoneNumber(intPhoneNumber);
 
         setTimeout(() => {
             // condtion checking for mobile numbers
@@ -160,9 +145,13 @@ const ViewUserProfile = () => {
                 setPhoneNumberMessage("");
             }
         }, 2000);
-    }
+    };
 
-    function onCountyChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleCountyChange = (event: { target: { value: any; }; }) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            county: event.target.value,
+        }));
         const county = event.target.value;
 
         setTimeout(() => {
@@ -174,9 +163,13 @@ const ViewUserProfile = () => {
                 setCountyMessage("");
             }
         }, 1500);
-    }
+    };
 
-    function onAreaChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleAreaChange = (event: { target: { value: any; }; }) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            county: event.target.value,
+        }));
         const area = event.target.value;
 
         setTimeout(() => {
@@ -188,9 +181,13 @@ const ViewUserProfile = () => {
                 setAreaMessage("");
             }
         }, 1500);
-    }
+    };
 
-    function onLandmarkChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleLandMarkChange = (event: { target: { value: any; }; }) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            landmark: event.target.value,
+        }));
         const landmark = event.target.value;
 
         setTimeout(() => {
@@ -202,7 +199,21 @@ const ViewUserProfile = () => {
                 setLandmarkMessage("");
             }
         }, 1500);
-    }
+    };
+
+    const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        try {
+            const client = await updateProfile(formData, user?._id!);
+
+            if (client) {
+                alert("Profile updated successfully!!");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error updating profile!!!");
+        }
+    };
 
     function onPrevPasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
         const prevPassword = event.target.value;
@@ -246,7 +257,7 @@ const ViewUserProfile = () => {
 
     return (
         <div className="app__profile sm:mt-[8.5rem] mt-[7.5rem]">
-            <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+            <form onSubmit={handleFormSubmit} encType="multipart/form-data">
                 <div className="profile_intro">
                     <div className="mini_intro">
                         {user?.profileImgKey && (
@@ -283,12 +294,12 @@ const ViewUserProfile = () => {
                                 <div className="mini_details3">
                                     <label className="label">Username:</label>
                                     <input
+                                        id="username"
                                         className="input"
-                                        value={username}
+                                        name="username"
+                                        value={formData.username}
                                         type="text"
-
-                                        required
-                                        {...register("username", { onChange: onUsernameChange })}
+                                        onChange={handleUsernameChange}
                                     />
                                 </div>
                             </div>
@@ -297,12 +308,13 @@ const ViewUserProfile = () => {
                                 <div className="mini_details3">
                                     <label className="label">Location:</label>
                                     <input
+                                        id="location"
                                         className="input"
-                                        value={location}
+                                        value={formData.location}
                                         type="text"
                                         placeholder="Location"
-                                        required
-                                        {...register("location", { onChange: onLocationChange })}
+                                        name="location"
+                                        onChange={handleLocationChange}
                                     />
                                 </div>
                             </div>
@@ -334,11 +346,11 @@ const ViewUserProfile = () => {
                             <input
                                 id="number"
                                 className="input"
-                                value={phoneNumber}
+                                value={formData.phoneNumber}
                                 type="number"
                                 placeholder="Phonenumber"
-                                required
-                                {...register("phoneNumber", { onChange: onPhoneNumberChange })}
+                                name="phoneNumber"
+                                onChange={handlePhoneNumberChange}
                             />
                         </div>
 
@@ -363,10 +375,10 @@ const ViewUserProfile = () => {
                             <input
                                 className="input"
                                 type="string"
-                                value={email}
+                                value={formData.email}
                                 placeholder="Email"
-                                required
-                                {...register("email", { onChange: onEmailChange })}
+                                name="email"
+                                onChange={handleEmailChange}
                             />
                         </div>
 
@@ -380,7 +392,11 @@ const ViewUserProfile = () => {
                         </div>
                         <div>
                             {countyMessage && <small className="text-danger">{countyMessage}</small>}
-                            <select className="input select" {...register("county", { onChange: onCountyChange })} required>
+                            <select
+                                className="input select"
+                                value={formData.county}
+                                name="county"
+                                onChange={handleCountyChange}>
                                 <option>----</option>
                                 <option value="baringo">Baringo</option>
                                 <option value="bomet">Bomet</option>
@@ -439,8 +455,8 @@ const ViewUserProfile = () => {
                         <div>
                             {areaMessage && <small className="text-danger">{areaMessage}</small>}
                             <Input
-                                required
-                                {...register("area", { onChange: onAreaChange })}
+                                name="area"
+                                onChange={handleAreaChange}
                                 placeholder="E.g. Juja, Thika, Kilimani"
                                 rightSection={
                                     <Tooltip label="Enter the town you're in!" position="top-end" withArrow>
@@ -450,6 +466,7 @@ const ViewUserProfile = () => {
                                     </Tooltip>
                                 }
                             />
+                            <p>Current:{user?.area}</p>
                         </div>
                     </div>
                     <div className={landmarkClassname}>
@@ -459,8 +476,8 @@ const ViewUserProfile = () => {
                         <div>
                             {landmarkMessage && <small className="text-danger">{landmarkMessage}</small>}
                             <Input
-                                required
-                                {...register("landmark", { onChange: onLandmarkChange })}
+                                name="landmark"
+                                onChange={handleLandMarkChange}
                                 placeholder="E.g. Building name"
                                 rightSection={
                                     <Tooltip label="Enter a well known building near you!" position="top-end" withArrow>
@@ -470,6 +487,7 @@ const ViewUserProfile = () => {
                                     </Tooltip>
                                 }
                             />
+                            <p>Current:{user?.landmark}</p>
                         </div>
                     </div>
                 </div>
@@ -478,8 +496,7 @@ const ViewUserProfile = () => {
                         <p className="change">Change password?</p>
                     </a>
                     <Button type='submit' className="save" variant="white" color="gray">
-                        {!isSubmitting && <p>Save Changes</p>}
-                        {isSubmitting && <CircularProgress color="inherit" />}
+                        Save Changes
                     </Button>
 
                 </div>
@@ -501,8 +518,6 @@ const ViewUserProfile = () => {
                             description="Password must include at least one letter, number and special character!!"
                             withAsterisk
                             data-autofocus
-                            required
-                            {...register("prevPassword", { onChange: onPrevPasswordChange })}
                             placeholder="Enter your previous password..."
                         />
                     </div>
@@ -514,8 +529,6 @@ const ViewUserProfile = () => {
                             label="New Password"
                             description="Password must include at least one letter, number and special character!!"
                             withAsterisk
-                            required
-                            {...register("newPassword", { onChange: onNewPasswordChange })}
                             placeholder="Enter your new password..."
                         />
                     </div>
@@ -526,9 +539,6 @@ const ViewUserProfile = () => {
                     </Group>
                 </div>
             </Modal>
-            {/* <div className="mt-[23rem]">
-                <Loading />
-            </div> */}
         </div>
     );
 }

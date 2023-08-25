@@ -54,10 +54,10 @@ export async function getUserProfileImageSignedUrl(key: string): Promise<signedU
 // }
 
 // update user's profile
-export async function updateProfile(credentials: FormData, userId: string): Promise<User> {
+export async function updateProfile(credentials: object, userId: string): Promise<User> {
     const response = await fetchData(`/api/v1/users/update/${userId}`,
         {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
             },
