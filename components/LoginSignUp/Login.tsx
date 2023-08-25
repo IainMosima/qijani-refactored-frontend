@@ -74,7 +74,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
             {...register("password", registerOptions.password)}
             className="relative"
           />
-          {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={()=>setShowPassword(false)}/> : <Image src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={()=>setShowPassword(true)}/>}
+          {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[80%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={()=>setShowPassword(false)}/> : <Image src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[58%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={()=>setShowPassword(true)}/>}
         </div>
 
         <button disabled={isSubmitting}>
