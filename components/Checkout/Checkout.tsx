@@ -83,7 +83,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
       }
     }, 1500);
   }
-  
+
   function onClose() {
     setOpen(false);
   }
@@ -128,7 +128,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
       {packageInfo.items && packageInfo.items?.length > 0 ? (
         <div>
           <h2 className="package-name font-bold text-xl">
-            Checking out: {packageName.current} ({items?.length} items)
+            {packageName.current} ({items?.length} items)
           </h2>
           <div className="underline"></div>
 
@@ -141,7 +141,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
 
           <div className="frame">
             {items?.map((p) => (
-              <div key={p.productId}>
+              <div key={p.productId} className="border-gray border-b-2 last:border-none">
                 <ProductDetails
                   productId={p.productId}
                   price={p.price}
@@ -159,13 +159,13 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           </div>
         </div>
       ) : (
-        <div className="h-[50vh] flex justify-center  place-items-center">
+        <div className="h-[50vh] flex justify-center place-items-center">
           <Loading />
         </div>
       )}
       {packageInfo.items && packageInfo.items?.length > 0 && (
         <>
-          <div className="footer">
+          <div className="footer flex justify-between place-items-center sm:flex-row flex-col gap-5">
             <div className="delivery_details">
               <h5><b>Delivery Info.</b></h5>
               <div className={countyClassname}>
@@ -268,7 +268,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
               </div>
             </div>
 
-            <div className="price-card">
+            <div className="price-card sm:w-[25rem] w-[22rem]">
               <h3>Subtotal</h3>
               <h3 className="price">Ksh {total * 0.8}</h3>
 
@@ -285,6 +285,8 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           </div>
         </>
       )}
+
+
     </div>
   );
 };

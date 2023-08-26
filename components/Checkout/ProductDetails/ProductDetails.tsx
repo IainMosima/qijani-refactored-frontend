@@ -137,7 +137,7 @@ const ProductDetails = ({
   }
 
   return (
-    <div className="app__prodcutDetails">
+    <section className="app__prodcutDetails">
       {productInfo && (
         <div className="table-body">
           <div className="product-name">
@@ -185,10 +185,10 @@ const ProductDetails = ({
             <p className="sm:w-auto w-[1.2rem]">Ksh {calculatedPrice}</p>
           </div>
 
-          <Image src={Images.trashIcon} alt="delete-icon" className="cursor-pointer" width={25} onClick={()=>deleteItem(productInfo._id)}/>
+          <Image src={Images.trashIcon} alt="delete-icon" className="cursor-pointer" width={22} onClick={()=>deleteItem(productInfo._id)}/>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

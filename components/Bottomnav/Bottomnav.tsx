@@ -1,18 +1,13 @@
 "use client";
-import * as React from 'react';
+import { useAppSelector } from '@/hooks/reduxHook';
+import HomeIcon from '@mui/icons-material/Home';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
-import Link from 'next/link';
-import HomeIcon from '@mui/icons-material/Home';
-import CategoryIcon from '@mui/icons-material/Category';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import { useAppSelector } from '@/hooks/reduxHook';
-import { useRouter } from 'next/navigation';
-import { Images } from "../../constants";
 import Image from "next/image";
-import packagesIcon from "../../public/assets/packages.png"
+import { useRouter } from 'next/navigation';
+import * as React from 'react';
+import { Images } from "../../constants";
 
 const BottomNav = () => {
     const [value, setValue] = React.useState('home');
