@@ -205,11 +205,12 @@ const ViewUserProfile = () => {
 
     const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
+        dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
+
         try {
             const client = await updateProfile(formData, user?._id!);
 
             if (client) {
-                // dispatch(userLogin(client));
                 alert("Profile updated successfully!!");
                 console.log(client);
             }
