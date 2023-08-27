@@ -39,13 +39,12 @@ const CheckOutModal = ({
           <PayNow loggedInUser={loggedInUser}
           packageId={packageId}
           price={price}
-          navigate={navigate}
+    
         />
         ) : (
           <PayLater loggedInUser={loggedInUser}
           packageId={packageId}
           price={price}
-          navigate={navigate}
           />
         )}
       </div>

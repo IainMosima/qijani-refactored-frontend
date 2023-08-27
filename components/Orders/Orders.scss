@@ -1,55 +1,46 @@
 .app__orders {
-    margin: 8rem auto 0;
-    
+  margin: 8rem auto 0;
 
-    @media screen and (max-width: 768px){
-        margin-top: 6rem;
+  @media screen and (max-width: 768px) {
+    margin-top: 6rem;
+  }
+
+  .results {
+    width: 90%;
+    margin-inline: auto;
+    .heading {
+      text-align: center;
+      color: var(--primary-color);
     }
 
-    .results{
-        width: 90%;
-        margin-inline: auto;
-        .heading {
-            text-align: center;
-            color: var(--primary-color);
-        }
-    
-        .underline {
-            width: 3rem;
-            height: 0.5vh;
-            background-color: var(--primary-color);
-            margin: 0.3rem auto 4rem;
-        }
-    
-        .table-head {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            font-weight: 400;
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-            @media screen and (max-width: 768px){
-                font-size: 1rem;
-            }
-        }
-    
-        .frame {
-            border-top: 3px solid var(--gray-color);
-            border-bottom: 3px solid var(--gray-color);
-            height: 25rem;
-            overflow-y: auto;
-        }
+    .underline {
+      width: 2rem;
+      height: 2px;
+      background-color: var(--primary-color);
+      margin: -0.3rem auto 4rem;
+    }
 
-        .order {
-            grid-template-columns: repeat(5, 1fr);
+    .table-head {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      font-weight: 400;
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+      @media screen and (max-width: 768px) {
+        font-size: 1rem;
+      }
+    }
 
-        }
+    .frame {
+      border-top: 3px solid var(--gray-color);
+      border-bottom: 3px solid var(--gray-color);
+      height: 25rem;
+      overflow-y: auto;
+    }
 
-    
-       
-    }   
-    
-
-
-
+    .order {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
 }

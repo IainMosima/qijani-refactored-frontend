@@ -4,17 +4,17 @@ import { createOrder } from '@/network/order';
 import { CircularProgress } from '@mui/material';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 
 interface PayLaterProps {
     loggedInUser: User | null;
     packageId: string;
     price: string;
-    navigate: AppRouterInstance;
 
 }
 
-const PayLater = ({ loggedInUser, packageId, price, navigate }: PayLaterProps) => {
+const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(
@@ -23,9 +23,9 @@ const PayLater = ({ loggedInUser, packageId, price, navigate }: PayLaterProps) =
             : ""
     );
     const fieldPhoneNumber = useRef<HTMLInputElement>(null);
-    const paymentType = useRef<HTMLInputElement>(null);
     const [isSubmitting, setisSubmitting] = useState(false);
-
+    const navigate = useRouter();
+    
 
     function onPhoneNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
         setphoneNumber(event.target.value);
@@ -57,7 +57,7 @@ const PayLater = ({ loggedInUser, packageId, price, navigate }: PayLaterProps) =
                 userId: loggedInUser?._id,
                 price: price.toString(),
                 packageId: packageId,
-                paymentType: paymentType.current?.value,
+                paymentType: 'later',
                 phoneNumber: "254" + fieldPhoneNumber.current.value,
             };
 

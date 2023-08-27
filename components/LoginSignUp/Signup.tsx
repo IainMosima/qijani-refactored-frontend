@@ -179,6 +179,7 @@ const SignUpForm = () => {
             type="text"
             placeholder="Username"
             required
+            className="lowercase"
             {...register("username", { onChange: onUsernameChange })}
           />
         </div>
@@ -199,7 +200,7 @@ const SignUpForm = () => {
         )}
         <div className={phoneNumberClassName}>
           <Image priority={true} className="icon" src={Images.phoneIcon} alt="profile-icon" />
-          <p className="mobile-number">+254</p>
+          <p className="mobile-number px-2">+254</p>
           <input
             type="text"
             placeholder="Mpesa Number"

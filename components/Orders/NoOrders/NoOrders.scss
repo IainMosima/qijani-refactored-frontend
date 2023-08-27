@@ -23,7 +23,7 @@
     button {
         margin-top: 2rem;
         width: 17rem;
-        height: 5vh;
+        height: 3rem;
         font-size: 1.4rem;
         text-align: center;
         background-color: var(--green-color);
@@ -37,20 +37,6 @@
     }
 
     @media screen and (max-width: 768px) {
-        img {
-            width: 10rem;
-            height: 10rem;
-        }
-        ul {
-            li{
-                font-size: 1.1rem;
-            }
-        }
-        button {
-            margin-top: 1rem;
-            width: 2rem;
-            font-size: 1.1rem;
-
-        }
+      
     }
 }

@@ -61,6 +61,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
           <input
             type="text"
             placeholder="Username or Email"
+            className="lowercase"
             {...register("usernameEmail", registerOptions.usernameEmail)}
           />
         </div>
