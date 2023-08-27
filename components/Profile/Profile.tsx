@@ -8,7 +8,7 @@ import { useDisclosure } from '@mantine/hooks';
 import CircularProgress from "@mui/material/CircularProgress";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import isEmailValid from "../../utils/isEmailValid";
 import "./Profile.scss";
@@ -49,6 +49,11 @@ const ViewUserProfile = () => {
 
     const [confirmPasswordClassName, setConfirmPasswordClassName] = useState("");
     const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
+
+    const [displayMessage, setDisplayMessage] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
+    const [showMessage2, setShowMessage2] = useState(false);
+
 
 
     const [opened, { open, close }] = useDisclosure(false);
@@ -171,7 +176,7 @@ const ViewUserProfile = () => {
     const handleAreaChange = (event: { target: { value: any; }; }) => {
         setFormData((prevData) => ({
             ...prevData,
-            county: event.target.value,
+            area: event.target.value,
         }));
         const area = event.target.value;
 
@@ -206,18 +211,26 @@ const ViewUserProfile = () => {
 
     const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
+        dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
         try {
             const client = await updateProfile(formData, user?._id!);
 
             if (client) {
-                // dispatch(userLogin(client));
-                alert("Profile updated successfully!!");
+                setDisplayMessage("Profile updated successfully!!");
+                setShowMessage(true);
+                setTimeout(() => {
+                    setShowMessage(false);
+                }, 3000);
                 // window.location.reload();
                 console.log(client);
             }
         } catch (error) {
+            setDisplayMessage("Error updating profile!!!");
+            setShowMessage2(true);
+            setTimeout(() => {
+                setShowMessage2(false);
+            }, 3000);
             console.error(error);
-            alert("Error updating profile!!!");
             // window.location.reload();
         }
     };
@@ -259,9 +272,23 @@ const ViewUserProfile = () => {
         }));
     }
 
+    // useEffect(() => {
+    //     dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
+    // }, [])
+
 
     return (
         <div className="app__profile sm:mt-[8.5rem] mt-[7.5rem]">
+            {showMessage &&
+                <div className="message">
+                    <h3 className="h3">{displayMessage}</h3>
+                </div>
+            }
+            {showMessage2 &&
+                <div className="message2">
+                    <h3>{displayMessage}</h3>
+                </div>
+            }
             <form onSubmit={handleFormSubmit} encType="multipart/form-data">
                 <div className="profile_intro">
                     <div className={profileImgClassname2}>
@@ -462,7 +489,7 @@ const ViewUserProfile = () => {
                                 <option value="wajir">Wajir</option>
                                 <option value="pokot">West Pokot</option>
                             </select>
-                            <p>Current:{user?.area}</p>
+                            <p>Current:&nbsp;{user?.county}</p>
                         </div>
                     </div>
                     <div className={areaClassname}>
@@ -483,7 +510,7 @@ const ViewUserProfile = () => {
                                     </Tooltip>
                                 }
                             />
-                            <p>Current:{user?.area}</p>
+                            <p>Current:&nbsp;{user?.area}</p>
                         </div>
                     </div>
                     <div className={landmarkClassname}>
@@ -504,7 +531,7 @@ const ViewUserProfile = () => {
                                     </Tooltip>
                                 }
                             />
-                            <p>Current:{user?.landmark}</p>
+                            <p>Current:&nbsp;{user?.landmark}</p>
                         </div>
                     </div>
                 </div>

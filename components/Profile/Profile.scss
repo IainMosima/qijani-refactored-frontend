@@ -1,6 +1,30 @@
 .app__profile {
   overflow-x: hidden;
 
+  .message {
+    background-color: #eeffa4;
+    color: greenyellow;
+    left: 30%;
+    top: 10px;
+    position: fixed;
+    text-align: center;
+    z-index: 50;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .message2 {
+    background-color: #ffbfbf;
+    color: red;
+    left: 30%;
+    top: 10px;
+    position: fixed;
+    text-align: center;
+    z-index: 50;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
   .profile_intro {
     text-align: center;
     justify-content: center;
