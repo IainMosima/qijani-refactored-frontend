@@ -1,20 +1,21 @@
 'use client';
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { createOrder } from '@/network/order';
 import { Images } from "../../../constants";
 import { User } from '@/models/user';
 import { CircularProgress } from '@mui/material';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 
 interface PayNowProps {
     loggedInUser: User | null;
     packageId: string;
     price: string;
+    navigate: AppRouterInstance;
 }
 
 
-const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
+const PayNow = ({ loggedInUser, packageId, price, navigate }: PayNowProps) => {
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(
@@ -25,7 +26,7 @@ const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
     const fieldPhoneNumber = useRef<HTMLInputElement>(null);
     const paymentType = useRef<HTMLInputElement>(null);
     const [isSubmitting, setisSubmitting] = useState(false);
-    const navigate = useRouter();
+    
 
     function onPhoneNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
         setphoneNumber(event.target.value);
@@ -87,7 +88,7 @@ const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
 
             <div className={`${phoneNumberClassName} phone-stuff`}>
                 <Image priority={true} src={Images.phoneIcon} alt="profile-icon" />
-                <div className="mobile-number px-1">+254</div>
+                <div className="mobile-number px-2">+254</div>
                 <input
                     type="text"
                     placeholder="Mpesa Number"

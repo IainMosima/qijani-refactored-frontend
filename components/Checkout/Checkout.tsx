@@ -12,6 +12,7 @@ import { Images } from "@/constants";
 import { Input, Tooltip } from '@mantine/core';
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface CheckoutProps {
   packageId: string | null;
@@ -35,6 +36,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
   const [countyMessage, setCountyMessage] = useState("");
   const [landmarkClassname, setLandmarkClassname] = useState("landmark");
   const [landmarkMessage, setLandmarkMessage] = useState("");
+  const navigate = useRouter();
 
   const {
     register,
@@ -123,6 +125,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           packageId={packageId}
           open={open}
           onClose={onClose}
+          navigate={navigate}
         />
       )}
       {packageInfo.items && packageInfo.items?.length > 0 ? (

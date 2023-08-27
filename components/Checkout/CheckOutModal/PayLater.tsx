@@ -1,18 +1,20 @@
 import { Images } from '@/constants';
+import { User } from '@/models/user';
 import { createOrder } from '@/network/order';
 import { CircularProgress } from '@mui/material';
-import { useRouter } from 'next/router';
-import React, { useRef, useState } from 'react';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import Image from 'next/image';
-import { User } from '@/models/user';
+import React, { useRef, useState } from 'react';
 
 interface PayLaterProps {
     loggedInUser: User | null;
     packageId: string;
     price: string;
+    navigate: AppRouterInstance;
+
 }
 
-const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
+const PayLater = ({ loggedInUser, packageId, price, navigate }: PayLaterProps) => {
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(
@@ -23,7 +25,7 @@ const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
     const fieldPhoneNumber = useRef<HTMLInputElement>(null);
     const paymentType = useRef<HTMLInputElement>(null);
     const [isSubmitting, setisSubmitting] = useState(false);
-    const navigate = useRouter();
+
 
     function onPhoneNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
         setphoneNumber(event.target.value);
@@ -74,18 +76,12 @@ const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
     return (
         <div className="modal">
             {isSubmitting && <h3>Wait for an M-Pesa prompt in your phone</h3>}
-            <div className="title">
-                <div>
-                    <label>
-                        <input type="radio" ref={paymentType} value="mpesa" checked />
-                        Mpesa
-                    </label>
-                </div>
-            </div>
+            <p className='text-center text-md font-semibold text-yellow'>Your contact number</p>
+
 
             <div className={`${phoneNumberClassName} phone-stuff`}>
                 <Image priority={true} src={Images.phoneIcon} alt="profile-icon" />
-                <div className="mobile-number px-1">+254</div>
+                <div className="mobile-number px-2">+254</div>
                 <input
                     type="text"
                     placeholder="Mpesa Number"
