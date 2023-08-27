@@ -19,6 +19,9 @@ const ViewUserProfile = () => {
     const user = useAppSelector(state => state.login.user);
     const dispatch = useAppDispatch();
 
+    const [profileImgClassname, setProfileImgClassname] = useState("usernameInput");
+    const [profileImgClassname2, setProfileImgClassname2] = useState("mini_intro");
+
     const [usernameClassname, setUsernameClassname] = useState("usernameInput");
     const [usernameMessage, setUsernameMessage] = useState("");
     const [usernameClassname2, setUsernameClassname2] = useState("mini_intro");
@@ -47,9 +50,6 @@ const ViewUserProfile = () => {
     const [confirmPasswordClassName, setConfirmPasswordClassName] = useState("");
     const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
 
-    // const [selectedProfileImage, setSelectedProfileImage] = useState<
-    //     File | undefined
-    // >();
 
     const [opened, { open, close }] = useDisclosure(false);
 
@@ -61,6 +61,7 @@ const ViewUserProfile = () => {
         county: user?.county,
         area: user?.area,
         landmark: user?.landmark,
+        profileImgKey: user?.profileImgKey,
     });
 
     const {
@@ -211,11 +212,13 @@ const ViewUserProfile = () => {
             if (client) {
                 // dispatch(userLogin(client));
                 alert("Profile updated successfully!!");
+                // window.location.reload();
                 console.log(client);
             }
         } catch (error) {
             console.error(error);
             alert("Error updating profile!!!");
+            // window.location.reload();
         }
     };
 
@@ -249,21 +252,19 @@ const ViewUserProfile = () => {
         }, 1000);
     }
 
-    // function profileImageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    //     let file;
-    //     if (event.target.files && event.target.files[0]) {
-    //         file = event.target.files[0];
-    //     }
-    //     if (file) {
-    //         setSelectedProfileImage(file);
-    //     }
-    // }
+    const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            profileImgKey: event.target.value,
+        }));
+    }
+
 
     return (
         <div className="app__profile sm:mt-[8.5rem] mt-[7.5rem]">
             <form onSubmit={handleFormSubmit} encType="multipart/form-data">
                 <div className="profile_intro">
-                    <div className="mini_intro">
+                    <div className={profileImgClassname2}>
                         {user?.profileImgKey && (
                             <Image
                                 className="intro_image"
@@ -277,7 +278,18 @@ const ViewUserProfile = () => {
                                 src={Images.profile}
                                 alt="default" />
                         )}
-                        <Image className="edit1" src={Images.edit} alt="edit-icon" />
+                        <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
+                            <Image className="edit1" src={Images.edit} alt="edit-icon" />
+                        </button>
+                    </div>
+
+                    <div className={profileImgClassname}>
+                        <p>Profile picture:</p>
+                        <input
+                            type="file"
+                            placeholder="profile image"
+                            onChange={handleProfileImageChange}
+                        />
                     </div>
 
                     <div className={usernameClassname2}>
