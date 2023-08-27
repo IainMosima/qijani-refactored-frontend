@@ -1,6 +1,6 @@
 "use client";
 import { Images } from "@/constants";
-import { useAppSelector } from '@/hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
 import { updateProfile } from '@/network/users';
 import isPasswordOk from '@/utils/isPasswordOk';
 import { Button, Group, Input, Modal, PasswordInput, Tooltip } from '@mantine/core';
@@ -12,10 +12,12 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import isEmailValid from "../../utils/isEmailValid";
 import "./Profile.scss";
+import { userLogin } from "@/redux/reducers/loginReducer";
 
 
 const ViewUserProfile = () => {
     const user = useAppSelector(state => state.login.user);
+    const dispatch = useAppDispatch();
 
     const [usernameClassname, setUsernameClassname] = useState("usernameInput");
     const [usernameMessage, setUsernameMessage] = useState("");
@@ -61,9 +63,9 @@ const ViewUserProfile = () => {
         landmark: user?.landmark,
     });
 
-    // const {
-    //     formState: { isSubmitting },
-    // } = useForm();
+    const {
+        formState: { isSubmitting },
+    } = useForm();
 
     const navigate = useRouter();
 
@@ -207,7 +209,9 @@ const ViewUserProfile = () => {
             const client = await updateProfile(formData, user?._id!);
 
             if (client) {
+                // dispatch(userLogin(client));
                 alert("Profile updated successfully!!");
+                console.log(client);
             }
         } catch (error) {
             console.error(error);
@@ -281,7 +285,7 @@ const ViewUserProfile = () => {
                             <p><b>{user?.username}</b></p>
                             <small>{user?.location}</small>
                         </div>
-                        <button onClick={() => { setUsernameClassname2("usernameInput"); setUsernameClassname("mini_intro") }}>
+                        <button onClick={(e) => { setUsernameClassname2("usernameInput"); setUsernameClassname("mini_intro"); e.preventDefault() }}>
                             <Image className="edit1" src={Images.edit} alt="edit-icon" />
                         </button>
                     </div>
@@ -328,7 +332,7 @@ const ViewUserProfile = () => {
                             <h3><b>PHONE</b></h3>
                             <div className="number">
                                 <p>{user?.phoneNumber}</p>
-                                <button onClick={() => { setPhoneNumberClassName2("usernameInput"); setPhoneNumberClassName("phone") }}>
+                                <button onClick={(e) => { setPhoneNumberClassName2("usernameInput"); setPhoneNumberClassName("phone"); e.preventDefault() }}>
                                     <Image className="edit1" src={Images.edit} alt="edit-icon" />
                                 </button>
                             </div>
@@ -361,7 +365,7 @@ const ViewUserProfile = () => {
                             <h3><b>EMAIL</b></h3>
                             <div className="mail">
                                 <p>{user?.email}</p>
-                                <button onClick={() => { setEmailClassname2("usernameInput"); setEmailClassname("email") }}>
+                                <button onClick={(e) => { setEmailClassname2("usernameInput"); setEmailClassname("email"); e.preventDefault() }}>
                                     <Image className="edit1" src={Images.edit} alt="edit-icon" />
                                 </button>
                             </div>
@@ -446,6 +450,7 @@ const ViewUserProfile = () => {
                                 <option value="wajir">Wajir</option>
                                 <option value="pokot">West Pokot</option>
                             </select>
+                            <p>Current:{user?.area}</p>
                         </div>
                     </div>
                     <div className={areaClassname}>
@@ -496,7 +501,8 @@ const ViewUserProfile = () => {
                         <p className="change">Change password?</p>
                     </a>
                     <Button type='submit' className="save" variant="white" color="gray">
-                        Save Changes
+                        {!isSubmitting && <p>Save Changes</p>}
+                        {isSubmitting && <CircularProgress color="inherit" />}
                     </Button>
 
                 </div>

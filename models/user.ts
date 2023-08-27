@@ -5,8 +5,7 @@ export interface User {
     location: string,
     phoneNumber: number,
     profileImgKey: string,
-    county: string,
-    area: string,
-    landmark: string
-
+    county?: string,
+    area?: string,
+    landmark?: string,
 }
