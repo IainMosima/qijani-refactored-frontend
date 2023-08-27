@@ -1,10 +1,7 @@
-.app__CheckOutModal {
-  width: 30rem;
-  padding: 2rem;
+.modal {
+  padding-inline: 2rem;
+  width: 100%;
 
-  @media screen and (max-width: 768px) {
-    width: 19rem;
-  }
 
   h3 {
     text-align: center;
@@ -12,6 +9,7 @@
     color: var(--success-color);
   }
 
+  
   .title {
     display: flex;
     width: 100%;
@@ -74,8 +72,6 @@
       height: inherit;
       display: flex;
       place-items: center;
-
-      
     }
   }
 
@@ -117,11 +113,38 @@
     display: flex;
     place-items: center;
     justify-content: center;
-
   }
 
   .inactive {
     background-color: var(--gray-color);
     cursor: not-allowed;
+  }
+}
+
+.navigators {
+  display: flex;
+  justify-content: center;
+  height: 3rem;
+  text-transform: uppercase;
+  align-items: center;
+  font-size: 1.5rem;
+
+  h3 {
+    cursor: pointer;
+    position: relative;
+  }
+
+  .active {
+    color: var(--primary-color);
+
+    &::after {
+      content: "";
+      width: 2rem;
+      height: 2px;
+      bottom: -2px;
+      left: 1.6rem;
+      position: absolute;
+      background-color: var(--primary-color);
+    }
   }
 }

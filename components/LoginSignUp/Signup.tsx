@@ -236,7 +236,7 @@ const SignUpForm = () => {
             placeholder="Confirm Password"
             onChange={confirmPasswordChange}
           />
-          {showConfirmPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(false)} /> : <Image priority={true} src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(true)} />}
+          {showConfirmPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[58%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(false)} /> : <Image priority={true} src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[58%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setshowConfirmPassword(true)} />}
         </div>
 
         {confirmPasswordMessage && (
@@ -266,7 +266,7 @@ const SignUpForm = () => {
 
         <button>
           {!isSubmitting && <p>Sign Up</p>}
-          {isSubmitting && <CircularProgress color="inherit" />}
+          {isSubmitting && <CircularProgress color="inherit" size={30}/>}
         </button>
       </form>
     </div>

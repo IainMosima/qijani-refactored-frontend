@@ -23,7 +23,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: 2.3fr 1.1fr 2fr 1.1fr 1fr;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
     font-size: 2rem;
 
     place-items: center;
@@ -38,16 +38,15 @@
     border-bottom: 3px solid var(--gray-color);
     height: 25rem;
     overflow-y: auto;
+    
+    
+    
   }
 
   .footer {
     margin-top: 1.3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
     .price-card {
-      width: 25rem;
       display: grid;
       grid-template-columns: 3fr 2fr;
       grid-template-rows: 3fr 5fr;
