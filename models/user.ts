@@ -8,5 +8,4 @@ export interface User {
     county: string,
     area: string,
     landmark: string
-
 }
