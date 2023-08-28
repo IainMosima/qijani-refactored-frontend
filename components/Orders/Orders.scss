@@ -23,7 +23,8 @@
     .table-head {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 2.3fr 1.1fr 2fr 1.1fr 1fr;
+
       font-weight: 400;
       font-size: 1.3rem;
       margin-bottom: 1.2rem;

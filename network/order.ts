@@ -1,5 +1,5 @@
+import { OrderStructure, newOrder } from "../models/order";
 import { fetchData } from "./fetchData";
-import { OrderStructure } from "../models/order";
 
 // getting all orders
 export async function getOrders(): Promise<OrderStructure[]> {
@@ -8,7 +8,7 @@ export async function getOrders(): Promise<OrderStructure[]> {
 }
 
 // creating a new order
-export async function createOrder(OrderBody: OrderStructure, packageId: string) {
+export async function createOrder(OrderBody: newOrder, packageId: string) {
     const response = await fetchData(`/api/v1/orders/${packageId}`, 
     {
         method: 'POST',
@@ -19,4 +19,10 @@ export async function createOrder(OrderBody: OrderStructure, packageId: string) 
     });
 
     return response.json();
+}
+
+// deleting an order
+export async function cancelOrder (orderId: string) {
+    const response = await fetchData(`/api/v1/orders/${orderId}`,{method: 'DELETE'});
+    return response;
 }

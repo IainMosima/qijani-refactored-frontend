@@ -13,6 +13,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Image from "next/image";
 import { fetchPackages } from "../../network/package";
 import "./forms.scss";
+import { store } from "@/redux/store";
+import { getMyOrders, setOrders } from "@/redux/reducers/OrdersReducer";
+import { getOrders } from "@/network/order";
 
 interface LoginProps {
   setErrorText: React.Dispatch<React.SetStateAction<string | null>>;
@@ -38,7 +41,9 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
       if (user) {
         dispatch(userLogin(user));
         const myPackages = await fetchPackages();
+        const myOrders = await getOrders();
         if (myPackages) dispatch(setMypackages(myPackages));
+        if (myOrders) dispatch(setOrders(myOrders));
       }
     } catch (err) {
       if (err instanceof UnauthorizedError) {
@@ -86,5 +91,6 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
     </div>
   );
 };
+
 
 export default LoginForm;

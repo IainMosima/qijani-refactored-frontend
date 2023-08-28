@@ -1,14 +1,13 @@
 'use client';
-import React, { useRef, useState } from 'react';
-import Image from 'next/image';
-import { createOrder } from '@/network/order';
-import { Images } from "../../../constants";
-import { User } from '@/models/user';
-import { CircularProgress } from '@mui/material';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
+import { User } from '@/models/user';
+import { createOrder } from '@/network/order';
 import { setOrders } from '@/redux/reducers/OrdersReducer';
+import { CircularProgress } from '@mui/material';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import React, { useRef, useState } from 'react';
+import { Images } from "../../../constants";
 
 interface PayNowProps {
     loggedInUser: User | null;
@@ -58,10 +57,10 @@ const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
         let order;
         if (fieldPhoneNumber.current?.value)
             order = {
-                userId: loggedInUser?._id,
+                userId: loggedInUser?._id || '',
                 price: price.toString(),
                 packageId: packageId,
-                paymentType: paymentType.current?.value,
+                paymentType: paymentType.current?.value || 'mpesa',
                 phoneNumber: "254" + fieldPhoneNumber.current.value,
             };
 

@@ -8,11 +8,13 @@ import Image from "next/image";
 
 
 interface OrderDetailsProps {
-  order: OrderStructure
+  order: OrderStructure;
+  deleteOrder: (orderId: string, packageName: string) => void;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 
-const OrderDetails = ({ order }: OrderDetailsProps) => {
+const OrderDetails = ({ order, deleteOrder, setMessage }: OrderDetailsProps) => {
   const [packageInfo, setPackageInfo] = useState<PackageStructure>();
 
 
@@ -27,8 +29,8 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
     }
 
     fetchPackage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    
+  }, [order.packageId]);
 
 
   return (
@@ -37,15 +39,19 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
         <div className="table-body text-center">
           {/* <p>{order._id?.split('').slice(0, 9).join('')}</p> */}
           <p >{packageInfo.packageName}</p>
+
           <p>Ksh {order.price}</p>
+
           <div className="w-full">
             <div className="pending mx-auto px-2 py-1 my-auto sm:gap-2">
               <Image src={Images.pendingIcon} alt="pending Icon" width={20}/>
               <p>Pending</p>
             </div>
           </div>
+
           <p>En Route</p>
 
+          <Image src={Images.cancelIcon} alt="delete-icon" className="cursor-pointer" width={22} onClick={()=>deleteOrder(order._id, packageInfo.packageName)}/>
         </div>
       }
 
