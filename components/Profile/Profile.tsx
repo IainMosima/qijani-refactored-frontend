@@ -8,7 +8,7 @@ import { useDisclosure } from '@mantine/hooks';
 import CircularProgress from "@mui/material/CircularProgress";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import isEmailValid from "../../utils/isEmailValid";
 import "./Profile.scss";
@@ -18,6 +18,9 @@ import { userLogin } from "@/redux/reducers/loginReducer";
 const ViewUserProfile = () => {
     const user = useAppSelector(state => state.login.user);
     const dispatch = useAppDispatch();
+
+    const [profileImgClassname, setProfileImgClassname] = useState("usernameInput");
+    const [profileImgClassname2, setProfileImgClassname2] = useState("mini_intro");
 
     const [usernameClassname, setUsernameClassname] = useState("usernameInput");
     const [usernameMessage, setUsernameMessage] = useState("");
@@ -47,9 +50,11 @@ const ViewUserProfile = () => {
     const [confirmPasswordClassName, setConfirmPasswordClassName] = useState("");
     const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
 
-    // const [selectedProfileImage, setSelectedProfileImage] = useState<
-    //     File | undefined
-    // >();
+    const [displayMessage, setDisplayMessage] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
+    const [showMessage2, setShowMessage2] = useState(false);
+
+
 
     const [opened, { open, close }] = useDisclosure(false);
 
@@ -61,6 +66,7 @@ const ViewUserProfile = () => {
         county: user?.county,
         area: user?.area,
         landmark: user?.landmark,
+        profileImgKey: user?.profileImgKey,
     });
 
     const {
@@ -170,7 +176,7 @@ const ViewUserProfile = () => {
     const handleAreaChange = (event: { target: { value: any; }; }) => {
         setFormData((prevData) => ({
             ...prevData,
-            county: event.target.value,
+            area: event.target.value,
         }));
         const area = event.target.value;
 
@@ -206,17 +212,26 @@ const ViewUserProfile = () => {
     const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
-
         try {
             const client = await updateProfile(formData, user?._id!);
 
             if (client) {
-                alert("Profile updated successfully!!");
+                setDisplayMessage("Profile updated successfully!!");
+                setShowMessage(true);
+                setTimeout(() => {
+                    setShowMessage(false);
+                }, 3000);
+                // window.location.reload();
                 console.log(client);
             }
         } catch (error) {
+            setDisplayMessage("Error updating profile!!!");
+            setShowMessage2(true);
+            setTimeout(() => {
+                setShowMessage2(false);
+            }, 3000);
             console.error(error);
-            alert("Error updating profile!!!");
+            // window.location.reload();
         }
     };
 
@@ -250,21 +265,33 @@ const ViewUserProfile = () => {
         }, 1000);
     }
 
-    // function profileImageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    //     let file;
-    //     if (event.target.files && event.target.files[0]) {
-    //         file = event.target.files[0];
-    //     }
-    //     if (file) {
-    //         setSelectedProfileImage(file);
-    //     }
-    // }
+    const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            profileImgKey: event.target.value,
+        }));
+    }
+
+    // useEffect(() => {
+    //     dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
+    // }, [])
+
 
     return (
         <div className="app__profile sm:mt-[8.5rem] mt-[7.5rem]">
+            {showMessage &&
+                <div className="message">
+                    <h3 className="h3">{displayMessage}</h3>
+                </div>
+            }
+            {showMessage2 &&
+                <div className="message2">
+                    <h3>{displayMessage}</h3>
+                </div>
+            }
             <form onSubmit={handleFormSubmit} encType="multipart/form-data">
                 <div className="profile_intro">
-                    <div className="mini_intro">
+                    <div className={profileImgClassname2}>
                         {user?.profileImgKey && (
                             <Image
                                 className="intro_image"
@@ -278,7 +305,18 @@ const ViewUserProfile = () => {
                                 src={Images.profile}
                                 alt="default" />
                         )}
-                        <Image className="edit1" src={Images.edit} alt="edit-icon" />
+                        <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
+                            <Image className="edit1" src={Images.edit} alt="edit-icon" />
+                        </button>
+                    </div>
+
+                    <div className={profileImgClassname}>
+                        <p>Profile picture:</p>
+                        <input
+                            type="file"
+                            placeholder="profile image"
+                            onChange={handleProfileImageChange}
+                        />
                     </div>
 
                     <div className={usernameClassname2}>
@@ -451,7 +489,7 @@ const ViewUserProfile = () => {
                                 <option value="wajir">Wajir</option>
                                 <option value="pokot">West Pokot</option>
                             </select>
-                            <p>Current:{user?.area}</p>
+                            <p>Current:&nbsp;{user?.county}</p>
                         </div>
                     </div>
                     <div className={areaClassname}>
@@ -472,7 +510,7 @@ const ViewUserProfile = () => {
                                     </Tooltip>
                                 }
                             />
-                            <p>Current:{user?.area}</p>
+                            <p>Current:&nbsp;{user?.area}</p>
                         </div>
                     </div>
                     <div className={landmarkClassname}>
@@ -493,7 +531,7 @@ const ViewUserProfile = () => {
                                     </Tooltip>
                                 }
                             />
-                            <p>Current:{user?.landmark}</p>
+                            <p>Current:&nbsp;{user?.landmark}</p>
                         </div>
                     </div>
                 </div>
