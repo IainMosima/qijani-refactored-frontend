@@ -18,7 +18,7 @@ import { userLogin } from "@/redux/reducers/loginReducer";
 const ViewUserProfile = () => {
     const user = useAppSelector(state => state.login.user);
     const dispatch = useAppDispatch();
-
+    
     const [profileImgClassname, setProfileImgClassname] = useState("usernameInput");
     const [profileImgClassname2, setProfileImgClassname2] = useState("mini_intro");
 
@@ -276,6 +276,7 @@ const ViewUserProfile = () => {
     //     dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
     // }, [])
 
+    
 
     return (
         <div className="app__profile sm:mt-[8.5rem] mt-[7.5rem]">
@@ -291,7 +292,7 @@ const ViewUserProfile = () => {
             }
             <form onSubmit={handleFormSubmit} encType="multipart/form-data">
                 <div className="profile_intro">
-                    <div className={profileImgClassname2}>
+                    {/* <div className={profileImgClassname2}>
                         {user?.profileImgKey && (
                             <Image
                                 className="intro_image"
@@ -308,16 +309,16 @@ const ViewUserProfile = () => {
                         <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
                             <Image className="edit1" src={Images.edit} alt="edit-icon" />
                         </button>
-                    </div>
+                    </div> */}
 
-                    <div className={profileImgClassname}>
+                    {/* <div className={profileImgClassname}>
                         <p>Profile picture:</p>
                         <input
                             type="file"
                             placeholder="profile image"
                             onChange={handleProfileImageChange}
                         />
-                    </div>
+                    </div> */}
 
                     <div className={usernameClassname2}>
                         <div className="mini_details">

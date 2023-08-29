@@ -6,7 +6,6 @@ import { Images } from "../../constants";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { setMypackages } from "@/redux/reducers/packagesReducer";
-import CircularProgress from "@mui/material/CircularProgress";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

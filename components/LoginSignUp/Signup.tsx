@@ -87,6 +87,10 @@ const SignUpForm = () => {
         setUsernameClassname("input-warning");
         setUsernameMessage("Username must be at least 5 characters");
       } else {
+        if(username.split(' ').length > 1) {
+          setUsernameClassname("input-warning");
+          setUsernameMessage("Username must be only one word");
+        }
         setUsernameClassname("input-ok");
         setUsernameMessage("");
       }

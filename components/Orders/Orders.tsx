@@ -5,9 +5,10 @@ import OrderDetails from "./OrderDetails/OrderDetails";
 import "./Orders.scss";
 import NoOrders from "./NoOrders/NoOrders";
 import { Alert, Snackbar } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cancelOrder } from "@/network/order";
 import { setOrders } from "@/redux/reducers/OrdersReducer";
+import { useRouter } from "next/navigation";
 
 
 const Orders = () => {
@@ -15,16 +16,26 @@ const Orders = () => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useAppDispatch();
+  const loggedInUser = useAppSelector((state) => state.login.user);
+  const navigate = useRouter();
   
+
   function onClose() {
     setOpen(false);
   }
 
-  async function deleteOrder(orderId: string, packageName: string) {
-    dispatch(setOrders(orders.filter(order => order._id !== orderId)));
-    const response = await cancelOrder(orderId);
-    console.log(response);
+  async function deleteOrder(orderId: string, packageName: string, index: number) {
+    dispatch(setOrders(orders.filter((order, i) => i !== index)));
+    await cancelOrder(orderId).catch(() => alert("Something went wrong, please refresh page"));
+    
   }
+
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate.push("/loginSignup?message=orders");
+    }
+  }, [loggedInUser, navigate]);
+  
 
   return (
     <div className="app__orders">
@@ -54,7 +65,7 @@ const Orders = () => {
           <div className="frame">
             {orders.map((order, index) => (
               <div key={index}>
-                <OrderDetails order={order} deleteOrder={deleteOrder} setMessage={setMessage}/>
+                <OrderDetails order={order} deleteOrder={deleteOrder} setMessage={setMessage} index={index}/>
               </div>
             ))}
           </div>

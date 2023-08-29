@@ -7,15 +7,14 @@ import { loginCredentials } from "../../models/loginCredentials";
 import { login } from "../../network/users";
 
 import { useAppDispatch } from "@/hooks/reduxHook";
+import { getOrders } from "@/network/order";
+import { setOrders } from "@/redux/reducers/OrdersReducer";
 import { userLogin } from "@/redux/reducers/loginReducer";
 import { setMypackages } from "@/redux/reducers/packagesReducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Image from "next/image";
 import { fetchPackages } from "../../network/package";
 import "./forms.scss";
-import { store } from "@/redux/store";
-import { getMyOrders, setOrders } from "@/redux/reducers/OrdersReducer";
-import { getOrders } from "@/network/order";
 
 interface LoginProps {
   setErrorText: React.Dispatch<React.SetStateAction<string | null>>;
@@ -37,7 +36,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
   async function onSubmit(credentials: loginCredentials) {
     try {
       const user = await login(credentials);
-
+      
       if (user) {
         dispatch(userLogin(user));
         const myPackages = await fetchPackages();
