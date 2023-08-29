@@ -75,6 +75,12 @@ const ViewUserProfile = () => {
 
     const navigate = useRouter();
 
+    useEffect(() => {
+        if (!user) {
+          navigate.push("/loginSignup");
+        }
+      }, [navigate, user]);
+
     const handleUsernameChange = (event: { target: { value: any; }; }) => {
         setFormData((prevData) => ({
             ...prevData,
