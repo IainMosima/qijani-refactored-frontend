@@ -38,12 +38,12 @@ const AddNewPackageModal = ({open ,onClose, myPackages, loggedInUser } : AddNewP
         >
             <div className="app__AddpackageModal">
                 <div className="title">
-                    <h2>Add New package</h2>
+                    <h2 className="text-md">Add New package</h2>
                     <Image src={Images.closeIcon} alt='close-icon' onClick={onClose}/>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div  className="field">
-                        <input type='text' placeholder="Enter Package Name" autoComplete="off" {...register('packageName')}/>
+                        <input type='text' placeholder="Enter Package Name" autoComplete="off" {...register('packageName')} className="border border-black rounded-sm "/>
 
                         <button>Add</button>
                     </div>

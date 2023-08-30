@@ -183,6 +183,7 @@ const Navbar = () => {
             src={Images.packagesIcon}
             alt="package-icon"
             className="icon"
+            width={40}
           />
           <h4>Packages</h4>
         </div>
@@ -192,6 +193,7 @@ const Navbar = () => {
             src={Images.orderIcon}
             alt="order-icon"
             className="icon"
+            width={40}
           />
           <h4>Orders</h4>
         </div>
@@ -208,6 +210,8 @@ const Navbar = () => {
                 alt="account-icon"
                 className="profile-icon"
                 priority={true}
+                width={40}
+
               />
               <h4>My Account </h4>
             </div>
@@ -216,10 +220,10 @@ const Navbar = () => {
           <div onClick={() => toggleHandler("myAccount")}>
             <div className="flex justify-start place-items-center gap-2">
               <Avatar {...stringAvatar(loggedInUser.username)} />
-              
+
               <div className="flex justify-start place-items-center h-full gap-1">
                 <h4>{loggedInUser.username}</h4>
-                <Image src={Images.dropDownIcon} alt="drop-icon" width={20} priority={true}/>
+                <Image src={Images.dropDownIcon} alt="drop-icon" width={10} priority={true} />
               </div>
             </div>
 
@@ -232,7 +236,7 @@ const Navbar = () => {
                 <ul>
                   {myAccount.map((item, index) => (
                     <li key={index} onClick={() => navigate.push('/profile')}>
-                      {<Image src={item.img} alt="my-profile-icon" priority={true} />}{" "}
+                      {<Image src={item.img} alt="my-profile-icon" priority={true} width={30} />}{" "}
                       {item.name}
                     </li>
                   ))}
@@ -281,7 +285,7 @@ const Navbar = () => {
               <ul className="flex justify-center place-items-center flex-col rounded-[10px] gap-3">
                 {myAccount.map((item, index) => (
                   <li key={index} className="flex place-items-center gap-3" onClick={() => navigate.push('/profile')}>
-                    <Image src={item.img} alt="my-profile-icon" width={33} priority={true}/>{" "}
+                    <Image src={item.img} alt="my-profile-icon" width={33} priority={true} />{" "}
                     {item.name}
                   </li>
                 ))}
