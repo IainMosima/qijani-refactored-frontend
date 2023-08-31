@@ -6,7 +6,6 @@ import { Images } from "../../constants";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { setMypackages } from "@/redux/reducers/packagesReducer";
-import CircularProgress from "@mui/material/CircularProgress";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -50,7 +49,7 @@ const Packages = () => {
   }
 
   return (
-    <div className="app__packages">
+    <div className="app__packages h-[70vh]">
       {loggedInUser && open && (
         <AddNewPackageModal
           open={open}
@@ -132,17 +131,18 @@ const Packages = () => {
                   className="package-img"
                   alt="add-icon"
                   priority={true}
-                  width={130}
+                  width={80}
                 />
                 <h3 className="package-name">Add New</h3>
               </div>
             ) : (
-              <div className="car:h-[23rem] cannot-add">
+              <div className="card h-[23rem] cannot-add flex place-items-center flex-col justify-center">
                 <Image
                   src={Images.forbiddenIcon}
                   className="package-img"
                   alt="forbidden-icon"
                   priority={true}
+                  width={80}
                 />
                 <h3 className="package-name">Cannot add</h3>
                 <p className="package-total">Only 5 packages allowed</p>

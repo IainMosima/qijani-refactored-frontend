@@ -17,6 +17,9 @@ import * as UserApi from "../../network/users";
 import "./Navbar.scss";
 import SearchBar from "./SearchBar/SearchBar";
 import { getMyOrders } from "@/redux/reducers/OrdersReducer";
+import { Avatar } from "@mui/material";
+import stringAvatar from "../../utils/stringToColor";
+
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +30,7 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [categoryToggle, setcategoryToggle] = useState(false);
   const [accountToggle, setAccountToggle] = useState(false);
-  const [resultAvailable, setResultAvailable] = useState(searchResults.length > 0 ? true : false); 
+  const [resultAvailable, setResultAvailable] = useState(searchResults.length > 0 ? true : false);
   const navigate = useRouter();
 
   const myAccount = [
@@ -154,7 +157,7 @@ const Navbar = () => {
           clear={clear}
         />
 
-        {resultAvailable &&  searchResults.length > 0 && (
+        {resultAvailable && searchResults.length > 0 && (
           <div className="search-results lg:left-[8.5rem]">
             <ul className="lg:w-[30rem] md:w-[23rem] w-[13rem]">
               {searchResults.map((item, index) => (
@@ -180,6 +183,7 @@ const Navbar = () => {
             src={Images.packagesIcon}
             alt="package-icon"
             className="icon"
+            width={40}
           />
           <h4>Packages</h4>
         </div>
@@ -189,6 +193,7 @@ const Navbar = () => {
             src={Images.orderIcon}
             alt="order-icon"
             className="icon"
+            width={40}
           />
           <h4>Orders</h4>
         </div>
@@ -204,31 +209,23 @@ const Navbar = () => {
                 src={Images.profileDefault}
                 alt="account-icon"
                 className="profile-icon"
+                priority={true}
+                width={40}
+
               />
               <h4>My Account </h4>
             </div>
           </Link>
         ) : (
           <div onClick={() => toggleHandler("myAccount")}>
-            {loggedInUser.profileImgKey && (
-              <Image
-                src={`${process.env.NEXT_PUBLIC_USERSBUCKET}/${loggedInUser.profileImgKey}`}
-                alt="profile-pic"
-                className="profile-icon"
-                width={40}
-                height={40}
-              />
-            )}
+            <div className="flex justify-start place-items-center gap-2">
+              <Avatar {...stringAvatar(loggedInUser.username)} />
 
-            {!loggedInUser.profileImgKey && (
-              <Image
-                src={Images.accountIcon}
-                alt="profile-icon"
-                className="profile-icon"
-              />
-            )}
-            <h4>{loggedInUser.username}</h4>
-            <Image src={Images.dropDownIcon} alt="drop-icon" />
+              <div className="flex justify-start place-items-center h-full gap-1">
+                <h4>{loggedInUser.username}</h4>
+                <Image src={Images.dropDownIcon} alt="drop-icon" width={10} priority={true} />
+              </div>
+            </div>
 
             {accountToggle && (
               <motion.div
@@ -238,8 +235,8 @@ const Navbar = () => {
               >
                 <ul>
                   {myAccount.map((item, index) => (
-                    <li key={index} onClick={()=>navigate.push('/profile')}>
-                      {<Image src={item.img} alt="my-profile-icon" />}{" "}
+                    <li key={index} onClick={() => navigate.push('/profile')}>
+                      {<Image src={item.img} alt="my-profile-icon" priority={true} width={30} />}{" "}
                       {item.name}
                     </li>
                   ))}
@@ -277,24 +274,7 @@ const Navbar = () => {
           onClick={() => toggleHandler("myAccount")}
           className="lg:hidden relative"
         >
-          {loggedInUser.profileImgKey && (
-            <Image
-              src={`${process.env.NEXT_PUBLIC_USERSBUCKET}/${loggedInUser.profileImgKey}`}
-              alt="profile-pic"
-              className="profile-icon"
-              width={40}
-              height={40}
-            />
-          )}
-
-          {!loggedInUser.profileImgKey && (
-            <Image
-              src={Images.accountIcon}
-              width={40}
-              className="profile-icon"
-              alt="profile-icon"
-            />
-          )}
+          <Avatar {...stringAvatar(loggedInUser.username)} />
 
           {accountToggle && (
             <motion.div
@@ -304,14 +284,14 @@ const Navbar = () => {
             >
               <ul className="flex justify-center place-items-center flex-col rounded-[10px] gap-3">
                 {myAccount.map((item, index) => (
-                  <li key={index} className="flex place-items-center gap-3" onClick={()=>navigate.push('/profile')}>
-                    <Image src={item.img} alt="my-profile-icon" width={30} />{" "}
+                  <li key={index} className="flex place-items-center gap-3" onClick={() => navigate.push('/profile')}>
+                    <Image src={item.img} alt="my-profile-icon" width={33} priority={true} />{" "}
                     {item.name}
                   </li>
                 ))}
 
                 <button
-                  className="bg-green text-yellow rounded-md w-full"
+                  className="bg-green text-yellow rounded-md w-full h-[2.5rem]"
                   style={{ paddingTop: 0 }}
                   onClick={logout}
                 >

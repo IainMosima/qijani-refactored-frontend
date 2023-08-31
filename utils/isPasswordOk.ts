@@ -21,7 +21,7 @@ export default function isPasswordOk(password: string): string | true {
     missingCriteria.push("At least one lowercase letter");
   }
   if (!digitRegex.test(password)) {
-    missingCriteria.push("at least one digit");
+    missingCriteria.push("At least one digit");
   }
   if (!specialCharRegex.test(password)) {
     missingCriteria.push("At least one special character");

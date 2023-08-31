@@ -7,6 +7,8 @@ import { loginCredentials } from "../../models/loginCredentials";
 import { login } from "../../network/users";
 
 import { useAppDispatch } from "@/hooks/reduxHook";
+import { getOrders } from "@/network/order";
+import { setOrders } from "@/redux/reducers/OrdersReducer";
 import { userLogin } from "@/redux/reducers/loginReducer";
 import { setMypackages } from "@/redux/reducers/packagesReducer";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -34,11 +36,13 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
   async function onSubmit(credentials: loginCredentials) {
     try {
       const user = await login(credentials);
-
+      
       if (user) {
         dispatch(userLogin(user));
         const myPackages = await fetchPackages();
+        const myOrders = await getOrders();
         if (myPackages) dispatch(setMypackages(myPackages));
+        if (myOrders) dispatch(setOrders(myOrders));
       }
     } catch (err) {
       if (err instanceof UnauthorizedError) {
@@ -61,6 +65,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
           <input
             type="text"
             placeholder="Username or Email"
+            className="lowercase"
             {...register("usernameEmail", registerOptions.usernameEmail)}
           />
         </div>
@@ -85,5 +90,6 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
     </div>
   );
 };
+
 
 export default LoginForm;

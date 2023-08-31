@@ -75,6 +75,12 @@ const ViewUserProfile = () => {
 
     const navigate = useRouter();
 
+    useEffect(() => {
+        if (!user) {
+            navigate.push("/loginSignup");
+        }
+    }, [navigate, user]);
+
     const handleUsernameChange = (event: { target: { value: any; }; }) => {
         setFormData((prevData) => ({
             ...prevData,
@@ -275,6 +281,7 @@ const ViewUserProfile = () => {
     // useEffect(() => {
     //     dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
     // }, [])
+
 
 
     return (

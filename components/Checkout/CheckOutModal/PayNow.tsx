@@ -1,21 +1,22 @@
 'use client';
-import React, { useRef, useState } from 'react';
-import Image from 'next/image';
-import { createOrder } from '@/network/order';
-import { Images } from "../../../constants";
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
 import { User } from '@/models/user';
+import { createOrder } from '@/network/order';
+import { setOrders } from '@/redux/reducers/OrdersReducer';
 import { CircularProgress } from '@mui/material';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React, { useRef, useState } from 'react';
+import { Images } from "../../../constants";
 
 interface PayNowProps {
     loggedInUser: User | null;
     packageId: string;
     price: string;
-    navigate: AppRouterInstance;
-}
+    }
 
 
-const PayNow = ({ loggedInUser, packageId, price, navigate }: PayNowProps) => {
+const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(
@@ -26,8 +27,9 @@ const PayNow = ({ loggedInUser, packageId, price, navigate }: PayNowProps) => {
     const fieldPhoneNumber = useRef<HTMLInputElement>(null);
     const paymentType = useRef<HTMLInputElement>(null);
     const [isSubmitting, setisSubmitting] = useState(false);
-    
-
+    const orders = useAppSelector(state => state.orders);
+    const dispatch = useAppDispatch();
+    const navigate = useRouter();
     function onPhoneNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
         setphoneNumber(event.target.value);
         const phoneNumber = event.target.value;
@@ -55,21 +57,25 @@ const PayNow = ({ loggedInUser, packageId, price, navigate }: PayNowProps) => {
         let order;
         if (fieldPhoneNumber.current?.value)
             order = {
-                userId: loggedInUser?._id,
+                userId: loggedInUser?._id || '',
                 price: price.toString(),
                 packageId: packageId,
-                paymentType: paymentType.current?.value,
+                paymentType: paymentType.current?.value || 'mpesa',
                 phoneNumber: "254" + fieldPhoneNumber.current.value,
             };
 
         try {
             let response;
-            if (order) response = await createOrder(order, packageId);
-
-            if (response) {
-                navigate.push("/orders");
-                setisSubmitting(false);
+            if (order) {
+                response = await createOrder(order, packageId);
+                if (response) {
+                    dispatch(setOrders([response, ...orders]));
+                    console.log([response, ...orders]);
+                    navigate.push("/orders");
+                    setisSubmitting(false);
+                }
             }
+
         } catch (error) {
             console.error(error);
         }
@@ -88,7 +94,7 @@ const PayNow = ({ loggedInUser, packageId, price, navigate }: PayNowProps) => {
 
             <div className={`${phoneNumberClassName} phone-stuff`}>
                 <Image priority={true} src={Images.phoneIcon} alt="profile-icon" />
-                <div className="mobile-number px-2">+254</div>
+                <div className="mobile-number px-2 flex justify-center place-items-center">+254</div>
                 <input
                     type="text"
                     placeholder="Mpesa Number"

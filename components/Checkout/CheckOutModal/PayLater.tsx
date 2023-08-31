@@ -1,20 +1,21 @@
 import { Images } from '@/constants';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
 import { User } from '@/models/user';
 import { createOrder } from '@/network/order';
+import { setOrders } from '@/redux/reducers/OrdersReducer';
 import { CircularProgress } from '@mui/material';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 
 interface PayLaterProps {
     loggedInUser: User | null;
     packageId: string;
     price: string;
-    navigate: AppRouterInstance;
 
 }
 
-const PayLater = ({ loggedInUser, packageId, price, navigate }: PayLaterProps) => {
+const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(
@@ -23,8 +24,11 @@ const PayLater = ({ loggedInUser, packageId, price, navigate }: PayLaterProps) =
             : ""
     );
     const fieldPhoneNumber = useRef<HTMLInputElement>(null);
-    const paymentType = useRef<HTMLInputElement>(null);
     const [isSubmitting, setisSubmitting] = useState(false);
+    const dispatch = useAppDispatch();
+    const navigate = useRouter();
+    const orders = useAppSelector(state => state.orders);
+
 
 
     function onPhoneNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -54,30 +58,31 @@ const PayLater = ({ loggedInUser, packageId, price, navigate }: PayLaterProps) =
         let order;
         if (fieldPhoneNumber.current?.value)
             order = {
-                userId: loggedInUser?._id,
+                userId: loggedInUser?._id || '',
                 price: price.toString(),
                 packageId: packageId,
-                paymentType: paymentType.current?.value,
+                paymentType: 'later',
                 phoneNumber: "254" + fieldPhoneNumber.current.value,
             };
 
         try {
             let response;
-            if (order) response = await createOrder(order, packageId);
+            if (order) {
+                response = await createOrder(order, packageId)
+                dispatch(setOrders([response, ...orders]));
+                if (response) {
+                    navigate.push("/orders");
+                    setisSubmitting(false);
+                }
+            };
 
-            if (response) {
-                navigate.push("/orders");
-                setisSubmitting(false);
-            }
         } catch (error) {
             console.error(error);
         }
     }
     return (
         <div className="modal">
-            {isSubmitting && <h3>Wait for an M-Pesa prompt in your phone</h3>}
             <p className='text-center text-md font-semibold text-yellow'>Your contact number</p>
-
 
             <div className={`${phoneNumberClassName} phone-stuff`}>
                 <Image priority={true} src={Images.phoneIcon} alt="profile-icon" />
