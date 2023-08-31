@@ -18,7 +18,7 @@ interface CheckoutProps {
   packageId: string | null;
 }
 const Checkout = ({ packageId }: CheckoutProps) => {
-  const loggedInUser = useAppSelector((state) => state.login.user);
+  const user = useAppSelector((state) => state.login.user);
   const [packageInfo, setPackageInfo] = useState<PackageStructure>({
     _id: "",
     userId: "",
@@ -38,11 +38,16 @@ const Checkout = ({ packageId }: CheckoutProps) => {
   const [landmarkMessage, setLandmarkMessage] = useState("");
   const navigate = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm();
+  const [formData, setFormData] = useState({
+    username: user?.username,
+    location: user?.location,
+    phoneNumber: user?.phoneNumber,
+    email: user?.email,
+    county: user?.county,
+    area: user?.area,
+    landmark: user?.landmark,
+    profileImgKey: user?.profileImgKey,
+  });
 
   function onCountyChange(event: React.ChangeEvent<HTMLInputElement>) {
     const county = event.target.value;
@@ -72,6 +77,24 @@ const Checkout = ({ packageId }: CheckoutProps) => {
     }, 1500);
   }
 
+  const handleAreaChange = (event: { target: { value: any; }; }) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      area: event.target.value,
+    }));
+    const area = event.target.value;
+
+    setTimeout(() => {
+      if (area.length < 3) {
+        setAreaClassname("input-warning, area");
+        setAreaMessage("Area must be at least 3 characters!!");
+      } else {
+        setAreaClassname("input-ok, area");
+        setAreaMessage("");
+      }
+    }, 1500);
+  };
+
   function onLandmarkChange(event: React.ChangeEvent<HTMLInputElement>) {
     const landmark = event.target.value;
 
@@ -89,6 +112,42 @@ const Checkout = ({ packageId }: CheckoutProps) => {
   function onClose() {
     setOpen(false);
   }
+
+  const handleLandMarkChange = (event: { target: { value: any; }; }) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      landmark: event.target.value,
+    }));
+    const landmark = event.target.value;
+
+    setTimeout(() => {
+      if (landmark.length < 3) {
+        setLandmarkClassname("input-warning, landmark");
+        setLandmarkMessage("Landmark must be at least 3 characters!!");
+      } else {
+        setLandmarkClassname("input-ok, landmark");
+        setLandmarkMessage("");
+      }
+    }, 1500);
+  };
+
+  const handleCountyChange = (event: { target: { value: any; }; }) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      county: event.target.value,
+    }));
+    const county = event.target.value;
+
+    setTimeout(() => {
+      if (county.length < 3) {
+        setCountyClassname("input-warning, county");
+        setCountyMessage("County must be chosen!!");
+      } else {
+        setCountyClassname("input-ok, county");
+        setCountyMessage("");
+      }
+    }, 1500);
+  };
 
   useEffect(() => {
     async function fetchPackageInfo(packageId: string) {
@@ -118,9 +177,9 @@ const Checkout = ({ packageId }: CheckoutProps) => {
 
   return (
     <div className="app__checkout">
-      {loggedInUser && packageId && (
+      {user && packageId && (
         <CheckOutModal
-          loggedInUser={loggedInUser}
+          loggedInUser={user}
           price={total.toString()}
           packageId={packageId}
           open={open}
@@ -177,7 +236,11 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                 </div>
                 <div>
                   {countyMessage && <small className="text-danger">{countyMessage}</small>}
-                  <select className="input select" {...register("county", { onChange: onCountyChange })} required>
+                  <select
+                    className="input select"
+                    value={formData.county}
+                    name="county"
+                    onChange={handleCountyChange}>
                     <option>----</option>
                     <option value="baringo">Baringo</option>
                     <option value="bomet">Bomet</option>
@@ -227,6 +290,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                     <option value="wajir">Wajir</option>
                     <option value="pokot">West Pokot</option>
                   </select>
+                  <p>Current:&nbsp;{user?.county}</p>
                 </div>
               </div>
               <div className={areaClassname}>
@@ -236,8 +300,8 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                 <div>
                   {areaMessage && <small className="text-danger">{areaMessage}</small>}
                   <Input
-                    required
-                    {...register("area", { onChange: onAreaChange })}
+                    name="area"
+                    onChange={handleAreaChange}
                     placeholder="E.g. Juja, Thika, Kilimani"
                     rightSection={
                       <Tooltip label="Enter the town you're in!" position="top-end" withArrow>
@@ -247,6 +311,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                       </Tooltip>
                     }
                   />
+                  <p>Current:&nbsp;{user?.area}</p>
                 </div>
               </div>
               <div className={landmarkClassname}>
@@ -256,8 +321,8 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                 <div>
                   {landmarkMessage && <small className="text-danger">{landmarkMessage}</small>}
                   <Input
-                    required
-                    {...register("landmark", { onChange: onLandmarkChange })}
+                    name="landmark"
+                    onChange={handleLandMarkChange}
                     placeholder="E.g. Building name"
                     rightSection={
                       <Tooltip label="Enter a well known building near you!" position="top-end" withArrow>
@@ -267,6 +332,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                       </Tooltip>
                     }
                   />
+                  <p>Current:&nbsp;{user?.landmark}</p>
                 </div>
               </div>
             </div>

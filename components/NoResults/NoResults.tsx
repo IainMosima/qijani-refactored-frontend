@@ -13,7 +13,7 @@ const NoResults = ({ searchValue, backLink }: NoResultsProps) => {
   const navigator = useRouter();
   
   return (
-    <div className="app__no_results sm:mt-[8.5rem] mt-[7.5rem] mb-[3rem] px-2">
+    <div className="app__no_results h-[70vh] sm:mt-[8.5rem] mt-[7.5rem] mb-[3rem] px-2">
       <Image src={Images.binoculars} alt="binoculars" width={170} priority={true}/>
 
       <div>

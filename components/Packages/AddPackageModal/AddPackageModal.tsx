@@ -1,25 +1,24 @@
-import "./AddPackageModal.scss";
-import { Images } from "../../../constants";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
+import { setMypackages } from "@/redux/reducers/packagesReducer";
+import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { Images } from "../../../constants";
+import {
+  ItemStructure,
+  NewPackage,
+  UpdatedPackage
+} from "../../../models/package";
+import { Product } from "../../../models/product";
 import { User } from "../../../models/user";
 import {
   createNewPackage,
   fetchPackages,
   updatePackage,
 } from "../../../network/package";
-import { Product } from "../../../models/product";
-import {
-  ItemStructure,
-  NewPackage,
-  PackageStructure,
-  UpdatedPackage,
-} from "../../../models/package";
-import CircularProgress from "@mui/material/CircularProgress";
 import { itemManager } from "../../../utils/itemManager";
-import Image from "next/image";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
-import { setMypackages } from "@/redux/reducers/packagesReducer";
+import "./AddPackageModal.scss";
 
 interface AddPackageModalProps {
   open: boolean;

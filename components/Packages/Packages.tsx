@@ -49,7 +49,7 @@ const Packages = () => {
   }
 
   return (
-    <div className="app__packages">
+    <div className="app__packages h-[70vh]">
       {loggedInUser && open && (
         <AddNewPackageModal
           open={open}

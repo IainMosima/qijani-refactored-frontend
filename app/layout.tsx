@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Navbar />
-          <div className='lg:w-[92%] w-[100%] px-2 mx-auto overflow-x-hidden max-h-full'>
+          <div className='lg:w-[92%] w-[100%] px-2 mx-auto overflow-x-hidden'>
             {children}
           </div>
           <Footer />
