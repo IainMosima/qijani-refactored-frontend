@@ -265,12 +265,12 @@ const ViewUserProfile = () => {
         }, 1000);
     }
 
-    const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevData) => ({
-            ...prevData,
-            profileImgKey: event.target.value,
-        }));
-    }
+    // const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setFormData((prevData) => ({
+    //         ...prevData,
+    //         profileImgKey: event.target.value,
+    //     }));
+    // }
 
     // useEffect(() => {
     //     dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
@@ -305,19 +305,19 @@ const ViewUserProfile = () => {
                                 src={Images.profile}
                                 alt="default" />
                         )}
-                        <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
+                        {/* <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
                             <Image className="edit1" src={Images.edit} alt="edit-icon" />
-                        </button>
+                        </button> */}
                     </div>
 
-                    <div className={profileImgClassname}>
+                    {/* <div className={profileImgClassname}>
                         <p>Profile picture:</p>
                         <input
                             type="file"
                             placeholder="profile image"
                             onChange={handleProfileImageChange}
                         />
-                    </div>
+                    </div> */}
 
                     <div className={usernameClassname2}>
                         <div className="mini_details">
