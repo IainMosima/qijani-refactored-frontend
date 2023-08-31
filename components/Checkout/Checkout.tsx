@@ -2,7 +2,7 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { useEffect, useRef, useState } from "react";
 import { ItemStructure, PackageStructure } from "../../models/package";
-import { getPackage } from "../../network/package";
+import { getPackage, updatePackage } from "../../network/package";
 import Loading from "../Loading/Loading";
 import CheckOutModal from "./CheckOutModal/CheckOutModal";
 import "./Checkout.scss";
@@ -26,6 +26,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
     packageName: "",
     items: [],
   });
+
   const [total, setTotal] = useState(0);
   const [items, setItems] = useState<ItemStructure[]>();
   const [reload, setReload] = useState(false);
@@ -46,7 +47,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
   const navigate = useRouter();
   const dispatch = useAppDispatch();
 
-    
+
   function onCountyChange(event: React.ChangeEvent<HTMLInputElement>) {
     const county = event.target.value;
 
@@ -155,8 +156,14 @@ const Checkout = ({ packageId }: CheckoutProps) => {
       // updating user location info
       await updateProfile(formData, user?._id!);
       // updating packages
+      if(packageInfo.items)
+      await updatePackage({
+        packageId: packageInfo._id,
+        userId: packageInfo.userId,
+        packageName: packageInfo.packageName,
+        items: packageInfo.items,
+      })
 
-      
     } catch (error) {
       alert("An error occurred while, please refresh the page");
     }
@@ -367,7 +374,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           </div>
 
           <div className="footer-checkout">
-            <button onClick={() => {setOpen(true); onSubmit()}}>Checkout</button>
+            <button onClick={() => { setOpen(true); onSubmit() }}>Checkout</button>
           </div>
         </>
       )}

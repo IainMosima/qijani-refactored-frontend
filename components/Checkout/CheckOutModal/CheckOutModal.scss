@@ -75,14 +75,7 @@
     }
   }
 
-  .text-danger {
-    font-weight: 600;
-    font-size: 1.3rem;
-    color: var(--red-color);
-    font-size: 1.5rem;
-  }
-
-  .input-warning {
+ .input-warning {
     input {
       &:focus {
         outline-color: var(--red-color);

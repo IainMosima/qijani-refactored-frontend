@@ -27,6 +27,14 @@
   scroll-behavior: smooth;
 }
 
+@layer components {
+  .text-danger {
+    font-weight: 600 !important;
+    color: var(--red-color) !important;
+    @apply text-[.9rem] !important;
+  }
+}
+
 body,
 html {
   overflow-x: hidden;

@@ -10,12 +10,11 @@ import Image from "next/image";
 interface OrderDetailsProps {
   order: OrderStructure;
   deleteOrder: (orderId: string, packageName: string, index: number) => void;
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
   index: number;
 }
 
 
-const OrderDetails = ({ order, deleteOrder, setMessage, index }: OrderDetailsProps) => {
+const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
   const [packageInfo, setPackageInfo] = useState<PackageStructure>();
 
 
