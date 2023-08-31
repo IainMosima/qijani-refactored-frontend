@@ -39,6 +39,7 @@ import locationIcon from "../public/assets/location.png";
 import visibleIcon from "../public/assets/visible.png";
 import hideIcon from "../public/assets/hide.png";
 import cancelIcon from "../public/assets/cancel.png";
+import homeIcon from "../public/assets/home.png";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     logo,
@@ -82,4 +83,5 @@ export default {
     visibleIcon,
     hideIcon,
     cancelIcon,
+    homeIcon,
 }

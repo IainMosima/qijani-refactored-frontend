@@ -55,7 +55,7 @@ const BottomNav = () => {
                 <BottomNavigationAction
                     label="Home"
                     value="home"
-                    icon={<HomeIcon />}
+                    icon={<Image src={Images.homeIcon} alt='packages' width={30} height={30} />}
                     onClick={() => homeNavigation()}
                 />
 

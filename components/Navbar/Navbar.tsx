@@ -145,7 +145,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="app__searchBar basis-[50%]">
+      <div className="app__searchBar basis-[47%]">
         <SearchBar
           query={query}
           handleInputChange={handleSearchInput}
@@ -178,12 +178,22 @@ const Navbar = () => {
       </div>
 
       <div className="app__navbar-links ml-3">
+      <div onClick={() => navigate.push('/')}>
+          <Image
+            src={Images.homeIcon}
+            alt="package-icon"
+            className="icon"
+            width={35}
+          />
+          <h4>Home</h4>
+        </div>
+
         <div onClick={() => packageOnClickHandler()}>
           <Image
             src={Images.packagesIcon}
             alt="package-icon"
             className="icon"
-            width={40}
+            width={35}
           />
           <h4>Packages</h4>
         </div>
@@ -193,7 +203,7 @@ const Navbar = () => {
             src={Images.orderIcon}
             alt="order-icon"
             className="icon"
-            width={40}
+            width={35}
           />
           <h4>Orders</h4>
         </div>
@@ -231,7 +241,7 @@ const Navbar = () => {
               <motion.div
                 whileInView={{ y: [0, 10] }}
                 transition={{ duration: 0.1, ease: "easeOut" }}
-                className="more_info my_account"
+                className="more_info my_account right-2"
               >
                 <ul>
                   {myAccount.map((item, index) => (
