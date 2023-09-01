@@ -13,10 +13,13 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import isEmailValid from "../../utils/isEmailValid";
 import "./Profile.scss";
 import { userLogin } from "@/redux/reducers/loginReducer";
+import { Avatar } from "@mui/material";
+import stringAvatar from "../../utils/stringToColor";
+import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 
 
 const ViewUserProfile = () => {
-    const user = useAppSelector(state => state.login.user);
+    const user = useAppSelector((state) => state.login.user)!;
     const dispatch = useAppDispatch();
 
     const [profileImgClassname, setProfileImgClassname] = useState("usernameInput");
@@ -53,6 +56,7 @@ const ViewUserProfile = () => {
     const [displayMessage, setDisplayMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const [showMessage2, setShowMessage2] = useState(false);
+    const [disabled, setDisabled] = useState(false);
 
 
 
@@ -69,17 +73,16 @@ const ViewUserProfile = () => {
         profileImgKey: user?.profileImgKey,
     });
 
+    const [formData2, setFormData2] = useState({
+        prevPassword: '',
+        newPassword: '',
+    });
+
     const {
         formState: { isSubmitting },
     } = useForm();
 
     const navigate = useRouter();
-
-    useEffect(() => {
-        if (!user) {
-            navigate.push("/loginSignup");
-        }
-    }, [navigate, user]);
 
     const handleUsernameChange = (event: { target: { value: any; }; }) => {
         setFormData((prevData) => ({
@@ -241,36 +244,74 @@ const ViewUserProfile = () => {
         }
     };
 
-    function onPrevPasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleForm2Submit = async (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        try {
+            const response = await updateProfile(formData2, user?._id!);
+
+            if (response) {
+                close();
+                setDisplayMessage("Password updated successfully!!");
+                setShowMessage(true);
+                setTimeout(() => {
+                    setShowMessage(false);
+                }, 3000);
+            }
+        } catch (error) {
+            close();
+            setDisplayMessage("Error updating password!!!");
+            setShowMessage2(true);
+            setTimeout(() => {
+                setShowMessage2(false);
+            }, 3000);
+            console.error(error);
+        }
+    };
+
+
+    const handlePrevPasswordChange = (event: { target: { value: any; }; }) => {
+        setFormData2((prevData) => ({
+            ...prevData,
+            prevPassword: event.target.value,
+        }));
+
         const prevPassword = event.target.value;
 
         setTimeout(() => {
-            const message = isPasswordOk(prevPassword);
-            if (typeof message === "string") {
+            if (prevPassword === '') {
                 setPasswordClassname("input-warning");
-                setPasswordMessage(message);
+                setPasswordMessage("Password cannot be empty!!");
+                setDisabled(true);
             } else {
                 setPasswordClassname("input-ok");
                 setPasswordMessage("");
-                setPassword(prevPassword);
             }
-        }, 1700);
-    }
+        }, 1000);
+    };
 
-    function onNewPasswordChange(event: any) {
+    const handleNewPasswordChange = (event: { target: { value: any; }; }) => {
+        setFormData2((prevData) => ({
+            ...prevData,
+            newPassword: event.target.value,
+        }));
         const newPassword = event.target.value;
 
         setTimeout(() => {
-            if (newPassword !== password) {
+            const message = isPasswordOk(newPassword);
+            if (typeof message === "string") {
                 setConfirmPasswordClassName("input-warning");
-                setConfirmPasswordMessage("Passwords do not match");
+                setConfirmPasswordMessage(message);
+                setDisabled(true);
             } else {
                 setConfirmPasswordClassName("input-ok");
                 setConfirmPasswordMessage("");
+                setDisabled(false);
             }
-        }, 1000);
-    }
-
+            if (newPassword === '' || formData2.prevPassword === '') {
+                setDisabled(true);
+            }
+        }, 1700);
+    };
     // const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //     setFormData((prevData) => ({
     //         ...prevData,
@@ -281,6 +322,16 @@ const ViewUserProfile = () => {
     // useEffect(() => {
     //     dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
     // }, [])
+
+
+    useEffect(() => {
+        if (!user) {
+            navigate.push("/loginSignup");
+        }
+        if (formData2.prevPassword === '' && formData2.newPassword === '') {
+            setDisabled(true);
+        }
+    }, [navigate, user]);
 
 
 
@@ -299,22 +350,21 @@ const ViewUserProfile = () => {
             <form onSubmit={handleFormSubmit} encType="multipart/form-data">
                 <div className="profile_intro">
                     <div className={profileImgClassname2}>
-                        {user?.profileImgKey && (
+                        {user === null ? (
                             <Image
                                 className="intro_image"
                                 width={40}
                                 height={40}
-                                src={`${process.env.NEXT_PUBLIC_USERSBUCKET}/${user.profileImgKey}`}
-                                alt="profile_image" />
-                        )}
-                        {!user?.profileImgKey && (
-                            <Image className="intro_image"
                                 src={Images.profile}
-                                alt="default" />
+                                alt="profile_image" />
+                        ) : (
+
+                            <Avatar className="intro_image" {...stringAvatar(user?.username)} />
+
                         )}
-                        {/* <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
-                            <Image className="edit1" src={Images.edit} alt="edit-icon" />
-                        </button> */}
+                        <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
+                            <Image className="edit2" src={Images.edit} alt="edit-icon" />
+                        </button>
                     </div>
 
                     {/* <div className={profileImgClassname}>
@@ -543,7 +593,7 @@ const ViewUserProfile = () => {
                     </div>
                 </div>
                 <div className="bottom_details">
-                    <a onClick={open}>
+                    <a onClick={function () { setDisabled(true); open() }}>
                         <p className="change">Change password?</p>
                     </a>
                     <Button type='submit' className="save" variant="white" color="gray">
@@ -553,44 +603,60 @@ const ViewUserProfile = () => {
 
                 </div>
             </form>
+
             <Modal
                 size="md"
-                className="modal"
+                className="modal2"
                 opened={opened}
                 onClose={close}
                 title="Password Reset"
                 centered
                 transitionProps={{ transition: 'fade', duration: 600, timingFunction: 'linear' }}
-            >
-                <div className="new">
-                    <div>
-                        {passwordMessage && <small className="text-danger">{passwordMessage}</small>}
-                        <PasswordInput
-                            label="Old Password"
-                            description="Password must include at least one letter, number and special character!!"
-                            withAsterisk
-                            data-autofocus
-                            placeholder="Enter your previous password..."
-                        />
+            ><form onSubmit={handleForm2Submit} encType="multipart/form-data">
+                    <div className="new">
+                        <div>
+                            {passwordMessage && <small className="text-danger">{passwordMessage}</small>}
+                            <PasswordInput
+                                label="Old Password"
+                                description="Password must include at least one letter, number and special character!!"
+                                withAsterisk
+                                data-autofocus
+                                onChange={handlePrevPasswordChange}
+                                placeholder="Enter your previous password..."
+                                visibilityToggleIcon={({ reveal, size }) =>
+                                    reveal ? <IconEyeOff size={size} /> : <IconEyeCheck size={size} />
+                                }
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="confirm">
-                    <div>
-                        {confirmPasswordMessage && <small className="text-danger">{confirmPasswordMessage}</small>}
-                        <PasswordInput
-                            label="New Password"
-                            description="Password must include at least one letter, number and special character!!"
-                            withAsterisk
-                            placeholder="Enter your new password..."
-                        />
+                    <div className="confirm">
+                        <div>
+                            {confirmPasswordMessage && <small className="text-danger">{confirmPasswordMessage}</small>}
+                            <PasswordInput
+                                label="New Password"
+                                description="Password must include at least one letter, number and special character!!"
+                                withAsterisk
+                                onChange={handleNewPasswordChange}
+                                placeholder="Enter your new password..."
+                                visibilityToggleIcon={({ reveal, size }) =>
+                                    reveal ? <IconEyeOff size={size} /> : <IconEyeCheck size={size} />
+                                }
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="submit mt-4">
-                    <Group position="center">
-                        <Button variant="outline" type='submit'>Submit</Button>
-                    </Group>
-                </div>
+
+                    <div className="submit mt-4">
+                        <Group position="center">
+                            <Button disabled={disabled} variant="outline" type='submit'>
+                                {!isSubmitting && <p>Submit</p>}
+                                {isSubmitting && <CircularProgress color="inherit" />}
+                            </Button>
+                        </Group>
+                    </div>
+
+                </form>
             </Modal>
+
         </div>
     );
 }

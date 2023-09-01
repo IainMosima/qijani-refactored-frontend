@@ -8,4 +8,6 @@ export interface User {
     county: string,
     area: string,
     landmark: string,
+    prevPassword: string,
+    newPassword: string,
 }
