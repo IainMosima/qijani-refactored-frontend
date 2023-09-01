@@ -335,9 +335,8 @@
     .save {
       height: 50px;
       font-family: var(--zilla-font) !important;
-      float: right;
-      background-color: #f5f5f5 !important;
-
+      float: right !important;
+      
       :hover {
         opacity: 0.9;
       }

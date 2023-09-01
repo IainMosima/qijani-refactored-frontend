@@ -2,20 +2,20 @@
 import { Images } from "@/constants";
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
 import { updateProfile } from '@/network/users';
+import { userLogin } from "@/redux/reducers/loginReducer";
 import isPasswordOk from '@/utils/isPasswordOk';
 import { Button, Group, Input, Modal, PasswordInput, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Avatar } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import isEmailValid from "../../utils/isEmailValid";
-import "./Profile.scss";
-import { userLogin } from "@/redux/reducers/loginReducer";
-import { Avatar } from "@mui/material";
 import stringAvatar from "../../utils/stringToColor";
-import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
+import "./Profile.scss";
 
 
 const ViewUserProfile = () => {
@@ -58,7 +58,7 @@ const ViewUserProfile = () => {
     const [showMessage2, setShowMessage2] = useState(false);
     const [disabled, setDisabled] = useState(false);
 
-
+    const [isEditing, setIsEditing] = useState(false);
 
     const [opened, { open, close }] = useDisclosure(false);
 
@@ -85,6 +85,7 @@ const ViewUserProfile = () => {
     const navigate = useRouter();
 
     const handleUsernameChange = (event: { target: { value: any; }; }) => {
+        setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
             username: event.target.value,
@@ -103,6 +104,7 @@ const ViewUserProfile = () => {
     };
 
     const handleLocationChange = (event: { target: { value: any; }; }) => {
+        setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
             location: event.target.value,
@@ -121,6 +123,7 @@ const ViewUserProfile = () => {
     };
 
     const handleEmailChange = (event: { target: { value: any; }; }) => {
+        setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
             email: event.target.value,
@@ -140,6 +143,7 @@ const ViewUserProfile = () => {
     };
 
     const handlePhoneNumberChange = (event: { target: { value: any; }; }) => {
+        setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
             phoneNumber: event.target.value,
@@ -165,6 +169,7 @@ const ViewUserProfile = () => {
     };
 
     const handleCountyChange = (event: { target: { value: any; }; }) => {
+        setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
             county: event.target.value,
@@ -183,6 +188,7 @@ const ViewUserProfile = () => {
     };
 
     const handleAreaChange = (event: { target: { value: any; }; }) => {
+        setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
             area: event.target.value,
@@ -201,6 +207,7 @@ const ViewUserProfile = () => {
     };
 
     const handleLandMarkChange = (event: { target: { value: any; }; }) => {
+        setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
             landmark: event.target.value,
@@ -324,12 +331,13 @@ const ViewUserProfile = () => {
     // }, [])
 
 
-    useEffect(() => {
-        if (!user) {
-            navigate.push("/loginSignup");
-        }
-    }, [navigate, user]);
+    // useEffect(() => {
+    //     if (!user) {
+    //         navigate.push("/loginSignup");
+    //     }
+    // }, [navigate, user]);
 
+    
 
 
     return (
@@ -363,15 +371,6 @@ const ViewUserProfile = () => {
                             <Image className="edit2" src={Images.edit} alt="edit-icon" />
                         </button>
                     </div>
-
-                    {/* <div className={profileImgClassname}>
-                        <p>Profile picture:</p>
-                        <input
-                            type="file"
-                            placeholder="profile image"
-                            onChange={handleProfileImageChange}
-                        />
-                    </div> */}
 
                     <div className={usernameClassname2}>
                         <div className="mini_details">
@@ -443,7 +442,7 @@ const ViewUserProfile = () => {
                             <input
                                 id="number"
                                 className="input"
-                                value={formData.phoneNumber}
+                                defaultValue={user?.phoneNumber}
                                 type="number"
                                 placeholder="Phonenumber"
                                 name="phoneNumber"
@@ -472,7 +471,7 @@ const ViewUserProfile = () => {
                             <input
                                 className="input"
                                 type="string"
-                                value={formData.email}
+                                defaultValue={user?.email}
                                 placeholder="Email"
                                 name="email"
                                 onChange={handleEmailChange}
@@ -589,13 +588,12 @@ const ViewUserProfile = () => {
                         </div>
                     </div>
                 </div>
-                <div className="bottom_details">
+                <div className="bottom_details flex justify-between place-content-center">
                     <a onClick={function () { setDisabled(true); open() }}>
                         <p className="change">Change password?</p>
                     </a>
-                    <Button type='submit' className="save" variant="white" color="gray">
-                        {!isSubmitting && <p>Save Changes</p>}
-                        {isSubmitting && <CircularProgress color="inherit" />}
+                    <Button type='submit' className={`"save  text-md text-yellow ${isEditing ? 'bg-green' : 'bg-gray' }`} disabled={!isEditing}>
+                        {!isSubmitting ? <p>Save Changes</p> : <CircularProgress color="inherit" />}
                     </Button>
 
                 </div>
@@ -609,7 +607,8 @@ const ViewUserProfile = () => {
                 title="Password Reset"
                 centered
                 transitionProps={{ transition: 'fade', duration: 600, timingFunction: 'linear' }}
-            ><form onSubmit={handleForm2Submit} encType="multipart/form-data">
+            >
+                <form onSubmit={handleForm2Submit} encType="multipart/form-data">
                     <div className="new">
                         <div>
                             {passwordMessage && <small className="text-danger">{passwordMessage}</small>}

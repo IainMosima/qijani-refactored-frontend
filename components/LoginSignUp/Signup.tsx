@@ -206,7 +206,7 @@ const SignUpForm = () => {
           <Image priority={true} className="icon" src={Images.phoneIcon} alt="profile-icon" />
           <p className="mobile-number px-2">+254</p>
           <input
-            type="text"
+            type="number"
             placeholder="Mpesa Number"
             {...register("phoneNumber", { onChange: onPhoneNumberChange })}
           />

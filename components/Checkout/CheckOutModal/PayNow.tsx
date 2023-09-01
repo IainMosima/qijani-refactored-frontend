@@ -96,7 +96,7 @@ const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
                 <Image priority={true} src={Images.phoneIcon} alt="profile-icon" />
                 <div className="mobile-number px-2 flex justify-center place-items-center">+254</div>
                 <input
-                    type="text"
+                    type="number"
                     placeholder="Mpesa Number"
                     value={phoneNumber}
                     ref={fieldPhoneNumber}

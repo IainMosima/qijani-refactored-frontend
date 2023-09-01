@@ -31,11 +31,11 @@ const CheckOutModal = ({
   return (
     <Dialog open={open} onClose={onClose}>
       <div className="w-30rem py-7">
-        <div className="navigators sm:gap-[10rem] w-full gap-[3rem] text-[1.2rem] px-7 mb-3">
+        {/* <div className="navigators sm:gap-[10rem] w-full gap-[3rem] text-[1.2rem] px-7 mb-3">
           <h3 className={payNow ? 'active' : ''} onClick={()=>setPayNow(true)}>Pay Now</h3>
           <h3 className={!payNow ? 'active' : ''} onClick={()=>setPayNow(false)}>Pay Later</h3>
-        </div>
-        {payNow ? (
+        </div> */}
+        {!payNow ? (
           <PayNow loggedInUser={loggedInUser}
           packageId={packageId}
           price={price}

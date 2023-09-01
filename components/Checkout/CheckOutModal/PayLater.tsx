@@ -82,13 +82,13 @@ const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
     }
     return (
         <div className="modal">
-            <p className='text-center text-md font-semibold text-yellow'>Your contact number</p>
+            <p className='text-center text-md font-semibold text-yellow'>Confirm your contact number</p>
 
             <div className={`${phoneNumberClassName} phone-stuff`}>
                 <Image priority={true} src={Images.phoneIcon} alt="profile-icon" />
                 <div className="mobile-number px-2">+254</div>
                 <input
-                    type="text"
+                    type="number"
                     placeholder="Mpesa Number"
                     value={phoneNumber}
                     ref={fieldPhoneNumber}

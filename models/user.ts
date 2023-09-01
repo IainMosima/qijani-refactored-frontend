@@ -8,6 +8,20 @@ export interface User {
     county: string,
     area: string,
     landmark: string,
+    // prevPassword: string,
+    // newPassword: string,
+}
+
+export interface updateUser {
+    userId: string,
+    username: string,
+    email: string,
+    phoneNumber: string,
+    location: string,
     prevPassword: string,
     newPassword: string,
+    profileImg: File,
+    county: string,
+    area: string,
+    landmark: string,
 }
