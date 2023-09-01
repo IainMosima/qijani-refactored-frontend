@@ -11,8 +11,8 @@ export interface NewPackage {
 }
 
 export interface UpdatedPackage {
-    userId: string,
     packageId: string,
+    userId: string,
     packageName: string,
     items: ItemStructure[],
 }

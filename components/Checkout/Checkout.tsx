@@ -1,8 +1,8 @@
 "use client";
-import { useAppSelector } from "@/hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { useEffect, useRef, useState } from "react";
 import { ItemStructure, PackageStructure } from "../../models/package";
-import { getPackage } from "../../network/package";
+import { getPackage, updatePackage } from "../../network/package";
 import Loading from "../Loading/Loading";
 import CheckOutModal from "./CheckOutModal/CheckOutModal";
 import "./Checkout.scss";
@@ -11,20 +11,22 @@ import ProductDetails from "./ProductDetails/ProductDetails";
 import { Images } from "@/constants";
 import { Input, Tooltip } from '@mantine/core';
 import Image from "next/image";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { updateProfile } from "@/network/users";
+import { userLogin } from "@/redux/reducers/loginReducer";
 
 interface CheckoutProps {
   packageId: string | null;
 }
 const Checkout = ({ packageId }: CheckoutProps) => {
-  const user = useAppSelector((state) => state.login.user);
+  const user = useAppSelector(state => state.login.user);
   const [packageInfo, setPackageInfo] = useState<PackageStructure>({
     _id: "",
     userId: "",
     packageName: "",
     items: [],
   });
+
   const [total, setTotal] = useState(0);
   const [items, setItems] = useState<ItemStructure[]>();
   const [reload, setReload] = useState(false);
@@ -36,18 +38,15 @@ const Checkout = ({ packageId }: CheckoutProps) => {
   const [countyMessage, setCountyMessage] = useState("");
   const [landmarkClassname, setLandmarkClassname] = useState("landmark");
   const [landmarkMessage, setLandmarkMessage] = useState("");
-  const navigate = useRouter();
-
   const [formData, setFormData] = useState({
-    username: user?.username,
-    location: user?.location,
-    phoneNumber: user?.phoneNumber,
-    email: user?.email,
     county: user?.county,
     area: user?.area,
     landmark: user?.landmark,
     profileImgKey: user?.profileImgKey,
   });
+  const navigate = useRouter();
+  const dispatch = useAppDispatch();
+
 
   function onCountyChange(event: React.ChangeEvent<HTMLInputElement>) {
     const county = event.target.value;
@@ -149,7 +148,32 @@ const Checkout = ({ packageId }: CheckoutProps) => {
     }, 1500);
   };
 
+
+
+  const onSubmit = async () => {
+    dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
+    try {
+      // updating user location info
+      await updateProfile(formData, user?._id!);
+      // updating packages
+      if(packageInfo.items)
+      await updatePackage({
+        packageId: packageInfo._id,
+        userId: packageInfo.userId,
+        packageName: packageInfo.packageName,
+        items: packageInfo.items,
+      })
+
+    } catch (error) {
+      alert("An error occurred while, please refresh the page");
+    }
+  };
+
+
   useEffect(() => {
+    if (!user) {
+      navigate.push("/loginSignup?message=checkout");
+    }
     async function fetchPackageInfo(packageId: string) {
       const response = await getPackage(packageId);
 
@@ -173,7 +197,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
     if (packageId) fetchPackageInfo(packageId);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reload]);
+  }, [reload, user]);
 
   return (
     <div className="app__checkout">
@@ -237,7 +261,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                 <div>
                   {countyMessage && <small className="text-danger">{countyMessage}</small>}
                   <select
-                    className="input select"
+                    className="input select p-2"
                     value={formData.county}
                     name="county"
                     onChange={handleCountyChange}>
@@ -350,7 +374,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           </div>
 
           <div className="footer-checkout">
-            <button onClick={() => setOpen(true)}>Checkout</button>
+            <button onClick={() => { setOpen(true); onSubmit() }}>Checkout</button>
           </div>
         </>
       )}

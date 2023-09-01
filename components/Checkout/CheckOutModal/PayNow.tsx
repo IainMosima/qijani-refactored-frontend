@@ -86,7 +86,7 @@ const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
             <div className="title">
                 <div>
                     <label>
-                        <input type="radio" ref={paymentType} value="mpesa" checked />
+                        <input type="radio" ref={paymentType} value="mpesa" defaultChecked />
                         Mpesa
                     </label>
                 </div>

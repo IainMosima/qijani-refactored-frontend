@@ -21,7 +21,7 @@ const NoOrders = () => {
                 </ul>
                 
                 <Link href='/packages'>
-                    <button>Go To Packages page</button>
+                    <button className="p-1 h-[3rem]">Go To Packages</button>
                 </Link>
             </div>
         </div>

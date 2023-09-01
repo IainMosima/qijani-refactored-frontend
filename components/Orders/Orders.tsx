@@ -19,15 +19,13 @@ const Orders = () => {
   const loggedInUser = useAppSelector((state) => state.login.user);
   const navigate = useRouter();
   
-
   function onClose() {
     setOpen(false);
   }
 
   async function deleteOrder(orderId: string, packageName: string, index: number) {
     dispatch(setOrders(orders.filter((order, i) => i !== index)));
-    await cancelOrder(orderId).catch(() => alert("Something went wrong, please refresh page"));
-    
+    await cancelOrder(orderId).then(()=>{setMessage(`Canceled order for package ${packageName}`); setOpen(true)}).catch(() => alert("Something went wrong, please refresh page"));
   }
 
   useEffect(() => {
@@ -45,7 +43,7 @@ const Orders = () => {
         onClose={onClose}
         autoHideDuration={3000}
       >
-        <Alert onClose={onClose} severity="success" sx={{ width: "100%" }}>
+        <Alert onClose={onClose} severity="warning" sx={{ width: "100%" }}>
           {message}
         </Alert>
       </Snackbar>
@@ -65,7 +63,7 @@ const Orders = () => {
           <div className="frame">
             {orders.map((order, index) => (
               <div key={index}>
-                <OrderDetails order={order} deleteOrder={deleteOrder} setMessage={setMessage} index={index}/>
+                <OrderDetails order={order} deleteOrder={deleteOrder} index={index}/>
               </div>
             ))}
           </div>

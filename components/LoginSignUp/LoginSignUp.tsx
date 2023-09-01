@@ -28,6 +28,7 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
         add: 'Login to add an item to a package',
         orders: 'Login to access orders',
         profile: 'Login to view profile page',
+        checkout: 'Login to check out package'
     }
 
     useEffect(() => {
@@ -41,10 +42,13 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
                 setDisplayMessage(messages.orders);
             } else if (message === 'profile') {
                 setDisplayMessage(messages.profile);
+            } else if (message === 'checkout') {
+                setDisplayMessage(messages.checkout);
             }
 
+
             if (loggedInUser) {
-                if (message === 'packages') {
+                if (message === 'packages' || message === 'checkout') {
                     navigate.push('/packages');
                 } else if (message === 'orders') {
                     navigate.push('/orders');
@@ -62,7 +66,7 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
 
         return () => clearTimeout(messageTimer);
 
-    }, [errorText, loggedInUser, message, messages.add, messages.orders, messages.packages, messages.profile, navigate]);
+    }, [errorText, loggedInUser, message, messages.add, messages.checkout, messages.orders, messages.packages, messages.profile, navigate]);
 
     function toggleHandler(option: string) {
         switch (option) {
