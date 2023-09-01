@@ -328,9 +328,6 @@ const ViewUserProfile = () => {
         if (!user) {
             navigate.push("/loginSignup");
         }
-        if (formData2.prevPassword === '' && formData2.newPassword === '') {
-            setDisabled(true);
-        }
     }, [navigate, user]);
 
 
