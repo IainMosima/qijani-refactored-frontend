@@ -28,7 +28,7 @@ const SignUpForm = () => {
   const [emailMessage, setEmailMessage] = useState("");
   const [email, setEmail] = useState('');
   const [debouncedEmail] = useDebounce(email, 300);
-  const [checkEMailExists, setCheckEMailExists] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
 
 
   const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
@@ -90,6 +90,7 @@ const SignUpForm = () => {
 
   function onUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
     const username = event.target.value;
+    setUsername(username);
 
     setTimeout(() => {
       if (username.length < 5) {
@@ -107,6 +108,7 @@ const SignUpForm = () => {
 
   function onEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
     const email = event.target.value;
+    setEmail(email);
     const validEmail = isEmailValid(email);
 
     setTimeout(() => {
@@ -184,12 +186,29 @@ const SignUpForm = () => {
   useEffect(() => {
     async function checkUsernameExists(username: string) {
       const response = await checkUsername(username);
-      return response;
+      if (response) {
+        setUsernameClassname("input-warning");
+        setUsernameMessage("Username is already in use");
+      } else {
+        setUsernameClassname("input-ok");
+        setUsernameMessage("");
+      }
+
     }
-    async function checkEMailExists(email: string) {
+    async function checkEmailExists(email: string) {
       const response = await checkUsername(email);
-      return response;
+      if (response) {
+        setEmailClassname("input-warning");
+        setEmailMessage("Email already exists");
+      } else {
+        setEmailClassname("input-ok");
+        setEmailMessage("");
+      }
+      
     }
+    if (debouncedUsername) checkUsernameExists(debouncedUsername);
+    if (debouncedEmail) checkEmailExists(debouncedEmail);
+
   }, [debouncedUsername, debouncedEmail]);
 
 
