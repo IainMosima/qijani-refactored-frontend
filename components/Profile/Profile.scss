@@ -61,12 +61,12 @@
       align-items: center;
 
       .intro_image {
-        width: 125px;
+        width: 125px !important;
         border: solid;
         border-width: 1px;
         border-color: black;
         border-radius: 10px;
-        height: 125px;
+        height: 125px !important;
       }
 
       p {

@@ -6,7 +6,7 @@ import { userLogin } from "@/redux/reducers/loginReducer";
 import isPasswordOk from '@/utils/isPasswordOk';
 import { Button, Group, Input, Modal, PasswordInput, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Avatar } from "@mui/material";
+import { Alert, AlertColor, Avatar, Snackbar } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 import Image from "next/image";
@@ -59,8 +59,14 @@ const ViewUserProfile = () => {
     const [disabled, setDisabled] = useState(false);
 
     const [isEditing, setIsEditing] = useState(false);
+    const [isEditing2, setIsEditing2] = useState(false);
+
+
 
     const [opened, { open, close }] = useDisclosure(false);
+
+    const [severity, setSeverity] = useState<AlertColor | undefined>();
+
 
     const [formData, setFormData] = useState({
         username: user?.username,
@@ -78,11 +84,15 @@ const ViewUserProfile = () => {
         newPassword: '',
     });
 
-    const {
-        formState: { isSubmitting },
-    } = useForm();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitting2, setIsSubmitting2] = useState(false);
 
+    const [openAlertModal, setOpenAlertModal] = useState(false);
     const navigate = useRouter();
+
+    function onClose() {
+        setOpenAlertModal(false);
+    }
 
     const handleUsernameChange = (event: { target: { value: any; }; }) => {
         setIsEditing(true);
@@ -227,6 +237,7 @@ const ViewUserProfile = () => {
 
     const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
+        setIsSubmitting(true);
         dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
         try {
             const client = await updateProfile(formData, user?._id!);
@@ -234,25 +245,23 @@ const ViewUserProfile = () => {
             if (client) {
                 setDisplayMessage("Profile updated successfully!!");
                 setShowMessage(true);
-                setTimeout(() => {
-                    setShowMessage(false);
-                }, 3000);
-                // window.location.reload();
-                console.log(client);
+                setSeverity('success');
+                setIsSubmitting(false);
+                setOpenAlertModal(true);
+
             }
         } catch (error) {
-            setDisplayMessage("Error updating profile!!!");
+            setDisplayMessage("Something went wrong, please try again");
             setShowMessage2(true);
-            setTimeout(() => {
-                setShowMessage2(false);
-            }, 3000);
-            console.error(error);
-            // window.location.reload();
+            setSeverity('error');
+            setIsSubmitting(false);
+            setOpenAlertModal(true);
         }
     };
 
     const handleForm2Submit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
+        setIsSubmitting2(true);
         try {
             const response = await updateProfile(formData2, user?._id!);
 
@@ -260,18 +269,18 @@ const ViewUserProfile = () => {
                 close();
                 setDisplayMessage("Password updated successfully!!");
                 setShowMessage(true);
-                setTimeout(() => {
-                    setShowMessage(false);
-                }, 3000);
+                setSeverity('success');
+                setIsSubmitting2(false);
+                setOpenAlertModal(true);
             }
         } catch (error) {
             close();
-            setDisplayMessage("Error updating password!!!");
+            setDisplayMessage("Invalid password!!");
             setShowMessage2(true);
-            setTimeout(() => {
-                setShowMessage2(false);
-            }, 3000);
-            console.error(error);
+            setSeverity('error');
+            setIsSubmitting2(false);
+            setOpenAlertModal(true);
+
         }
     };
 
@@ -297,6 +306,7 @@ const ViewUserProfile = () => {
     };
 
     const handleNewPasswordChange = (event: { target: { value: any; }; }) => {
+        setIsEditing2(true);
         setFormData2((prevData) => ({
             ...prevData,
             newPassword: event.target.value,
@@ -319,42 +329,29 @@ const ViewUserProfile = () => {
             }
         }, 1700);
     };
-    // const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setFormData((prevData) => ({
-    //         ...prevData,
-    //         profileImgKey: event.target.value,
-    //     }));
-    // }
-
-    // useEffect(() => {
-    //     dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
-    // }, [])
 
 
-    // useEffect(() => {
-    //     if (!user) {
-    //         navigate.push("/loginSignup");
-    //     }
-    // }, [navigate, user]);
-
-    
+    useEffect(() => {
+        if (!user) {
+            navigate.push("/loginSignup?message=profile");
+        }
+    }, [navigate, user]);
 
 
     return (
         <div className="app__profile sm:mt-[8.5rem] mt-[7.5rem]">
-            {showMessage &&
-                <div className="message">
-                    <h3 className="h3">{displayMessage}</h3>
-                </div>
-            }
-            {showMessage2 &&
-                <div className="message2">
-                    <h3>{displayMessage}</h3>
-                </div>
-            }
+            <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={openAlertModal}
+                onClose={onClose}
+                autoHideDuration={3000}
+            >
+                <Alert onClose={onClose} severity={severity} sx={{ width: "100%" }}>{displayMessage}</Alert>
+
+            </Snackbar>
             <form onSubmit={handleFormSubmit} encType="multipart/form-data">
                 <div className="profile_intro">
-                    <div className={profileImgClassname2}>
+                    <div className={`${profileImgClassname2} flex w-full justify-center place-items-center`}>
                         {user === null ? (
                             <Image
                                 className="intro_image"
@@ -475,7 +472,7 @@ const ViewUserProfile = () => {
                                 placeholder="Email"
                                 name="email"
                                 onChange={handleEmailChange}
-                            />
+                            />green
                         </div>
 
                     </div>
@@ -490,7 +487,7 @@ const ViewUserProfile = () => {
                             {countyMessage && <small className="text-danger">{countyMessage}</small>}
                             <select
                                 className="input select"
-                                value={formData.county}
+                                // value={formData.county}
                                 name="county"
                                 onChange={handleCountyChange}>
                                 <option>----</option>
@@ -542,7 +539,7 @@ const ViewUserProfile = () => {
                                 <option value="wajir">Wajir</option>
                                 <option value="pokot">West Pokot</option>
                             </select>
-                            <p>Current:&nbsp;{user?.county}</p>
+                            <p>Current:&nbsp;{user?.county.charAt(0).toUpperCase() + user?.county.slice(1)}</p>
                         </div>
                     </div>
                     <div className={areaClassname}>
@@ -592,8 +589,8 @@ const ViewUserProfile = () => {
                     <a onClick={function () { setDisabled(true); open() }}>
                         <p className="change">Change password?</p>
                     </a>
-                    <Button type='submit' className={`"save  text-md text-yellow ${isEditing ? 'bg-green' : 'bg-gray' }`} disabled={!isEditing}>
-                        {!isSubmitting ? <p>Save Changes</p> : <CircularProgress color="inherit" />}
+                    <Button type='submit' className={`"save  text-md text-yellow ${isEditing ? 'bg-green' : 'bg-gray'} w-[10rem]`} disabled={!isEditing}>
+                        {!isSubmitting ? <p>Save Changes</p> : <CircularProgress color="inherit" size={20}/>}
                     </Button>
 
                 </div>
@@ -627,7 +624,6 @@ const ViewUserProfile = () => {
                     </div>
                     <div className="confirm">
                         <div>
-                            {confirmPasswordMessage && <small className="text-danger">{confirmPasswordMessage}</small>}
                             <PasswordInput
                                 label="New Password"
                                 description="Password must include at least one letter, number and special character!!"
@@ -638,14 +634,24 @@ const ViewUserProfile = () => {
                                     reveal ? <IconEyeOff size={size} /> : <IconEyeCheck size={size} />
                                 }
                             />
+                            {confirmPasswordMessage && (
+                                <>
+                                    <ul className="list-disc text-danger list-inside">
+                                        {confirmPasswordMessage.split(",").map((message, index) => (
+                                            <li key={index}>{message}</li>
+                                        ))}
+                                    </ul>
+                                    <br />
+                                </>
+                            )}
                         </div>
                     </div>
 
                     <div className="submit mt-4">
                         <Group position="center">
-                            <Button disabled={disabled} variant="outline" type='submit'>
-                                {!isSubmitting && <p>Submit</p>}
-                                {isSubmitting && <CircularProgress color="inherit" />}
+                            <Button disabled={!isEditing2} className={`"save  text-md text-yellow ${!isEditing2 ? 'bg-gray' : 'bg-green'} w-[10rem]`} type='submit'>
+                                {!isSubmitting2 && <p>Submit</p>}
+                                {isSubmitting2 && <CircularProgress color="inherit" size={20}/>}
                             </Button>
                         </Group>
                     </div>

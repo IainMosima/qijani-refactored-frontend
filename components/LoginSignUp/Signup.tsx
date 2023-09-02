@@ -1,17 +1,16 @@
 "use client"
+import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Images } from "../../constants";
-import isPasswordOk from "../../utils/isPasswordOk";
 import { getUserProfileImageSignedUrl, signUp } from "../../network/users";
 import isEmailValid from "../../utils/isEmailValid";
+import isPasswordOk from "../../utils/isPasswordOk";
 import "./forms.scss";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import CircularProgress from "@mui/material/CircularProgress";
 
-import { User } from "../../models/user";
-import Image from "next/image";
-import { userLogin } from "@/redux/reducers/loginReducer";
 import { useAppDispatch } from "@/hooks/reduxHook";
+import { userLogin } from "@/redux/reducers/loginReducer";
+import Image from "next/image";
 
 const SignUpForm = () => {
   const dispatch = useAppDispatch();

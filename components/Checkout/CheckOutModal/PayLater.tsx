@@ -90,7 +90,7 @@ const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
                 <input
                     type="number"
                     placeholder="Mpesa Number"
-                    value={phoneNumber}
+                    defaultValue={phoneNumber}
                     ref={fieldPhoneNumber}
                     onChange={onPhoneNumberChange}
                 />

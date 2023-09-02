@@ -98,7 +98,7 @@ const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
                 <input
                     type="number"
                     placeholder="Mpesa Number"
-                    value={phoneNumber}
+                    defaultValue={phoneNumber}
                     ref={fieldPhoneNumber}
                     onChange={onPhoneNumberChange}
                 />
