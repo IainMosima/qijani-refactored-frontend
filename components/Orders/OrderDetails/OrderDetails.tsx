@@ -29,10 +29,10 @@ const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
     }
 
     fetchPackage();
-    
+
   }, [order.packageId]);
 
-
+  console.log(order);
   return (
     <div className="app__OrderDetails flex place-items-center ">
       {packageInfo &&
@@ -43,15 +43,26 @@ const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
           <p>Ksh {order.price}</p>
 
           <div className="w-full">
-            <div className="pending mx-auto px-2 py-1 my-auto sm:gap-2">
-              <Image src={Images.pendingIcon} alt="pending Icon" width={20}/>
-              <p>Pending</p>
-            </div>
+            {order.paymentStatus === 'pending' && (
+              <div className="status bg-gray mx-auto px-2 py-1 my-auto sm:gap-2">
+                <Image src={Images.pendingIcon} alt="pending Icon" width={20} />
+                <p>Pending</p>
+              </div>
+
+            )}
+
+            {order.paymentStatus === 'paid' && (
+              <div className="status bg-success text-white mx-auto px-2 py-1 my-auto sm:gap-2">
+                <Image src={Images.successIcon} alt="pending Icon" width={20} />
+                <p>Paid</p>
+              </div>
+            )}
+
           </div>
 
           <p>En Route</p>
 
-          <Image src={Images.cancelIcon} alt="delete-icon" className="cursor-pointer" width={22} onClick={()=>deleteOrder(order._id, packageInfo.packageName, index)}/>
+          <Image src={Images.cancelIcon} alt="delete-icon" className="cursor-pointer" width={22} onClick={() => deleteOrder(order._id, packageInfo.packageName, index)} />
         </div>
       }
 

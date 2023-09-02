@@ -3,14 +3,14 @@ export interface OrderStructure {
     userId: string,
     price: string,
     packageId: string,
-    paymentType: string,
-    phoneNumber: string,
+    paymentStatus: string,
+    delivered: string,
 }
 
 export interface newOrder {
     userId: string,
     price: string,
     packageId: string,
-    paymentType: string,
-    phoneNumber: string,
+    paymentStatus: string,
+    delivered: string,
 }
