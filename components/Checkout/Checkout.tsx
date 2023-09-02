@@ -262,7 +262,6 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                   {countyMessage && <small className="text-danger">{countyMessage}</small>}
                   <select
                     className="input select p-2"
-                    value={formData.county}
                     name="county"
                     onChange={handleCountyChange}>
                     <option>----</option>

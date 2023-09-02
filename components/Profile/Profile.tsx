@@ -372,7 +372,7 @@ const ViewUserProfile = () => {
                     <div className={usernameClassname2}>
                         <div className="mini_details">
                             <p><b>{user?.username}</b></p>
-                            <small>{user?.location}</small>
+                            {/* <small>{user?.county}</small> */}
                         </div>
                         <button onClick={(e) => { setUsernameClassname2("usernameInput"); setUsernameClassname("mini_intro"); e.preventDefault() }}>
                             <Image className="edit1" src={Images.edit} alt="edit-icon" />
@@ -396,7 +396,7 @@ const ViewUserProfile = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="mini_details2">
+                            {/* <div className="mini_details2">
                                 <Image className="icon2" src={Images.locationIcon} alt="profile-icon" />
                                 <div className="mini_details3">
                                     <label className="label">Location:</label>
@@ -410,7 +410,7 @@ const ViewUserProfile = () => {
                                         onChange={handleLocationChange}
                                     />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

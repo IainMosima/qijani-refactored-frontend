@@ -1,9 +1,9 @@
 "use client"
 import CircularProgress from "@mui/material/CircularProgress";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Images } from "../../constants";
-import { getUserProfileImageSignedUrl, signUp } from "../../network/users";
+import { checkUsername, getUserProfileImageSignedUrl, signUp } from "../../network/users";
 import isEmailValid from "../../utils/isEmailValid";
 import isPasswordOk from "../../utils/isPasswordOk";
 import "./forms.scss";
@@ -11,15 +11,25 @@ import "./forms.scss";
 import { useAppDispatch } from "@/hooks/reduxHook";
 import { userLogin } from "@/redux/reducers/loginReducer";
 import Image from "next/image";
+import { useDebounce } from "use-debounce";
 
 const SignUpForm = () => {
   const dispatch = useAppDispatch();
 
+
   const [usernameClassname, setUsernameClassname] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
+  const [username, setUsername] = useState('');
+  const [debouncedUsername] = useDebounce(username, 300);
+  const [usernameExists, setUsernameExists] = useState(false);
+
 
   const [emailClassname, setEmailClassname] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [debouncedEmail] = useDebounce(email, 300);
+  const [checkEMailExists, setCheckEMailExists] = useState(false);
+
 
   const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
   const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
@@ -85,11 +95,10 @@ const SignUpForm = () => {
       if (username.length < 5) {
         setUsernameClassname("input-warning");
         setUsernameMessage("Username must be at least 5 characters");
+      } else if (username.split(' ').length > 1) {
+        setUsernameClassname("input-warning");
+        setUsernameMessage("Username must be only one word");
       } else {
-        if(username.split(' ').length > 1) {
-          setUsernameClassname("input-warning");
-          setUsernameMessage("Username must be only one word");
-        }
         setUsernameClassname("input-ok");
         setUsernameMessage("");
       }
@@ -171,6 +180,18 @@ const SignUpForm = () => {
       setSelectedProfileImage(file);
     }
   }
+
+  useEffect(() => {
+    async function checkUsernameExists(username: string) {
+      const response = await checkUsername(username);
+      return response;
+    }
+    async function checkEMailExists(email: string) {
+      const response = await checkUsername(email);
+      return response;
+    }
+  }, [debouncedUsername, debouncedEmail]);
+
 
   return (
     <div className="app__loginSignUp">
@@ -270,7 +291,7 @@ const SignUpForm = () => {
 
         <button>
           {!isSubmitting && <p>Sign Up</p>}
-          {isSubmitting && <CircularProgress color="inherit" size={30}/>}
+          {isSubmitting && <CircularProgress color="inherit" size={30} />}
         </button>
       </form>
     </div>

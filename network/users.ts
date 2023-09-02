@@ -66,3 +66,15 @@ export async function updateProfile(credentials: object, userId: string): Promis
 
     return response.json();
 }
+
+// check if a user's username exists
+export async function checkUsername(username: string) {
+    const response = await fetchData(`/api/v1/users/checkusername/${username}`, { method: 'GET' });
+    return response.json();
+}
+
+// check if a user's email exists
+export async function checkEmail(username: string) {
+    const response = await fetchData(`/api/v1/users/checkusername/${username}`, { method: 'GET' });
+    return response.json();
+}
