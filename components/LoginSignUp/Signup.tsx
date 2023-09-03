@@ -22,8 +22,6 @@ const SignUpForm = () => {
   const [username, setUsername] = useState('');
   const [debouncedUsername] = useDebounce(username, 300);
   const [usernameExists, setUsernameExists] = useState(false);
-
-
   const [emailClassname, setEmailClassname] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [email, setEmail] = useState('');
@@ -40,6 +38,8 @@ const SignUpForm = () => {
 
   const [confirmPasswordClassName, setConfirmPasswordClassName] = useState("");
   const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
+
+  const [error, setError] = useState(true);
 
   const [selectedProfileImage, setSelectedProfileImage] = useState<
     File | undefined
@@ -58,7 +58,7 @@ const SignUpForm = () => {
     credentials: FieldValues
   ) => {
     const formData = new FormData();
-    formData.append("username", credentials.username);
+    formData.append("username", credentials.username.toLowerCase());
     formData.append("email", credentials.email);
     formData.append("phoneNumber", credentials.phoneNumber);
     formData.append("location", credentials.location);
@@ -89,35 +89,42 @@ const SignUpForm = () => {
   };
 
   function onUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const username = event.target.value;
+    const username = event.target.value.toLocaleLowerCase();
     setUsername(username);
 
     setTimeout(() => {
+      if (usernameExists)
       if (username.length < 5) {
         setUsernameClassname("input-warning");
         setUsernameMessage("Username must be at least 5 characters");
+        setError(true);
       } else if (username.split(' ').length > 1) {
         setUsernameClassname("input-warning");
         setUsernameMessage("Username must be only one word");
+        setError(true);
       } else {
         setUsernameClassname("input-ok");
         setUsernameMessage("");
+        setError(false);
       }
     }, 1500);
   }
 
   function onEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const email = event.target.value;
+    const email = event.target.value.toLocaleLowerCase();
     setEmail(email);
     const validEmail = isEmailValid(email);
 
     setTimeout(() => {
+      if(emailExists)
       if (!validEmail) {
         setEmailClassname("input-warning");
         setEmailMessage("Enter a valid email address");
+        setError(true);
       } else {
         setEmailClassname("input-ok");
         setEmailMessage("");
+        setError(false);
       }
     }, 1500);
   }
@@ -136,9 +143,11 @@ const SignUpForm = () => {
       ) {
         setPhoneNumberClassName("input-warning");
         setPhoneNumberMessage("Enter a valid phone number");
+        setError(true);
       } else {
         setPhoneNumberClassName("input-ok");
         setPhoneNumberMessage("");
+        setError(false);
       }
     }, 2000);
   }
@@ -151,10 +160,12 @@ const SignUpForm = () => {
       if (typeof message === "string") {
         setPasswordClassname("input-warning");
         setPasswordMessage(message);
+        setError(true);
       } else {
         setPasswordClassname("input-ok");
         setPasswordMessage("");
         setPassword(password);
+        setError(false);
       }
     }, 1700);
   }
@@ -166,55 +177,75 @@ const SignUpForm = () => {
       if (confirmPassword !== password) {
         setConfirmPasswordClassName("input-warning");
         setConfirmPasswordMessage("Passwords do not match");
+        setError(true);
       } else {
         setConfirmPasswordClassName("input-ok");
         setConfirmPasswordMessage("");
+        setError(false);
       }
     }, 1000);
   }
 
-  function profileImageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    let file;
-    if (event.target.files && event.target.files[0]) {
-      file = event.target.files[0];
-    }
-    if (file) {
-      setSelectedProfileImage(file);
-    }
-  }
+  // function profileImageChange(event: React.ChangeEvent<HTMLInputElement>) {
+  //   let file;
+  //   if (event.target.files && event.target.files[0]) {
+  //     file = event.target.files[0];
+  //   }
+  //   if (file) {
+  //     setSelectedProfileImage(file);
+  //   }
+  // }
 
   useEffect(() => {
     async function checkUsernameExists(username: string) {
-      const response = await checkUsername(username);
-      if (response) {
-        setUsernameClassname("input-warning");
-        setUsernameMessage("Username is already in use");
-      } else {
-        setUsernameClassname("input-ok");
-        setUsernameMessage("");
+      try {
+        const response = await checkUsername(username);
+        setUsernameExists(response);
+        if (response) {
+          setUsernameClassname("input-warning");
+          setUsernameMessage("Username is already in use");
+          setError(true);
+        } else {
+          setUsernameClassname("input-ok");
+          setUsernameMessage("");
+          setError(false);
+        }
+      } catch (error) {
+        alert('Something went wrong, please referesh the page.');
       }
+
 
     }
     async function checkEmailExists(email: string) {
-      const response = await checkUsername(email);
-      if (response) {
-        setEmailClassname("input-warning");
-        setEmailMessage("Email already exists");
-      } else {
-        setEmailClassname("input-ok");
-        setEmailMessage("");
+      try {
+        const response = await checkUsername(email);
+        setEmailExists(response);
+        if (response) {
+          setEmailClassname("input-warning");
+          setEmailMessage("Email already exists");
+          setError(true);
+        } else {
+          setEmailClassname("input-ok");
+          setEmailMessage("");
+          setError(false);
+        }
+      } catch (error) {
+        alert('Something went wrong, please referesh the page.');
       }
-      
+
+
     }
+
     if (debouncedUsername) checkUsernameExists(debouncedUsername);
     if (debouncedEmail) checkEmailExists(debouncedEmail);
 
   }, [debouncedUsername, debouncedEmail]);
 
-
+  
   return (
     <div className="app__loginSignUp">
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+        {/* {usernameExists ? <p className="text-danger">{usernameMessage}</p>}  */}
         {usernameMessage && <p className="text-danger">{usernameMessage}</p>}
         <div className={usernameClassname}>
           <Image priority={true} className="icon" src={Images.accountIcon} alt="profile-icon" />
@@ -308,9 +339,8 @@ const SignUpForm = () => {
           </div>
         )}
 
-        <button>
-          {!isSubmitting && <p>Sign Up</p>}
-          {isSubmitting && <CircularProgress color="inherit" size={30} />}
+        <button className={`text-yellow ${error ? 'bg-gray' : 'bg-green'}`} disabled={error}>
+          {!isSubmitting ? <p>Sign Up</p> : <CircularProgress color="inherit" size={30} />}
         </button>
       </form>
     </div>

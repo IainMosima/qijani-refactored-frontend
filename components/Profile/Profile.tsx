@@ -98,9 +98,9 @@ const ViewUserProfile = () => {
         setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
-            username: event.target.value,
+            username: event.target.value.toLowerCase(),
         }));
-        const username = event.target.value;
+        const username = event.target.value.toLowerCase();
 
         setTimeout(() => {
             if (username.length < 5) {
@@ -136,9 +136,9 @@ const ViewUserProfile = () => {
         setIsEditing(true);
         setFormData((prevData) => ({
             ...prevData,
-            email: event.target.value,
+            email: event.target.value.toLowerCase(),
         }));
-        const email = event.target.value;
+        const email = event.target.value.toLowerCase();
         const validEmail = isEmailValid(email);
 
         setTimeout(() => {

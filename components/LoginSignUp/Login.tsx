@@ -82,7 +82,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
           {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[58%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={()=>setShowPassword(false)}/> : <Image src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[58%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={()=>setShowPassword(true)}/>}
         </div>
 
-        <button disabled={isSubmitting}>
+        <button disabled={isSubmitting} className="bg-green text-yellow">
           {!isSubmitting && <p>Log In</p>}
           {isSubmitting && <CircularProgress color="inherit" size={30}/>}
         </button>
