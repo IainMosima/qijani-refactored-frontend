@@ -85,7 +85,7 @@ const Footer = () => {
       </div>
 
       <div className="lower-section">
-        <p>© 2023 E-SOKO. All Rights Reserved</p>
+        <p>© 2023 Qijani. All Rights Reserved</p>
       </div>
     </div>
   );
