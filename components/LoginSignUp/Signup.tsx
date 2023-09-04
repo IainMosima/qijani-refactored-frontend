@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Images } from "../../constants";
-import { checkUsername, getUserProfileImageSignedUrl, signUp } from "../../network/users";
+import { checkEmail, checkUsername, getUserProfileImageSignedUrl, signUp } from "../../network/users";
 import isEmailValid from "../../utils/isEmailValid";
 import isPasswordOk from "../../utils/isPasswordOk";
 import "./forms.scss";
@@ -27,6 +27,7 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [debouncedEmail] = useDebounce(email, 300);
   const [emailExists, setEmailExists] = useState(false);
+  console.log(debouncedEmail);
 
 
   const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
@@ -94,19 +95,19 @@ const SignUpForm = () => {
 
     setTimeout(() => {
       if (usernameExists)
-      if (username.length < 5) {
-        setUsernameClassname("input-warning");
-        setUsernameMessage("Username must be at least 5 characters");
-        setError(true);
-      } else if (username.split(' ').length > 1) {
-        setUsernameClassname("input-warning");
-        setUsernameMessage("Username must be only one word");
-        setError(true);
-      } else {
-        setUsernameClassname("input-ok");
-        setUsernameMessage("");
-        setError(false);
-      }
+        if (username.length < 5) {
+          setUsernameClassname("input-warning");
+          setUsernameMessage("Username must be at least 5 characters");
+          setError(true);
+        } else if (username.split(' ').length > 1) {
+          setUsernameClassname("input-warning");
+          setUsernameMessage("Username must be only one word");
+          setError(true);
+        } else {
+          setUsernameClassname("input-ok");
+          setUsernameMessage("");
+          setError(false);
+        }
     }, 1500);
   }
 
@@ -118,14 +119,14 @@ const SignUpForm = () => {
     setTimeout(() => {
       if(emailExists)
       if (!validEmail) {
-        setEmailClassname("input-warning");
-        setEmailMessage("Enter a valid email address");
-        setError(true);
-      } else {
-        setEmailClassname("input-ok");
-        setEmailMessage("");
-        setError(false);
-      }
+          setEmailClassname("input-warning");
+          setEmailMessage("Enter a valid email address");
+          setError(true);
+        } else {
+          setEmailClassname("input-ok");
+          setEmailMessage("");
+          setError(false);
+        }
     }, 1500);
   }
 
@@ -196,6 +197,7 @@ const SignUpForm = () => {
   //   }
   // }
 
+
   useEffect(() => {
     async function checkUsernameExists(username: string) {
       try {
@@ -218,7 +220,7 @@ const SignUpForm = () => {
     }
     async function checkEmailExists(email: string) {
       try {
-        const response = await checkUsername(email);
+        const response = await checkEmail(email);
         setEmailExists(response);
         if (response) {
           setEmailClassname("input-warning");
@@ -241,7 +243,7 @@ const SignUpForm = () => {
 
   }, [debouncedUsername, debouncedEmail]);
 
-  
+
   return (
     <div className="app__loginSignUp">
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">

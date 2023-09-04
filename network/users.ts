@@ -75,6 +75,6 @@ export async function checkUsername(username: string): Promise<boolean> {
 
 // check if a user's email exists
 export async function checkEmail(username: string): Promise<boolean> {
-    const response = await fetchData(`/api/v1/users/checkusername/${username}`, { method: 'GET' });
+    const response = await fetchData(`/api/v1/users/checkemail/${username}`, { method: 'GET' });
     return response.json();
 }
