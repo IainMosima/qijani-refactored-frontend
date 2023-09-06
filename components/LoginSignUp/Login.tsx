@@ -35,7 +35,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
 
   async function onSubmit(credentials: loginCredentials) {
     try {
-      const user = await login(credentials);
+      const user = await login({...credentials, usernameEmail: credentials.usernameEmail.toLowerCase()});
       
       if (user) {
         dispatch(userLogin(user));

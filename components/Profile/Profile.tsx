@@ -12,7 +12,6 @@ import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import isEmailValid from "../../utils/isEmailValid";
 import stringAvatar from "../../utils/stringToColor";
 import "./Profile.scss";
@@ -649,7 +648,7 @@ const ViewUserProfile = () => {
 
                     <div className="submit mt-4">
                         <Group position="center">
-                            <Button disabled={!isEditing2} className={`"save  text-md text-yellow ${!isEditing2 ? 'bg-gray' : 'bg-green'} w-[10rem]`} type='submit'>
+                            <Button disabled={!isEditing2} className={`save  text-md text-yellow ${!isEditing2 ? 'bg-gray' : 'bg-green'} w-[10rem]`} type='submit'>
                                 {!isSubmitting2 && <p>Submit</p>}
                                 {isSubmitting2 && <CircularProgress color="inherit" size={20}/>}
                             </Button>
