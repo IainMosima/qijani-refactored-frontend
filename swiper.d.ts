@@ -6,6 +6,6 @@ declare module "swiper/react" {
         modules?: {},
         slidesPerView?: {},
         spaceBetween:? {},
-        
+        breakpoints?: {},
     }
 }
