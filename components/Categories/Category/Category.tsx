@@ -27,7 +27,7 @@ const Category = ({
     <div className="app__card">
       <div className="card-title">
         <div className="lg:basis-[5%] md:basis-[9.6%] basis-[11%]"/>
-        <h3 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] font-bold">{categoryName}</h3>
+        <h3 className={`font-bold ${categoryName == 'Animal Products' ? 'text-[11px]' : 'lg:text-[1.1rem] md:text-[1.3rem] text-[1rem]'}`}>{categoryName}</h3>
         <div className="lg:basis-[77%] md:basis-[53%] basis-[30%]"/>
         <section className="seeAll" onClick={() => dispatch(selectCategory(categoryName))}>
           <h4 className="lg:text-[1.1rem] md:text-[1.3rem] text-[1rem] ml-1">
