@@ -12,17 +12,19 @@ interface CategoryProps {
   query: string;
   products: Product[] | undefined;
   selectItemManager: (product: Product) => void;
+  unitManager: (unit: string) => JSX.Element;
 }
 
 const Category = ({
   categoryName,
   products,
-  selectItemManager
+  selectItemManager,
+  unitManager
 }: CategoryProps) => {
   const navigate = useRouter();
   const dispatch = useAppDispatch();
 
-
+  
   return (
     <div className="app__card">
       <div className="card-title">
@@ -43,7 +45,7 @@ const Category = ({
         {products?.map((item, index) => (
           <div
             key={index}
-            className="card lg:h-auto md:h-auto h-[18rem]"
+            className="card lg:h-auto md:h-auto h-[20rem]"
             onClick={() => selectItemManager(item)}
           >
             <Image
@@ -55,7 +57,10 @@ const Category = ({
             />
             <p className="name sm:text-[1.2rem] text-[1.1rem] ">{item.productName}</p>
             <p className="price sm:text-[1.4rem] text-[1.3rem] font-bold">Ksh. {item.price}</p>
-            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">per kg</p>
+            {/* <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+                per kg
+              </p> */}
+              {unitManager(item.unit)}
             <div className="add">
               <Image src={Images.addIcon} alt="add" width={25}/>
               <Image src={Images.cartIcon} alt="add" width={25}/>

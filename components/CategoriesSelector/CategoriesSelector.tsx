@@ -50,7 +50,7 @@ const CategoriesSelector = ({ categories }:CategoriesSelectorProps) => {
           {categories.map((category, index) => (
             <SwiperSlide key={index}>
               <button
-                className={`mt-3 mb-3 border-2 border-green rounded-[11px] px-3 py-[0.25rem] hover:bg-green hover:border-1 hover:text-yellow hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
+                className={`mt-3 mb-3 border-2 border-green rounded-[11px] px-3 py-[0.25rem] lg:hover:bg-green lg:hover:border-1 lg:hover:text-yellow lg:hover:font-extrabold font-semibold ease-in-out duration-100 mx-auto ${
                   category === selectedcategory
                     ? "bg-green font-extrabold text-yellow"
                     : "bg-white"

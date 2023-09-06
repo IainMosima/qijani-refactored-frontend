@@ -49,6 +49,54 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
     }
   }
 
+  function unitManager(unit: string): JSX.Element {
+    const measurement = unit.split(',')[0];
+    const quantity = Number(unit.split(',')[1]);
+    let result = <></>
+    switch (measurement) {
+      case 'piece':
+        result = quantity === 1 ?
+          (
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+              per piece
+            </p>
+          ) :
+          (
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+              per {quantity} piece
+            </p>
+          )
+        break;
+      case 'cup':
+        result = quantity === 1 ?
+          (
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+              per cup
+            </p>
+          ) :
+          (
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+              per {quantity} cup
+            </p>
+          )
+        break;
+      case 'kg':
+        result = quantity === 1 ?
+          (
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+              per kg
+            </p>
+          ) :
+          (
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+              per {quantity} kg
+            </p>
+          )
+        break;
+    }
+    return result;
+  }
+
   useEffect(() => {
     async function fetchResults() {
       setFilteredResults([]);
@@ -68,7 +116,7 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
         autoHideDuration={3000}
       >
         <Alert onClose={handleCloseSetsuccessfulyAdded} severity="success" sx={{ width: "100%" }}>
-        {successMessage}
+          {successMessage}
         </Alert>
       </Snackbar>
       {selectedProduct && loggedInUser && (
@@ -94,6 +142,7 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
                   query={item.categoryName}
                   products={item.products}
                   selectItemManager={selectItemManager}
+                  unitManager={unitManager}
                 />
               </div>
             ))}
@@ -108,7 +157,7 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
           {filteredResults.map((item, index) => (
             <div
               key={index}
-              className="card lg:h-auto md:h-auto h-[18rem]"
+              className="card lg:h-auto md:h-auto h-[20rem]"
               onClick={() => selectItemManager(item)}
             >
               <Image
@@ -124,9 +173,10 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
               <p className="price sm:text-[1.4rem] text-[1.3rem] font-bold">
                 Ksh. {item.price}
               </p>
-              <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+              {/* <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
                 per kg
-              </p>
+              </p> */}
+              {unitManager(item.unit)}
               <div className="add">
                 <Image src={Images.addIcon} alt="add" width={25} />
                 <Image src={Images.cartIcon} alt="add" width={25} />

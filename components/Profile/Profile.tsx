@@ -104,8 +104,12 @@ const ViewUserProfile = () => {
         setTimeout(() => {
             if (username.length < 5) {
                 setUsernameClassname("input-warning, mini_intro");
-                setUsernameMessage("Username must be at least 5 characters!!");
-            } else {
+                setUsernameMessage("Username must be at least 5 characters");
+            } else if (username.split(' ').length > 1) {
+                setUsernameClassname("input-warning, mini_intro");
+                setUsernameMessage("Username must be only one word");
+            }
+            else {
                 setUsernameClassname("input-ok, mini_intro");
                 setUsernameMessage("");
             }
@@ -371,7 +375,7 @@ const ViewUserProfile = () => {
                     <div className={usernameClassname2}>
                         <div className="mini_details">
                             <p><b>{user?.username}</b></p>
-                            {/* <small>{user?.county}</small> */}
+                            <small>{user?.county}</small>
                         </div>
                         <button onClick={(e) => { setUsernameClassname2("usernameInput"); setUsernameClassname("mini_intro"); e.preventDefault() }}>
                             <Image className="edit1" src={Images.edit} alt="edit-icon" />

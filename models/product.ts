@@ -4,7 +4,8 @@ export interface Product {
     productImgKey: string,
     categoryName: string,
     price: number,
-    available: boolean
+    available: boolean,
+    unit: string,
 }
 
 export interface CategoriesData {
