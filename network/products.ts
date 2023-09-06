@@ -15,7 +15,7 @@ export async function fetchProducts(): Promise<Product[]> {
 
 // fetching all categeries
 export async function fetchCategories(): Promise<string[]> {
-    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/availableCategories`);
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/availableCategories`, { cache: 'no-store' });
     return response.json();
 }
 

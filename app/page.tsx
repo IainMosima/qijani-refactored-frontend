@@ -10,7 +10,7 @@ export default async function Home() {
   const sampleProducts = await getAllProductResults(categories);
   return (
     <>
-      <ProductResults categories={categories} sampleProducts={sampleProducts}/>
+      <ProductResults categories={arrayShuffler(categories) as string[]} sampleProducts={sampleProducts}/>
     </>
   )
 }

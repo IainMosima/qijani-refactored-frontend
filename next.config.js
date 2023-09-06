@@ -7,13 +7,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "e-soko.s3.amazonaws.com",
+        hostname: "qijani-products-bucket.s3.amazonaws.com",
+        // hostname: "e-soko.s3.amazonaws.com",
         port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "e-soko-users.s3.amazonaws.com",
+        hostname: "qijani-users-bucket.s3.amazonaws.com",
+        // hostname: "e-soko-users.s3.amazonaws.com",
         port: "",
         pathname: "/**",
       },
