@@ -33,8 +33,19 @@ const CategoriesSelector = ({ categories }:CategoriesSelectorProps) => {
         navigation={true}
         modules={[Navigation]}
         className="mySwiper"
-        slidesPerView={15}
-        spaceBetween={0} >
+        breakpoints={{
+          375: {
+            slidesPerView: 3,
+          },
+          768: {
+            slidesPerView: 5,
+          },
+          1020: {
+            slidesPerView: 9,
+          },
+        }}
+        spaceBetween={80}
+        >
         <div className="flex justify-center gap-2 w-full">
           {categories.map((category, index) => (
             <SwiperSlide key={index}>
