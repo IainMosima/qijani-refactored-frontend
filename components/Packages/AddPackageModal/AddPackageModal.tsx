@@ -65,7 +65,7 @@ const AddPackageModal = ({
       { productId: product._id, price: product.price },
     ],
   });
-
+  const [unit, setUnit] = useState(selectedProduct.unit.split(',')[0]);
   const quantityInput = useRef<HTMLInputElement>(null);
   const packageName = useRef<HTMLInputElement>(null);
   const existingPackageValue = useRef<HTMLSelectElement>(null);
@@ -80,6 +80,10 @@ const AddPackageModal = ({
       quantityInput.current.value = "1";
     }
   }, []);
+
+  function unitPerManager() {
+
+  }
 
   function priceCalc() {
     if (quantityInput.current?.value) {
@@ -267,14 +271,14 @@ const AddPackageModal = ({
         <div className="title">
           <h2 className="sm:text-2xl text-lg">
             {product.productName}. <span>kshs {product.price}</span>.{" "}
-            <span>per kg</span>
+            <span>per {unit}</span>
           </h2>
           <Image src={Images.closeIcon} onClick={onClose} alt="close-icon" />
         </div>
         <div className="description">
           <div>
             <div className="field amount">
-              <label>Quantity (kg)</label>
+              <label>Quantity: </label>
               <div>
                 <button
                   className="border border-black w-[1.5rem] flex place-items-center justify-center h-[1.5rem] decrement"
@@ -301,6 +305,7 @@ const AddPackageModal = ({
                   <Image src={Images.plusIcon} alt="plus icon" width={10} />
                 </button>
               </div>
+              <label>{`${unit}(s)`}</label>
             </div>
 
             {!existing && myPackages && myPackages.length > 0 && (
@@ -376,9 +381,8 @@ const AddPackageModal = ({
               <button
                 onClick={() => submit()}
                 disabled={submitDisabled}
-                className={`${
-                  submitDisabled ? "submit-disabled" : ""
-                } flex justify-center place-items-center`}
+                className={`${submitDisabled ? "submit-disabled" : ""
+                  } flex justify-center place-items-center`}
               >
                 {!isSubmitting ? (
                   <p>Add</p>
