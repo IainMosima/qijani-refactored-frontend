@@ -32,7 +32,6 @@ const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
 
   }, [order.packageId]);
 
-  console.log(order);
   return (
     <div className="app__OrderDetails flex place-items-center ">
       {packageInfo &&

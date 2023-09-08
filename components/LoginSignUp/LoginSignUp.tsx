@@ -9,9 +9,10 @@ import "./forms.scss";
 
 interface LoginSignUpProps {
     message?: string,
+    packageId?: string
 }
 
-const LoginSignUp = ({ message }: LoginSignUpProps) => {
+const LoginSignUp = ({ message, packageId }: LoginSignUpProps) => {
     const [loginToggle, setLoginToggle] = useState(true);
     const [signUpToggle, setSignUpToggle] = useState(false);
     const [errorText, setErrorText] = useState<string | null>(null);
@@ -48,12 +49,14 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
 
 
             if (loggedInUser) {
-                if (message === 'packages' || message === 'checkout') {
+                if (message === 'packages') {
                     navigate.push('/packages');
                 } else if (message === 'orders') {
                     navigate.push('/orders');
                 } else if (message === 'profile') {
                     navigate.push('/profile');
+                } else if (message === 'checkout') {
+                    navigate.push(`/checkout/${packageId}`);
                 } else {
                     navigate.push('/');
                 }
@@ -66,7 +69,7 @@ const LoginSignUp = ({ message }: LoginSignUpProps) => {
 
         return () => clearTimeout(messageTimer);
 
-    }, [errorText, loggedInUser, message, messages.add, messages.checkout, messages.orders, messages.packages, messages.profile, navigate]);
+    }, [errorText, loggedInUser, message, messages.add, messages.checkout, messages.orders, messages.packages, messages.profile, navigate, packageId]);
 
     function toggleHandler(option: string) {
         switch (option) {

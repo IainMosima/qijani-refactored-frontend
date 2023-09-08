@@ -14,6 +14,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { updateProfile } from "@/network/users";
 import { userLogin } from "@/redux/reducers/loginReducer";
+import { setMypackages } from "@/redux/reducers/packagesReducer";
+import transportMoney from "@/utils/transportMoney";
 
 interface CheckoutProps {
   packageId: string | null;
@@ -29,7 +31,6 @@ const Checkout = ({ packageId }: CheckoutProps) => {
 
   const [total, setTotal] = useState(0);
   const [items, setItems] = useState<ItemStructure[]>();
-  const [reload, setReload] = useState(false);
   const [open, setOpen] = useState(false);
   const packageName = useRef("");
   const [countyClassname, setCountyClassname] = useState("county");
@@ -44,23 +45,12 @@ const Checkout = ({ packageId }: CheckoutProps) => {
     landmark: user?.landmark,
     profileImgKey: user?.profileImgKey,
   });
+  const myPackages = useAppSelector(state => state.packages);
   const navigate = useRouter();
   const dispatch = useAppDispatch();
 
 
-  function onCountyChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const county = event.target.value;
 
-    setTimeout(() => {
-      if (county.length < 3) {
-        setCountyClassname("input-warning, county");
-        setCountyMessage("County must be chosen!!");
-      } else {
-        setCountyClassname("input-ok, county");
-        setCountyMessage("");
-      }
-    }, 1500);
-  }
 
   function onAreaChange(event: React.ChangeEvent<HTMLInputElement>) {
     const area = event.target.value;
@@ -94,19 +84,6 @@ const Checkout = ({ packageId }: CheckoutProps) => {
     }, 1500);
   };
 
-  function onLandmarkChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const landmark = event.target.value;
-
-    setTimeout(() => {
-      if (landmark.length < 3) {
-        setLandmarkClassname("input-warning, landmark");
-        setLandmarkMessage("Landmark must be at least 3 characters!!");
-      } else {
-        setLandmarkClassname("input-ok, landmark");
-        setLandmarkMessage("");
-      }
-    }, 1500);
-  }
 
   function onClose() {
     setOpen(false);
@@ -156,23 +133,29 @@ const Checkout = ({ packageId }: CheckoutProps) => {
       // updating user location info
       await updateProfile(formData, user?._id!);
       // updating packages
-      if(packageInfo.items)
-      await updatePackage({
-        packageId: packageInfo._id,
-        userId: packageInfo.userId,
-        packageName: packageInfo.packageName,
-        items: packageInfo.items,
-      })
+      if (packageInfo.items)
+        await updatePackage({
+          packageId: packageInfo._id,
+          userId: packageInfo.userId,
+          packageName: packageInfo.packageName,
+          items: packageInfo.items,
+        }).then((res) => dispatch(setMypackages(
+          myPackages.map((p) => {
+            if (p._id === res.data._id) {
+              return { ...p, ...res.data }
+            }
+            return p;
+          })
+        )));
 
     } catch (error) {
       alert("An error occurred while, please refresh the page");
     }
   };
 
-
   useEffect(() => {
     if (!user) {
-      navigate.push("/loginSignup?message=checkout");
+      navigate.push(`/loginSignup?message=checkout&packageId=${packageId}`);
     }
     async function fetchPackageInfo(packageId: string) {
       const response = await getPackage(packageId);
@@ -184,7 +167,8 @@ const Checkout = ({ packageId }: CheckoutProps) => {
         const totalPrice =
           response.items?.reduce((total, item) => {
             if (item.price) {
-              return total + item.price;
+              let price = total + item.price
+              return price + transportMoney(price);
             }
             return 0;
           }, 0) || 0;
@@ -194,10 +178,10 @@ const Checkout = ({ packageId }: CheckoutProps) => {
         console.error("You cannont checkout this package!!");
       }
     }
+
     if (packageId) fetchPackageInfo(packageId);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reload, user]);
+  }, [navigate, packageId,  user]);
 
   return (
     <div className="app__checkout">
@@ -221,7 +205,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           <div className="table-head">
             <h3>Item</h3>
             <h3>Price</h3>
-            <h3>Quantity (Kg)</h3>
+            <h3>Quantity</h3>
             <h3>Total</h3>
           </div>
 
@@ -237,8 +221,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                   setPackageInfo={setPackageInfo}
                   items={items}
                   setItems={setItems}
-                  reload={reload}
-                  setReload={setReload}
+                 
                 />
               </div>
             ))}
@@ -362,10 +345,13 @@ const Checkout = ({ packageId }: CheckoutProps) => {
 
             <div className="price-card sm:w-[25rem] w-[22rem]">
               <h3>Subtotal</h3>
-              <h3 className="price">Ksh {total * 0.8}</h3>
-
-              <h3>VAT</h3>
-              <h3 className="price">Ksh {total * 0.2}</h3>
+              <h3 className="price">Ksh {total - transportMoney(total)}</h3>
+              
+              <div className="flex place-items-center">
+                <Image src={Images.transport} alt="transport-icon" width={30}/>
+                <h3 className="italic">Transport</h3>
+              </div>
+              <h3 className="price italic">Ksh {transportMoney(total)}</h3>
 
               <h3>Grand Total</h3>
               <h3 className="price grand-total">Ksh {total}</h3>

@@ -8,6 +8,7 @@ import { Images } from "../../../constants";
 import { removeItem } from "../../../utils/itemManager";
 import { updatePackage } from "../../../network/package";
 import Image from "next/image";
+import transportMoney from "@/utils/transportMoney";
 
 interface ProductDetailsProps {
   productId: string;
@@ -18,8 +19,6 @@ interface ProductDetailsProps {
   setPackageInfo: React.Dispatch<React.SetStateAction<PackageStructure>>;
   items: ItemStructure[];
   setItems: React.Dispatch<React.SetStateAction<ItemStructure[] | undefined>>;
-  reload: boolean;
-  setReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ProductDetails = ({
@@ -31,8 +30,6 @@ const ProductDetails = ({
   setPackageInfo,
   items,
   setItems,
-  reload,
-  setReload,
 }: ProductDetailsProps) => {
   const [productInfo, setProductInfo] = useState<Product>();
   const quantityInput = useRef<HTMLInputElement>(null);
@@ -59,7 +56,8 @@ const ProductDetails = ({
     if (quantityInput.current?.value && productInfo) {
       const value = parseFloat(quantityInput.current.value);
       const updatedTruePrice = value * productInfo.price || 1;
-      const updatedTotal = total - calculatedPrice + updatedTruePrice;
+      let updatedTotal = total - calculatedPrice + updatedTruePrice;
+      updatedTotal = updatedTotal + transportMoney(updatedTotal);
 
       setTotal(updatedTotal);
       setCalculatedPrice(updatedTruePrice);
@@ -78,26 +76,56 @@ const ProductDetails = ({
 
   function quantityDecrement(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
+    const unit = productInfo?.unit.split(",")[0];
+    const decrement = productInfo?.unit.split(",")[1];
+    if(decrement)
     if (
       quantityInput.current?.value &&
       parseFloat(quantityInput.current?.value) > 0
     ) {
-      quantityInput.current.value = (
-        parseFloat(quantityInput.current.value) - 0.5
-      ).toFixed(1);
+      if (unit === 'kg') {
+        if (Number(decrement) === 1) {
+          quantityInput.current.value = (
+            parseFloat(quantityInput.current.value) - parseFloat(decrement) / 2
+          ).toFixed(1);
+        } else {
+          quantityInput.current.value = (
+            parseInt(quantityInput.current.value) - 1
+          ).toFixed(1);
+        }
+      } else {
+        quantityInput.current.value = (
+          parseInt(quantityInput.current.value) - parseInt(decrement)
+        ).toFixed(1);
+      }
       priceCalc();
     }
   }
 
   function quantityIncrement(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
+    const unit = productInfo?.unit.split(",")[0];
+    const decrement = productInfo?.unit.split(",")[1];
+    if(decrement)
     if (
       quantityInput.current?.value &&
-      parseFloat(quantityInput.current?.value) < 100
+      parseFloat(quantityInput.current?.value) > 0
     ) {
-      quantityInput.current.value = (
-        parseFloat(quantityInput.current.value) + 0.5
-      ).toFixed(1);
+      if (unit === 'kg') {
+        if (Number(decrement) === 1) {
+          quantityInput.current.value = (
+            parseFloat(quantityInput.current.value) + parseFloat(decrement) / 2
+          ).toFixed(1);
+        } else {
+          quantityInput.current.value = (
+            parseInt(quantityInput.current.value) + 1
+          ).toFixed(1);
+        }
+      } else {
+        quantityInput.current.value = (
+          parseInt(quantityInput.current.value) + parseInt(decrement)
+        ).toFixed(1);
+      }
       priceCalc();
     }
   }
@@ -154,31 +182,36 @@ const ProductDetails = ({
             <p>Ksh {productInfo.price}</p>
           </div>
 
-          <div className="amount">
-            <button
-              className="border border-black w-[1.5rem] flex place-items-center justify-center h-[1.5rem] decrement"
-              onClick={quantityDecrement}
-            >
-              <Image src={Images.minusIcon} alt="minus icon" width={15} />
-            </button>
+          <div className="amount flex place-items-center gap-1 flex-col sm:flex-row">
+            <div className="flex place-items-center">
+              <button
+                className="border border-black w-[1.5rem] flex place-items-center justify-center h-[1.5rem] decrement"
+                onClick={quantityDecrement}
+              >
+                <Image src={Images.minusIcon} alt="minus icon" width={15} />
+              </button>
 
-            <input
-              type="number"
-              ref={quantityInput}
-              min="0"
-              defaultValue={(calculatedPrice/productInfo.price).toFixed(1)}
-              max="100"
-              step="0.1"
-              onChange={quantityChange}
-              className=""
-            />
+              <input
+                type="number"
+                ref={quantityInput}
+                min="0"
+                defaultValue={(calculatedPrice/productInfo.price).toFixed(1)}
+                max="100"
+                step="0.1"
+                onChange={quantityChange}
+                className=""
+              />
 
-            <button
-              className="border border-black w-[1.5rem] flex place-items-center justify-center h-[1.5rem] increment"
-              onClick={quantityIncrement}
-            >
-              <Image src={Images.plusIcon} alt="plus icon" width={15} />
-            </button>
+              <button
+                className="border border-black w-[1.5rem] flex place-items-center justify-center h-[1.5rem] increment"
+                onClick={quantityIncrement}
+              >
+                <Image src={Images.plusIcon} alt="plus icon" width={15} />
+              </button>
+            </div>
+
+            <label className="italic">{`${productInfo.unit.split(', ')[1] == '2' ? 'piece' : productInfo.unit.split(', ')[0] }(s)`}</label>
+
           </div>
 
           <div className="price">

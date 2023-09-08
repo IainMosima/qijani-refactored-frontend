@@ -65,7 +65,6 @@ const AddPackageModal = ({
       { productId: product._id, price: product.price },
     ],
   });
-  const [unit, setUnit] = useState(selectedProduct.unit.split(',')[0]);
   const quantityInput = useRef<HTMLInputElement>(null);
   const packageName = useRef<HTMLInputElement>(null);
   const existingPackageValue = useRef<HTMLSelectElement>(null);
@@ -75,21 +74,15 @@ const AddPackageModal = ({
   const [packageNameWarning, setPackageNameWarning] = useState(false);
   const packagenames = myPackages?.map((item) => item.packageName);
 
-  useEffect(() => {
-    if (quantityInput.current) {
-      quantityInput.current.value = "1";
-    }
-  }, []);
-
-  function unitPerManager() {
-
-  }
 
   function priceCalc() {
     if (quantityInput.current?.value) {
       const total = product.price * parseFloat(quantityInput.current.value);
       setPrice(total);
-      return total;
+      if (product.unit.split(',')[0] === 'kg') {
+        return total;
+      }
+      return Number(total);
     }
   }
 
@@ -168,13 +161,27 @@ const AddPackageModal = ({
 
   function quantityDecrement(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
+    const unit = product.unit.split(",")[0];
+    const decrement = product.unit.split(",")[1];
     if (
       quantityInput.current?.value &&
       parseFloat(quantityInput.current?.value) > 0
     ) {
-      quantityInput.current.value = (
-        parseFloat(quantityInput.current.value) - 0.5
-      ).toFixed(1);
+      if (unit === 'kg') {
+        if (Number(decrement) === 1) {
+          quantityInput.current.value = (
+            parseFloat(quantityInput.current.value) - parseFloat(decrement) / 2
+          ).toFixed(1);
+        } else {
+          quantityInput.current.value = (
+            parseInt(quantityInput.current.value) - 1
+          ).toFixed(1);
+        }
+      } else {
+        quantityInput.current.value = (
+          parseInt(quantityInput.current.value) - parseInt(decrement)
+        ).toFixed(1);
+      }
       priceCalc();
     }
     if (isUpdating) {
@@ -193,26 +200,40 @@ const AddPackageModal = ({
 
   function quantityIncrement(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
+    const unit = product.unit.split(",")[0];
+    const decrement = product.unit.split(",")[1];
     if (
       quantityInput.current?.value &&
-      parseFloat(quantityInput.current?.value) < 100
+      parseFloat(quantityInput.current?.value) > 0
     ) {
-      quantityInput.current.value = (
-        parseFloat(quantityInput.current.value) + 0.5
-      ).toFixed(1);
-      priceCalc();
-      if (isUpdating) {
-        let updatedPrice = priceCalc() || price;
-        let updatedItems = itemManager(
-          addToExisting.items,
-          product._id,
-          updatedPrice
-        );
-        setaddToExisting((prevState) => ({
-          ...prevState,
-          items: updatedItems,
-        }));
+      if (unit === 'kg') {
+        if (Number(decrement) === 1) {
+          quantityInput.current.value = (
+            parseFloat(quantityInput.current.value) + parseFloat(decrement) / 2
+          ).toFixed(1);
+        } else {
+          quantityInput.current.value = (
+            parseInt(quantityInput.current.value) + 1
+          ).toFixed(1);
+        }
+      } else {
+        quantityInput.current.value = (
+          parseInt(quantityInput.current.value) + parseInt(decrement)
+        ).toFixed(1);
       }
+      priceCalc();
+    }
+    if (isUpdating) {
+      let updatedPrice = priceCalc() || price;
+      let updatedItems = itemManager(
+        addToExisting.items,
+        product._id,
+        updatedPrice
+      );
+      setaddToExisting((prevState) => ({
+        ...prevState,
+        items: updatedItems,
+      }));
     }
   }
 
@@ -271,7 +292,7 @@ const AddPackageModal = ({
         <div className="title">
           <h2 className="sm:text-2xl text-lg">
             {product.productName}. <span>kshs {product.price}</span>.{" "}
-            <span>per {unit}</span>
+            <span className="italic">per {`${product.unit.split(', ')[1] === '1' ? product.unit.split(', ')[0] : product.unit.split(', ')[1] + product.unit.split(', ')[0] + '(s)'}`}</span>
           </h2>
           <Image src={Images.closeIcon} onClick={onClose} alt="close-icon" />
         </div>
@@ -305,7 +326,7 @@ const AddPackageModal = ({
                   <Image src={Images.plusIcon} alt="plus icon" width={10} />
                 </button>
               </div>
-              <label>{`${unit}(s)`}</label>
+              <label className="italic">{`${product.unit.split(', ')[1] == '2' ? 'piece' : product.unit.split(', ')[0] }(s)`}</label>
             </div>
 
             {!existing && myPackages && myPackages.length > 0 && (
@@ -337,7 +358,7 @@ const AddPackageModal = ({
                   ref={packageName}
                   onChange={newPackageName}
                   placeholder="Enter package name"
-                  className="border h-[1.5rem] placeholder:text-[1rem] border-black px-1 py-2 rounded-md sm:w-auto w-[10rem]"
+                  className="border h-[1.5rem] placeholder:text-[1rem] border-black px-2 py-2 rounded-md sm:w-auto w-[10rem]"
                 />
               </div>
             )}
