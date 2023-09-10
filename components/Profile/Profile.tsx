@@ -1,7 +1,7 @@
 "use client";
 import { Images } from "@/constants";
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
-import { updateProfile } from '@/network/users';
+import { updateProfile, checkEmail, checkUsername, } from '@/network/users';
 import { userLogin } from "@/redux/reducers/loginReducer";
 import isPasswordOk from '@/utils/isPasswordOk';
 import { Button, Group, Input, Modal, PasswordInput, Tooltip } from '@mantine/core';
@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import isEmailValid from "../../utils/isEmailValid";
 import stringAvatar from "../../utils/stringToColor";
+import { useDebounce } from "use-debounce";
 import "./Profile.scss";
 
 
@@ -27,10 +28,12 @@ const ViewUserProfile = () => {
     const [usernameClassname, setUsernameClassname] = useState("usernameInput");
     const [usernameMessage, setUsernameMessage] = useState("");
     const [usernameClassname2, setUsernameClassname2] = useState("mini_intro");
+    const [usernameExists, setUsernameExists] = useState(false);
 
     const [emailClassname, setEmailClassname] = useState("usernameInput");
     const [emailMessage, setEmailMessage] = useState("");
     const [emailClassname2, setEmailClassname2] = useState("email");
+    const [emailExists, setEmailExists] = useState(false);
 
     const [countyClassname, setCountyClassname] = useState("county");
     const [countyMessage, setCountyMessage] = useState("");
@@ -68,15 +71,18 @@ const ViewUserProfile = () => {
 
 
     const [formData, setFormData] = useState({
-        username: user?.username,
+        username: '',
         location: user?.location,
         phoneNumber: user?.phoneNumber,
-        email: user?.email,
+        email: '',
         county: user?.county,
         area: user?.area,
         landmark: user?.landmark,
         profileImgKey: user?.profileImgKey,
     });
+
+    const [debouncedUsername] = useDebounce(formData.username, 300);
+    const [debouncedEmail] = useDebounce(formData.email, 300);
 
     const [formData2, setFormData2] = useState({
         prevPassword: '',
@@ -105,13 +111,16 @@ const ViewUserProfile = () => {
             if (username.length < 5) {
                 setUsernameClassname("input-warning, mini_intro");
                 setUsernameMessage("Username must be at least 5 characters");
+                setIsEditing(false);
             } else if (username.split(' ').length > 1) {
                 setUsernameClassname("input-warning, mini_intro");
                 setUsernameMessage("Username must be only one word");
+                setIsEditing(false);
             }
             else {
                 setUsernameClassname("input-ok, mini_intro");
                 setUsernameMessage("");
+                setIsEditing(true);
             }
         }, 1500);
     };
@@ -128,9 +137,11 @@ const ViewUserProfile = () => {
             if (location.length < 3) {
                 setUsernameClassname("input-warning, mini_intro");
                 setUsernameMessage("Location must be at least 3 characters!!");
+                setIsEditing(false);
             } else {
                 setUsernameClassname("input-ok, mini_intro");
                 setUsernameMessage("");
+                setIsEditing(true);
             }
         }, 1500);
     };
@@ -148,9 +159,11 @@ const ViewUserProfile = () => {
             if (!validEmail) {
                 setEmailClassname("input-warning, email");
                 setEmailMessage("Enter a valid email address!!");
+                setIsEditing(false);
             } else {
                 setEmailClassname("input-ok, email");
                 setEmailMessage("");
+                setIsEditing(true);
             }
         }, 1500);
     };
@@ -174,9 +187,11 @@ const ViewUserProfile = () => {
             ) {
                 setPhoneNumberClassName("input-warning, phone");
                 setPhoneNumberMessage("Enter a valid phone number!!");
+                setIsEditing(false);
             } else {
                 setPhoneNumberClassName("input-ok, phone");
                 setPhoneNumberMessage("");
+                setIsEditing(true);
             }
         }, 2000);
     };
@@ -193,9 +208,11 @@ const ViewUserProfile = () => {
             if (county.length < 3) {
                 setCountyClassname("input-warning, county");
                 setCountyMessage("County must be chosen!!");
+                setIsEditing(false);
             } else {
                 setCountyClassname("input-ok, county");
                 setCountyMessage("");
+                setIsEditing(true);
             }
         }, 1500);
     };
@@ -212,9 +229,11 @@ const ViewUserProfile = () => {
             if (area.length < 3) {
                 setAreaClassname("input-warning, area");
                 setAreaMessage("Area must be at least 3 characters!!");
+                setIsEditing(false);
             } else {
                 setAreaClassname("input-ok, area");
                 setAreaMessage("");
+                setIsEditing(true);
             }
         }, 1500);
     };
@@ -231,9 +250,11 @@ const ViewUserProfile = () => {
             if (landmark.length < 3) {
                 setLandmarkClassname("input-warning, landmark");
                 setLandmarkMessage("Landmark must be at least 3 characters!!");
+                setIsEditing(false);
             } else {
                 setLandmarkClassname("input-ok, landmark");
                 setLandmarkMessage("");
+                setIsEditing(true);
             }
         }, 1500);
     };
@@ -300,10 +321,11 @@ const ViewUserProfile = () => {
             if (prevPassword === '') {
                 setPasswordClassname("input-warning");
                 setPasswordMessage("Password cannot be empty!!");
-                setDisabled(true);
+                setIsEditing2(false);
             } else {
                 setPasswordClassname("input-ok");
                 setPasswordMessage("");
+                setIsEditing2(true);
             }
         }, 1000);
     };
@@ -321,14 +343,14 @@ const ViewUserProfile = () => {
             if (typeof message === "string") {
                 setConfirmPasswordClassName("input-warning");
                 setConfirmPasswordMessage(message);
-                setDisabled(true);
+                setIsEditing2(false);
             } else {
                 setConfirmPasswordClassName("input-ok");
                 setConfirmPasswordMessage("");
-                setDisabled(false);
+                setIsEditing2(true);
             }
             if (newPassword === '' || formData2.prevPassword === '') {
-                setDisabled(true);
+                setIsEditing2(false);
             }
         }, 1700);
     };
@@ -338,7 +360,50 @@ const ViewUserProfile = () => {
         if (!user) {
             navigate.push("/loginSignup?message=profile");
         }
-    }, [navigate, user]);
+
+        async function checkUsernameExists(username: string) {
+            try {
+                const response = await checkUsername(username);
+                setUsernameExists(response);
+                if (response) {
+                    setUsernameClassname("input-warning, mini_intro");
+                    setUsernameMessage("Username is already in use");
+                    setIsEditing(false);
+                } else {
+                    setUsernameClassname("input-ok, mini_intro");
+                    setUsernameMessage("");
+                    setIsEditing(true);
+                }
+            } catch (error) {
+                alert('Something went wrong, please referesh the page.');
+            }
+
+
+        }
+        async function checkEmailExists(email: string) {
+            try {
+                const response = await checkEmail(email);
+                setEmailExists(response);
+                if (response) {
+                    setEmailClassname("input-warning, email");
+                    setEmailMessage("Email already exists");
+                    setIsEditing(false);
+                } else {
+                    setEmailClassname("input-ok, email");
+                    setEmailMessage("");
+                    setIsEditing(true);
+                }
+            } catch (error) {
+                alert('Something went wrong, please referesh the page.');
+            }
+
+
+        }
+
+        if (debouncedUsername) checkUsernameExists(debouncedUsername);
+        if (debouncedEmail) checkEmailExists(debouncedEmail);
+
+    }, [navigate, user, debouncedUsername, debouncedEmail]);
 
 
     return (
@@ -388,7 +453,7 @@ const ViewUserProfile = () => {
                             <div className="mini_details2">
                                 <Image className="icon2" src={Images.accountIcon} alt="profile-icon" />
                                 <div className="mini_details3">
-                                    <label className="label">Username:</label>
+                                    <label className="label">New Username:</label>
                                     <input
                                         id="username"
                                         className="input"
@@ -438,7 +503,7 @@ const ViewUserProfile = () => {
                             {phoneNumberMessage && (
                                 <small className="text-danger">{phoneNumberMessage}</small>
                             )}
-                            <label className="label">Phone Number:</label>
+                            <label className="label">New Phone Number:</label>
                             <input
                                 id="number"
                                 className="input"
@@ -467,7 +532,7 @@ const ViewUserProfile = () => {
                         <Image className='email_icon' src={Images.emailIcon} alt="profile-icon" />
                         <div className="email_mini">
                             {emailMessage && <small className="text-danger">{emailMessage}</small>}
-                            <label className="label">Email:</label>
+                            <label className="label">New Email:</label>
                             <input
                                 className="input"
                                 type="string"
@@ -475,7 +540,7 @@ const ViewUserProfile = () => {
                                 placeholder="Email"
                                 name="email"
                                 onChange={handleEmailChange}
-                            />green
+                            />
                         </div>
 
                     </div>
@@ -589,11 +654,11 @@ const ViewUserProfile = () => {
                     </div>
                 </div>
                 <div className="bottom_details flex justify-between place-content-center">
-                    <a onClick={function () { setDisabled(true); open() }}>
+                    <a onClick={function () { setIsEditing2(false);; open() }}>
                         <p className="change">Change password?</p>
                     </a>
                     <Button type='submit' className={`"save  text-md text-yellow ${isEditing ? 'bg-green' : 'bg-gray'} w-[10rem]`} disabled={!isEditing}>
-                        {!isSubmitting ? <p>Save Changes</p> : <CircularProgress color="inherit" size={20}/>}
+                        {!isSubmitting ? <p>Save Changes</p> : <CircularProgress color="inherit" size={20} />}
                     </Button>
 
                 </div>
@@ -654,7 +719,7 @@ const ViewUserProfile = () => {
                         <Group position="center">
                             <Button disabled={!isEditing2} className={`save  text-md text-yellow ${!isEditing2 ? 'bg-gray' : 'bg-green'} w-[10rem]`} type='submit'>
                                 {!isSubmitting2 && <p>Submit</p>}
-                                {isSubmitting2 && <CircularProgress color="inherit" size={20}/>}
+                                {isSubmitting2 && <CircularProgress color="inherit" size={20} />}
                             </Button>
                         </Group>
                     </div>
