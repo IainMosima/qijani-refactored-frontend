@@ -8,14 +8,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "qijani-products-bucket.s3.amazonaws.com",
-        // hostname: "e-soko.s3.amazonaws.com",
         port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "qijani-users-bucket.s3.amazonaws.com",
-        // hostname: "e-soko-users.s3.amazonaws.com",
         port: "",
         pathname: "/**",
       },
