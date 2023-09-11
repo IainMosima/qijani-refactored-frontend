@@ -7,13 +7,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "qijani-products-bucket.s3.amazonaws.com",
+        hostname: process.env.NEXT_PUBLIC_PRODUCTSBUCKET.slice(8),
         port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "qijani-users-bucket.s3.amazonaws.com",
+        hostname: process.env.NEXT_PUBLIC_USERSBUCKET.slice(8),
         port: "",
         pathname: "/**",
       },
@@ -28,5 +28,4 @@ const nextConfig = {
     ];
   },
 };
-
 module.exports = nextConfig;

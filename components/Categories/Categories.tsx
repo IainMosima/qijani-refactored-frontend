@@ -49,7 +49,7 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
     }
   }
 
-  function unitManager(unit: string): JSX.Element {
+  function unitManager(unit=''): JSX.Element {
     const measurement = unit.split(',')[0];
     const quantity = Number(unit.split(',')[1]);
     let result = <></>
