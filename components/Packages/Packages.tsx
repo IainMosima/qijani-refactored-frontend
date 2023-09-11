@@ -13,6 +13,7 @@ import { deletePackage } from "../../network/package";
 import AddNewPackageModal from "./AddNewPackageModal/AddNewPackageModal";
 import "./Packages.scss";
 
+const token = localStorage.getItem("token");
 const Packages = () => {
   const loggedInUser = useAppSelector((state) => state.login.user);
   const myPackages = useAppSelector((state) => state.packages);
@@ -34,7 +35,7 @@ const Packages = () => {
     const updatedPackages = myPackages.filter((item) => item._id !== itemId);
     dispatch(setMypackages(updatedPackages));
     try {
-      await deletePackage(itemId);
+      if (token) await deletePackage(itemId, token);
     } catch (err) {
       console.error(err);
     }
