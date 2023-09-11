@@ -295,7 +295,7 @@ const ViewUserProfile = () => {
     const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         setIsSubmitting(true);
-        dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
+        dispatch(userLogin({ ...user, email: formData.email, username: formData.username, phoneNumber: formData.phoneNumber, county: formData.county, area: formData.area, landmark: formData.landmark }));
         try {
             const client = await updateProfile(formData, user?._id!);
 
