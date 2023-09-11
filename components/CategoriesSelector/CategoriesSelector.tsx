@@ -55,7 +55,7 @@ const CategoriesSelector = ({ categories }:CategoriesSelectorProps) => {
                     ? "bg-green font-extrabold text-yellow"
                     : "bg-white"
                 }`}
-                onClick={() => dispatch(selectCategory(category))}
+                onClick={() => {dispatch(selectCategory(category)); window.scrollTo(0, 0);}}
               >
                 {category}
               </button>
