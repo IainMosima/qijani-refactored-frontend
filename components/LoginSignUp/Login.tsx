@@ -40,6 +40,7 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
       console.log(token);
       localStorage.setItem('token', token);
       const user = await getLoggedInUser(token);
+      console.log(user);
       
       if (user) {
         dispatch(userLogin(user));
