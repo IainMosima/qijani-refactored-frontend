@@ -37,10 +37,8 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
   async function onSubmit(credentials: loginCredentials) {
     try {
       const token = await login({...credentials, usernameEmail: credentials.usernameEmail.toLowerCase()});
-      console.log(token);
       localStorage.setItem('token', token);
       const user = await getLoggedInUser(token);
-      console.log(user);
       
       if (user) {
         dispatch(userLogin(user));
