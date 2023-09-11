@@ -16,7 +16,6 @@ import { useDebounce } from "use-debounce";
 const SignUpForm = () => {
   const dispatch = useAppDispatch();
 
-
   const [usernameClassname, setUsernameClassname] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [username, setUsername] = useState('');

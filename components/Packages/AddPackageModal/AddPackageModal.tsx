@@ -31,7 +31,6 @@ interface AddPackageModalProps {
   setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
   selectedProduct: Product;
 }
-const token = localStorage.getItem('token');
 const AddPackageModal = ({
   open,
   loggedInUser,
@@ -65,6 +64,7 @@ const AddPackageModal = ({
       { productId: product._id, price: product.price },
     ],
   });
+  const [token, setToken] = useState("");
   const quantityInput = useRef<HTMLInputElement>(null);
   const packageName = useRef<HTMLInputElement>(null);
   const existingPackageValue = useRef<HTMLSelectElement>(null);
@@ -74,6 +74,11 @@ const AddPackageModal = ({
   const [packageNameWarning, setPackageNameWarning] = useState(false);
   const packagenames = myPackages?.map((item) => item.packageName);
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
+  }, [])
 
   function priceCalc() {
     if (quantityInput.current?.value) {
@@ -271,8 +276,8 @@ const AddPackageModal = ({
       let response;
       let updatedPackages;
       try {
-        if(token) response = await updatePackage(addToExisting, token);
-        if(token) updatedPackages = await fetchPackages(token);
+        if (token) response = await updatePackage(addToExisting, token);
+        if (token) updatedPackages = await fetchPackages(token);
 
         if (response && updatedPackages) {
           setisSubmitting(false);

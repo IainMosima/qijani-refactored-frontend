@@ -20,11 +20,9 @@ import stringAvatar from "../../utils/stringToColor";
 import "./Navbar.scss";
 import SearchBar from "./SearchBar/SearchBar";
 
-const token = localStorage.getItem("token");
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.login.user);
-
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 500);
   const [searchResults, setSearchResults] = useState<Product[]>([]);
@@ -46,6 +44,8 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     async function perfomSearch() {
       const results = await ProductsApi.searchFunction(debouncedQuery);
       setSearchResults(results);

@@ -9,6 +9,7 @@ import { createNewPackage } from "../../../network/package";
 import Image from "next/image";
 import { useAppDispatch } from "@/hooks/reduxHook";
 import { setMypackages } from "@/redux/reducers/packagesReducer";
+import { useEffect, useState } from "react";
 
 interface AddNewPackageModalProps {
     open: boolean,
@@ -17,8 +18,13 @@ interface AddNewPackageModalProps {
     loggedInUser: User
 }
 
-const token = localStorage.getItem('token');
 const AddNewPackageModal = ({ open, onClose, myPackages, loggedInUser }: AddNewPackageModalProps) => {
+    const [token, setToken] = useState("");
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) setToken(token);
+    }, []);
+
     const { register, handleSubmit } = useForm();
     const dispatch = useAppDispatch();
     async function onSubmit(data: Record<string, any>) {

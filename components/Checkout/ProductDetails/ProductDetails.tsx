@@ -21,7 +21,6 @@ interface ProductDetailsProps {
   setItems: React.Dispatch<React.SetStateAction<ItemStructure[] | undefined>>;
 }
 
-const token = localStorage.getItem('token');
 const ProductDetails = ({
   productId,
   price,
@@ -35,8 +34,12 @@ const ProductDetails = ({
   const [productInfo, setProductInfo] = useState<Product>();
   const quantityInput = useRef<HTMLInputElement>(null);
   const [calculatedPrice, setCalculatedPrice] = useState(price);
+  const [token, setToken] = useState("");
+
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
     async function fetchProduct(productId: string) {
       try {
         const response = await getProduct(productId);

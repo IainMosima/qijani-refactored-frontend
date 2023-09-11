@@ -10,9 +10,9 @@ import { cancelOrder } from "@/network/order";
 import { setOrders } from "@/redux/reducers/OrdersReducer";
 import { useRouter } from "next/navigation";
 
-const token = localStorage.getItem('token');
 const Orders = () => {
   const orders = useAppSelector(state => state.orders);
+  const [token, setToken] = useState("");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useAppDispatch();
@@ -29,6 +29,8 @@ const Orders = () => {
   }
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
     if (!loggedInUser) {
       navigate.push("/loginSignup?message=orders");
     }

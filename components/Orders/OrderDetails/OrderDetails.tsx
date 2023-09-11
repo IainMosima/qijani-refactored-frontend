@@ -13,12 +13,14 @@ interface OrderDetailsProps {
   index: number;
 }
 
-const token = localStorage.getItem('token');
 const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
   const [packageInfo, setPackageInfo] = useState<PackageStructure>();
+  const [token, setToken] = useState("");
 
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
     async function fetchPackage() {
       try {
         let response;

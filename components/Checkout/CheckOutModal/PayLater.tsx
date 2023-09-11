@@ -14,8 +14,8 @@ interface PayLaterProps {
     price: string;
 
 }
-const token = localStorage.getItem('token');
 const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
+    const token = localStorage.getItem('token');
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(

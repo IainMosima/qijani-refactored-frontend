@@ -15,8 +15,8 @@ interface PayNowProps {
     price: string;
 }
 
-const token = localStorage.getItem('token');
 const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
+    const token = localStorage.getItem('token');
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(

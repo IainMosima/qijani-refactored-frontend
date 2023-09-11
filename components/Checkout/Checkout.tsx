@@ -20,7 +20,7 @@ import transportMoney from "@/utils/transportMoney";
 interface CheckoutProps {
   packageId: string | null;
 }
-const token = localStorage.getItem('token');
+
 const Checkout = ({ packageId }: CheckoutProps) => {
   const user = useAppSelector(state => state.login.user);
   const [packageInfo, setPackageInfo] = useState<PackageStructure>({
@@ -29,7 +29,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
     packageName: "",
     items: [],
   });
-
+  const [token, setToken] = useState("");
   const [total, setTotal] = useState(0);
   const [items, setItems] = useState<ItemStructure[]>();
   const [open, setOpen] = useState(false);
@@ -155,6 +155,8 @@ const Checkout = ({ packageId }: CheckoutProps) => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
     if (!user) {
       navigate.push(`/loginSignup?message=checkout&packageId=${packageId}`);
     }
@@ -185,7 +187,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
 
   }, [navigate, packageId, user]);
 
-  
+
   return (
     <div className="app__checkout">
       {user && packageId && (
