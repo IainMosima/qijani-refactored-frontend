@@ -13,7 +13,7 @@ interface OrderDetailsProps {
   index: number;
 }
 
-
+const token = localStorage.getItem('token');
 const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
   const [packageInfo, setPackageInfo] = useState<PackageStructure>();
 
@@ -21,7 +21,9 @@ const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
   useEffect(() => {
     async function fetchPackage() {
       try {
-        const response = await getPackage(order.packageId || '');
+        let response;
+        if (token)
+          response = await getPackage(order.packageId || '', token);
         setPackageInfo(response);
       } catch (err) {
         console.log(err);

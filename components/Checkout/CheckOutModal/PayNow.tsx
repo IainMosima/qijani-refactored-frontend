@@ -13,15 +13,15 @@ interface PayNowProps {
     loggedInUser: User | null;
     packageId: string;
     price: string;
-    }
+}
 
-
+const token = localStorage.getItem('token');
 const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(
         loggedInUser
-            ? loggedInUser.phoneNumber.toString().split("").slice(3).join("")
+            ? loggedInUser.phoneNumber.toString()
             : ""
     );
     const fieldPhoneNumber = useRef<HTMLInputElement>(null);
@@ -66,8 +66,8 @@ const PayNow = ({ loggedInUser, packageId, price }: PayNowProps) => {
 
         try {
             let response;
-            if (order) {
-                response = await createOrder(order, packageId);
+            if (order && token) {
+                response = await createOrder(order, packageId, token);
                 if (response) {
                     dispatch(setOrders([response, ...orders]));
                     console.log([response, ...orders]);

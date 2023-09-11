@@ -5,22 +5,22 @@ import { useDebounce } from "use-debounce";
 import { Images } from "../../constants";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
-import { userLogin, userLogout } from "@/redux/reducers/loginReducer";
+import { getMyOrders } from "@/redux/reducers/OrdersReducer";
+import { userLogin } from "@/redux/reducers/loginReducer";
 import { getMyPackages } from "@/redux/reducers/packagesReducer";
 import { store } from "@/redux/store";
+import { Avatar } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Product } from "../../models/product";
 import * as ProductsApi from "../../network/products";
 import * as UserApi from "../../network/users";
+import stringAvatar from "../../utils/stringToColor";
 import "./Navbar.scss";
 import SearchBar from "./SearchBar/SearchBar";
-import { getMyOrders } from "@/redux/reducers/OrdersReducer";
-import { Avatar } from "@mui/material";
-import stringAvatar from "../../utils/stringToColor";
 
-
+const token = localStorage.getItem("token");
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.login.user);
@@ -58,11 +58,14 @@ const Navbar = () => {
     }
 
     async function checkLoggedInUser() {
-      const user = await UserApi.getLoggedInUser();
-      if (user) {
-        dispatch(userLogin(user));
-        store.dispatch(getMyPackages);
-        store.dispatch(getMyOrders);
+      let user = null;
+      if (token) {
+        user = await UserApi.getLoggedInUser((token));
+        if (user) {
+          dispatch(userLogin(user));
+          store.dispatch(getMyPackages(token));
+          store.dispatch(getMyOrders(token));
+        }
       }
     }
     checkLoggedInUser();
@@ -85,14 +88,6 @@ const Navbar = () => {
     setQuery(event.target.value);
   }
 
-  async function logout() {
-    try {
-      await UserApi.logout();
-      dispatch(userLogout());
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   function toggleHandler(option?: string) {
     switch (option) {
@@ -129,6 +124,11 @@ const Navbar = () => {
     } else {
       navigate.push("/orders");
     }
+  }
+
+  function logout() {
+    dispatch(userLogin(null));
+    localStorage.clear();
   }
 
   return (
@@ -178,7 +178,7 @@ const Navbar = () => {
       </div>
 
       <div className="app__navbar-links ml-3">
-      <div onClick={() => navigate.push('/')}>
+        <div onClick={() => navigate.push('/')}>
           <Image
             src={Images.homeIcon}
             alt="package-icon"

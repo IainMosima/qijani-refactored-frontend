@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Images } from "../../constants";
 import { UnauthorizedError } from "../../errors/http_errors";
 import { loginCredentials } from "../../models/loginCredentials";
-import { login } from "../../network/users";
+import { getLoggedInUser, login } from "../../network/users";
 
 import { useAppDispatch } from "@/hooks/reduxHook";
 import { getOrders } from "@/network/order";
@@ -33,14 +33,17 @@ const LoginForm = ({ setErrorText }: LoginProps) => {
     password: { required: "Password is required" },
   };
 
+  
   async function onSubmit(credentials: loginCredentials) {
     try {
-      const user = await login({...credentials, usernameEmail: credentials.usernameEmail.toLowerCase()});
+      const token = await login({...credentials, usernameEmail: credentials.usernameEmail.toLowerCase()});
+      localStorage.setItem('token', token);
+      const user = await getLoggedInUser(token);
       
       if (user) {
         dispatch(userLogin(user));
-        const myPackages = await fetchPackages();
-        const myOrders = await getOrders();
+        const myPackages = await fetchPackages(token);
+        const myOrders = await getOrders(token);
         if (myPackages) dispatch(setMypackages(myPackages));
         if (myOrders) dispatch(setOrders(myOrders));
       }

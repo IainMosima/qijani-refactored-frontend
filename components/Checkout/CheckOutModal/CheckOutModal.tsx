@@ -28,6 +28,7 @@ const CheckOutModal = ({
   const [payNow, setPayNow] = useState(true);
 
 
+  
   return (
     <Dialog open={open} onClose={onClose}>
       <div className="w-30rem py-7">

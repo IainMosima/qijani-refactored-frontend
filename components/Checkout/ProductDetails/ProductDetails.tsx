@@ -21,6 +21,7 @@ interface ProductDetailsProps {
   setItems: React.Dispatch<React.SetStateAction<ItemStructure[] | undefined>>;
 }
 
+const token = localStorage.getItem('token');
 const ProductDetails = ({
   productId,
   price,
@@ -49,7 +50,7 @@ const ProductDetails = ({
 
     fetchProduct(productId);
 
-    
+
   }, [price, productId]);
 
   function priceCalc() {
@@ -78,56 +79,56 @@ const ProductDetails = ({
     event.preventDefault();
     const unit = productInfo?.unit.split(",")[0];
     const decrement = productInfo?.unit.split(",")[1];
-    if(decrement)
-    if (
-      quantityInput.current?.value &&
-      parseFloat(quantityInput.current?.value) > 0
-    ) {
-      if (unit === 'kg') {
-        if (Number(decrement) === 1) {
-          quantityInput.current.value = (
-            parseFloat(quantityInput.current.value) - parseFloat(decrement) / 2
-          ).toFixed(1);
+    if (decrement)
+      if (
+        quantityInput.current?.value &&
+        parseFloat(quantityInput.current?.value) > 0
+      ) {
+        if (unit === 'kg') {
+          if (Number(decrement) === 1) {
+            quantityInput.current.value = (
+              parseFloat(quantityInput.current.value) - parseFloat(decrement) / 2
+            ).toFixed(1);
+          } else {
+            quantityInput.current.value = (
+              parseInt(quantityInput.current.value) - 1
+            ).toFixed(1);
+          }
         } else {
           quantityInput.current.value = (
-            parseInt(quantityInput.current.value) - 1
+            parseInt(quantityInput.current.value) - parseInt(decrement)
           ).toFixed(1);
         }
-      } else {
-        quantityInput.current.value = (
-          parseInt(quantityInput.current.value) - parseInt(decrement)
-        ).toFixed(1);
+        priceCalc();
       }
-      priceCalc();
-    }
   }
 
   function quantityIncrement(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const unit = productInfo?.unit.split(",")[0];
     const decrement = productInfo?.unit.split(",")[1];
-    if(decrement)
-    if (
-      quantityInput.current?.value &&
-      parseFloat(quantityInput.current?.value) > 0
-    ) {
-      if (unit === 'kg') {
-        if (Number(decrement) === 1) {
-          quantityInput.current.value = (
-            parseFloat(quantityInput.current.value) + parseFloat(decrement) / 2
-          ).toFixed(1);
+    if (decrement)
+      if (
+        quantityInput.current?.value &&
+        parseFloat(quantityInput.current?.value) > 0
+      ) {
+        if (unit === 'kg') {
+          if (Number(decrement) === 1) {
+            quantityInput.current.value = (
+              parseFloat(quantityInput.current.value) + parseFloat(decrement) / 2
+            ).toFixed(1);
+          } else {
+            quantityInput.current.value = (
+              parseInt(quantityInput.current.value) + 1
+            ).toFixed(1);
+          }
         } else {
           quantityInput.current.value = (
-            parseInt(quantityInput.current.value) + 1
+            parseInt(quantityInput.current.value) + parseInt(decrement)
           ).toFixed(1);
         }
-      } else {
-        quantityInput.current.value = (
-          parseInt(quantityInput.current.value) + parseInt(decrement)
-        ).toFixed(1);
+        priceCalc();
       }
-      priceCalc();
-    }
   }
 
   function quantityChange() {
@@ -137,6 +138,7 @@ const ProductDetails = ({
   async function deleteItem(productId: string) {
     let updatedItems = items;
     if (updatedItems) updatedItems = removeItem(updatedItems, productId);
+    let response;
 
     const totalPrice =
       updatedItems.reduce((total, item) => {
@@ -150,12 +152,13 @@ const ProductDetails = ({
     setItems(updatedItems);
 
     try {
-      const response = await updatePackage({
-        userId: packageInfo.userId,
-        packageId: packageInfo._id,
-        packageName: packageInfo.packageName,
-        items: updatedItems || [],
-      });
+      if (token)
+        response = await updatePackage({
+          userId: packageInfo.userId,
+          packageId: packageInfo._id,
+          packageName: packageInfo.packageName,
+          items: updatedItems || [],
+        }, token);
       if (response) {
         setPackageInfo(response.data);
       }
@@ -195,7 +198,7 @@ const ProductDetails = ({
                 type="number"
                 ref={quantityInput}
                 min="0"
-                defaultValue={(calculatedPrice/productInfo.price).toFixed(1)}
+                defaultValue={(calculatedPrice / productInfo.price).toFixed(1)}
                 max="100"
                 step="0.1"
                 onChange={quantityChange}
@@ -210,7 +213,7 @@ const ProductDetails = ({
               </button>
             </div>
 
-            <label className="italic">{`${productInfo.unit.split(', ')[1] == '2' ? 'piece' : productInfo.unit.split(', ')[0] }(s)`}</label>
+            <label className="italic">{`${productInfo.unit.split(', ')[1] == '2' ? 'piece' : productInfo.unit.split(', ')[0]}(s)`}</label>
 
           </div>
 
@@ -218,7 +221,7 @@ const ProductDetails = ({
             <p className="sm:w-auto w-[1.2rem]">Ksh {calculatedPrice}</p>
           </div>
 
-          <Image src={Images.trashIcon} alt="delete-icon" className="cursor-pointer" width={22} onClick={()=>deleteItem(productInfo._id)}/>
+          <Image src={Images.trashIcon} alt="delete-icon" className="cursor-pointer" width={22} onClick={() => deleteItem(productInfo._id)} />
         </div>
       )}
     </section>
