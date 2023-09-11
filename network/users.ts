@@ -1,17 +1,17 @@
-import { fetchData } from "./fetchData";
-import { User } from "../models/user";
 import { loginCredentials } from "../models/loginCredentials";
-import { profileCredentials } from "@/models/profileCredentials";
 import { signedUrl } from "../models/signedUrl";
+import { User } from "../models/user";
+import { fetchData } from "./fetchData";
+
 
 // getting an authenticated user
-export async function getLoggedInUser(): Promise<User> {
-    const response = await fetchData(`/api/v1/users/`, { method: 'GET' });
+export async function getLoggedInUser(token: string): Promise<User> {
+    const response = await fetchData(`/api/v1/users/`, { headers: { 'Authorization': 'Bearer ' + token }, method: 'GET' });
     return response.json();
 }
 
 // login function
-export async function login(credentials: loginCredentials): Promise<User> {
+export async function login(credentials: loginCredentials): Promise<string> {
     const response = await fetchData('/api/v1/users/login',
         {
             method: 'POST',
@@ -25,7 +25,7 @@ export async function login(credentials: loginCredentials): Promise<User> {
 }
 
 // signing up a user
-export async function signUp(credentials: FormData): Promise<User> {
+export async function signUp(credentials: FormData): Promise<string> {
     const response = await fetchData('/api/v1/users/signup', {
         method: 'POST',
         body: credentials
@@ -35,23 +35,12 @@ export async function signUp(credentials: FormData): Promise<User> {
 }
 
 
-// logout function
-export async function logout() {
-    await fetchData('/api/v1/users/logout', { method: 'POST' });
-}
-
-
 // get profile pic signed url
 export async function getUserProfileImageSignedUrl(key: string): Promise<signedUrl> {
     const response = await fetchData(`/api/v1/users/signedUrl/${key}`);
     return response.json();
 }
 
-// // fetching user profile image
-// export async function getUserProfileImage(key: string) {
-//     const signedUrl = await getUserProfileImageSignedUrl(key);
-//     return signedUrl.url;
-// }
 
 // update user's profile
 export async function updateProfile(credentials: object, userId: string): Promise<User> {

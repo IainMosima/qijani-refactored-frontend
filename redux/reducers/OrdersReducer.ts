@@ -14,8 +14,15 @@ const OrderReducerSlice = createSlice({
     }
 });
 
-export async function getMyOrders(dispatch: Dispatch) {
-    await getOrders().then(res => dispatch(setOrders(res))).catch(err => console.error('Something went wrong, please refresh the page'));
+export const getMyOrders = (token: string) => async (dispatch: Dispatch) => {
+    try {
+        const response = await getOrders(token);
+        dispatch(setOrders(response));
+    } catch (error) {
+        console.error(error);
+        alert('Something went wrong, please refresh the page');
+
+    }
 }
 
 export const { setOrders } = OrderReducerSlice.actions;

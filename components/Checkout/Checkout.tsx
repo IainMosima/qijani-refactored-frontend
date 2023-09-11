@@ -20,6 +20,7 @@ import transportMoney from "@/utils/transportMoney";
 interface CheckoutProps {
   packageId: string | null;
 }
+const token = localStorage.getItem('token');
 const Checkout = ({ packageId }: CheckoutProps) => {
   const user = useAppSelector(state => state.login.user);
   const [packageInfo, setPackageInfo] = useState<PackageStructure>({
@@ -133,13 +134,13 @@ const Checkout = ({ packageId }: CheckoutProps) => {
       // updating user location info
       await updateProfile(formData, user?._id!);
       // updating packages
-      if (packageInfo.items)
+      if (packageInfo.items && token)
         await updatePackage({
           packageId: packageInfo._id,
           userId: packageInfo.userId,
           packageName: packageInfo.packageName,
           items: packageInfo.items,
-        }).then((res) => dispatch(setMypackages(
+        }, token).then((res) => dispatch(setMypackages(
           myPackages.map((p) => {
             if (p._id === res.data._id) {
               return { ...p, ...res.data }
@@ -158,7 +159,8 @@ const Checkout = ({ packageId }: CheckoutProps) => {
       navigate.push(`/loginSignup?message=checkout&packageId=${packageId}`);
     }
     async function fetchPackageInfo(packageId: string) {
-      const response = await getPackage(packageId);
+      let response;
+      if (token) response = await getPackage(packageId, token);
 
       if (response && response.items) {
         setPackageInfo(response);
@@ -181,8 +183,9 @@ const Checkout = ({ packageId }: CheckoutProps) => {
 
     if (packageId) fetchPackageInfo(packageId);
 
-  }, [navigate, packageId,  user]);
+  }, [navigate, packageId, user]);
 
+  
   return (
     <div className="app__checkout">
       {user && packageId && (
@@ -221,7 +224,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
                   setPackageInfo={setPackageInfo}
                   items={items}
                   setItems={setItems}
-                 
+
                 />
               </div>
             ))}
@@ -346,9 +349,9 @@ const Checkout = ({ packageId }: CheckoutProps) => {
             <div className="price-card sm:w-[25rem] w-[22rem]">
               <h3>Subtotal</h3>
               <h3 className="price">Ksh {total - transportMoney(total)}</h3>
-              
+
               <div className="flex place-items-center">
-                <Image src={Images.transport} alt="transport-icon" width={30}/>
+                <Image src={Images.transport} alt="transport-icon" width={30} />
                 <h3 className="italic">Transport</h3>
               </div>
               <h3 className="price italic">Ksh {transportMoney(total)}</h3>

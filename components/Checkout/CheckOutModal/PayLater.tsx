@@ -14,13 +14,13 @@ interface PayLaterProps {
     price: string;
 
 }
-
+const token = localStorage.getItem('token');
 const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
     const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
     const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
     const [phoneNumber, setphoneNumber] = useState(
         loggedInUser
-            ? loggedInUser.phoneNumber.toString().split("").slice(3).join("")
+            ? loggedInUser.phoneNumber.toString()
             : ""
     );
     const fieldPhoneNumber = useRef<HTMLInputElement>(null);
@@ -67,8 +67,8 @@ const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
 
         try {
             let response;
-            if (order) {
-                response = await createOrder(order, packageId)
+            if (order && token) {
+                response = await createOrder(order, packageId, token)
                 dispatch(setOrders([response, ...orders]));
                 if (response) {
                     navigate.push("/orders");
@@ -80,6 +80,7 @@ const PayLater = ({ loggedInUser, packageId, price }: PayLaterProps) => {
             console.error(error);
         }
     }
+    
     return (
         <div className="modal">
             <p className='text-center text-md font-semibold text-yellow'>Confirm your contact number</p>
