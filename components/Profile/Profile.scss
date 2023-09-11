@@ -99,6 +99,12 @@
       width: 3vh;
     }
 
+    .close {
+      margin-top: 20px;
+      height: 2vh;
+      width: 2vh;
+    }
+
     .edit2 {
       margin-top: 10px;
       height: 3vh;
@@ -187,6 +193,12 @@
           }
         }
       }
+
+      .close {
+        margin-top: 20px;
+        height: 2vh;
+        width: 2vh;
+      }
     }
 
     .email {
@@ -223,6 +235,12 @@
             width: 3vh;
           }
         }
+      }
+
+      .close {
+        margin-top: 20px;
+        height: 2vh;
+        width: 2vh;
       }
     }
   }
@@ -337,7 +355,7 @@
       height: 50px;
       font-family: var(--zilla-font) !important;
       float: right !important;
-      
+
       :hover {
         opacity: 0.9;
       }

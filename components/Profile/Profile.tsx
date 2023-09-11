@@ -11,7 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import isEmailValid from "../../utils/isEmailValid";
 import stringAvatar from "../../utils/stringToColor";
 import { useDebounce } from "use-debounce";
@@ -71,18 +71,15 @@ const ViewUserProfile = () => {
 
 
     const [formData, setFormData] = useState({
-        username: '',
+        username: user?.username,
         location: user?.location,
         phoneNumber: user?.phoneNumber,
-        email: '',
+        email: user?.email,
         county: user?.county,
         area: user?.area,
         landmark: user?.landmark,
         profileImgKey: user?.profileImgKey,
     });
-
-    const [debouncedUsername] = useDebounce(formData.username, 300);
-    const [debouncedEmail] = useDebounce(formData.email, 300);
 
     const [formData2, setFormData2] = useState({
         prevPassword: '',
@@ -118,11 +115,29 @@ const ViewUserProfile = () => {
                 setIsEditing(false);
             }
             else {
-                setUsernameClassname("input-ok, mini_intro");
-                setUsernameMessage("");
-                setIsEditing(true);
+                checkUsernameExists(username);
             }
         }, 1500);
+
+        async function checkUsernameExists(username: string) {
+            try {
+                const response = await checkUsername(username);
+                setUsernameExists(response);
+                if (response) {
+                    setUsernameClassname("input-warning, mini_intro");
+                    setUsernameMessage("Username is already in use");
+                    setIsEditing(false);
+                } else {
+                    setUsernameClassname("input-ok, mini_intro");
+                    setUsernameMessage("");
+                    setIsEditing(true);
+                }
+            } catch (error) {
+                alert('Something went wrong, please referesh the page.');
+            }
+
+
+        }
     };
 
     const handleLocationChange = (event: { target: { value: any; }; }) => {
@@ -161,11 +176,29 @@ const ViewUserProfile = () => {
                 setEmailMessage("Enter a valid email address!!");
                 setIsEditing(false);
             } else {
-                setEmailClassname("input-ok, email");
-                setEmailMessage("");
-                setIsEditing(true);
+                checkEmailExists(email);
             }
         }, 1500);
+
+        async function checkEmailExists(email: string) {
+            try {
+                const response = await checkEmail(email);
+                setEmailExists(response);
+                if (response) {
+                    setEmailClassname("input-warning, email");
+                    setEmailMessage("Email already exists");
+                    setIsEditing(false);
+                } else {
+                    setEmailClassname("input-ok, email");
+                    setEmailMessage("");
+                    setIsEditing(true);
+                }
+            } catch (error) {
+                alert('Something went wrong, please referesh the page.');
+            }
+
+
+        }
     };
 
     const handlePhoneNumberChange = (event: { target: { value: any; }; }) => {
@@ -360,50 +393,11 @@ const ViewUserProfile = () => {
         if (!user) {
             navigate.push("/loginSignup?message=profile");
         }
-
-        async function checkUsernameExists(username: string) {
-            try {
-                const response = await checkUsername(username);
-                setUsernameExists(response);
-                if (response) {
-                    setUsernameClassname("input-warning, mini_intro");
-                    setUsernameMessage("Username is already in use");
-                    setIsEditing(false);
-                } else {
-                    setUsernameClassname("input-ok, mini_intro");
-                    setUsernameMessage("");
-                    setIsEditing(true);
-                }
-            } catch (error) {
-                alert('Something went wrong, please referesh the page.');
-            }
-
-
-        }
-        async function checkEmailExists(email: string) {
-            try {
-                const response = await checkEmail(email);
-                setEmailExists(response);
-                if (response) {
-                    setEmailClassname("input-warning, email");
-                    setEmailMessage("Email already exists");
-                    setIsEditing(false);
-                } else {
-                    setEmailClassname("input-ok, email");
-                    setEmailMessage("");
-                    setIsEditing(true);
-                }
-            } catch (error) {
-                alert('Something went wrong, please referesh the page.');
-            }
-
-
+        if (usernameClassname === 'usernameInput' && phoneNumberClassName === 'usernameInput' && emailClassname === 'usernameInput') {
+            setIsEditing(false);
         }
 
-        if (debouncedUsername) checkUsernameExists(debouncedUsername);
-        if (debouncedEmail) checkEmailExists(debouncedEmail);
-
-    }, [navigate, user, debouncedUsername, debouncedEmail]);
+    }, [navigate, user, usernameClassname, phoneNumberClassName, emailClassname]);
 
 
     return (
@@ -463,6 +457,9 @@ const ViewUserProfile = () => {
                                         onChange={handleUsernameChange}
                                     />
                                 </div>
+                                <button onClick={(e) => { setUsernameClassname2("mini_intro"); setUsernameClassname("usernameInput"); setUsernameMessage(""); setFormData((prevData) => ({ ...prevData, username: user?.username, })); e.preventDefault() }}>
+                                    <Image className="close" src={Images.closeIcon} alt="close-icon" />
+                                </button>
                             </div>
                             {/* <div className="mini_details2">
                                 <Image className="icon2" src={Images.locationIcon} alt="profile-icon" />
@@ -507,13 +504,16 @@ const ViewUserProfile = () => {
                             <input
                                 id="number"
                                 className="input"
-                                defaultValue={user?.phoneNumber}
+                                value={formData.phoneNumber}
                                 type="number"
                                 placeholder="Phonenumber"
                                 name="phoneNumber"
                                 onChange={handlePhoneNumberChange}
                             />
                         </div>
+                        <button onClick={(e) => { setPhoneNumberClassName2("phone"); setPhoneNumberClassName("usernameInput"); setPhoneNumberMessage(""); setFormData((prevData) => ({ ...prevData, phoneNumber: user?.phoneNumber, })); e.preventDefault() }}>
+                            <Image className="close" src={Images.closeIcon} alt="close-icon" />
+                        </button>
 
                     </div>
                     <div className={emailClassname2}>
@@ -536,13 +536,15 @@ const ViewUserProfile = () => {
                             <input
                                 className="input"
                                 type="string"
-                                defaultValue={user?.email}
+                                value={formData.email}
                                 placeholder="Email"
                                 name="email"
                                 onChange={handleEmailChange}
                             />
                         </div>
-
+                        <button onClick={(e) => { setEmailClassname2("email"); setEmailClassname("usernameInput"); setEmailMessage(""); setFormData((prevData) => ({ ...prevData, email: user?.email, })); e.preventDefault(); }}>
+                            <Image className="close" src={Images.closeIcon} alt="close-icon" />
+                        </button>
                     </div>
                 </div>
                 <div className="delivery_details">
