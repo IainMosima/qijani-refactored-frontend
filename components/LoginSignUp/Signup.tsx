@@ -26,8 +26,7 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [debouncedEmail] = useDebounce(email, 300);
   const [emailExists, setEmailExists] = useState(false);
-  console.log(debouncedEmail);
-
+  
 
   const [phoneNumberClassName, setPhoneNumberClassName] = useState("");
   const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
@@ -292,7 +291,7 @@ const SignUpForm = () => {
             placeholder="Password"
             {...register("password", { onChange: onPasswordChange })}
           />
-          {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setShowPassword(false)} /> : <Image priority={true} src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[57.5rem] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setShowPassword(true)} />}
+          {showPassword ? <Image priority={true} src={Images.hideIcon} alt="visible-icon" className="absolute lg:left-[58%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setShowPassword(false)} /> : <Image priority={true} src={Images.visibleIcon} alt="visible-icon" className="absolute lg:left-[58%] md:left-[33.5rem] left-[18.7rem] cursor-pointer" width={27} onClick={() => setShowPassword(true)} />}
         </div>
         {passwordMessage && (
           <>
