@@ -31,7 +31,6 @@ interface AddPackageModalProps {
   setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
   selectedProduct: Product;
 }
-
 const AddPackageModal = ({
   open,
   loggedInUser,
@@ -65,6 +64,7 @@ const AddPackageModal = ({
       { productId: product._id, price: product.price },
     ],
   });
+  const [token, setToken] = useState("");
   const quantityInput = useRef<HTMLInputElement>(null);
   const packageName = useRef<HTMLInputElement>(null);
   const existingPackageValue = useRef<HTMLSelectElement>(null);
@@ -74,6 +74,11 @@ const AddPackageModal = ({
   const [packageNameWarning, setPackageNameWarning] = useState(false);
   const packagenames = myPackages?.map((item) => item.packageName);
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
+  }, [])
 
   function priceCalc() {
     if (quantityInput.current?.value) {
@@ -240,8 +245,9 @@ const AddPackageModal = ({
   async function submit() {
     setisSubmitting(true);
     if (newPackage) {
+      let response;
       try {
-        const response = await createNewPackage(newPackage);
+        if (token) response = await createNewPackage(newPackage, token);
         if (response && packageName.current?.value) {
           setisSubmitting(false);
           packageName.current.value = "";
@@ -267,11 +273,13 @@ const AddPackageModal = ({
         console.error(error);
       }
     } else if (addToExisting) {
+      let response;
+      let updatedPackages;
       try {
-        const response = await updatePackage(addToExisting);
-        const updatedPackages = await fetchPackages();
+        if (token) response = await updatePackage(addToExisting, token);
+        if (token) updatedPackages = await fetchPackages(token);
 
-        if (response) {
+        if (response && updatedPackages) {
           setisSubmitting(false);
           dispatch(setMypackages(updatedPackages));
           setSuccessMessage(
@@ -326,7 +334,7 @@ const AddPackageModal = ({
                   <Image src={Images.plusIcon} alt="plus icon" width={10} />
                 </button>
               </div>
-              <label className="italic">{`${product.unit.split(', ')[1] == '2' ? 'piece' : product.unit.split(', ')[0] }(s)`}</label>
+              <label className="italic">{`${product.unit.split(', ')[1] == '2' ? 'piece' : product.unit.split(', ')[0]}(s)`}</label>
             </div>
 
             {!existing && myPackages && myPackages.length > 0 && (

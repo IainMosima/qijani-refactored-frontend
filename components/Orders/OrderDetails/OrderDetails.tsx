@@ -13,15 +13,19 @@ interface OrderDetailsProps {
   index: number;
 }
 
-
 const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
   const [packageInfo, setPackageInfo] = useState<PackageStructure>();
+  const [token, setToken] = useState("");
 
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
     async function fetchPackage() {
       try {
-        const response = await getPackage(order.packageId || '');
+        let response;
+        if (token)
+          response = await getPackage(order.packageId || '', token);
         setPackageInfo(response);
       } catch (err) {
         console.log(err);

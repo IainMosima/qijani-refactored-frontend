@@ -1,13 +1,13 @@
 import { fetchData } from "./fetchData";
 import { NewPackage, PackageStructure, UpdatedPackage, UpdatedPackageResponse } from "../models/package";
 
-
 // creating new package
-export async function createNewPackage(newPackage: NewPackage): Promise<PackageStructure> {
+export async function createNewPackage(newPackage: NewPackage, token: string): Promise<PackageStructure> {
     const response= await fetchData('/api/v1/packages/', 
     {
         method: 'POST',
         headers: {
+            'Authorization': 'Bearer ' + token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(newPackage)
@@ -16,7 +16,7 @@ export async function createNewPackage(newPackage: NewPackage): Promise<PackageS
 }
 
 // updating a package
-export async function updatePackage(updateInfo: UpdatedPackage): Promise<UpdatedPackageResponse> {
+export async function updatePackage(updateInfo: UpdatedPackage, token: string): Promise<UpdatedPackageResponse> {
     const updatadedPackage = {
         userId: updateInfo.userId,
         packageName: updateInfo.packageName,
@@ -26,6 +26,7 @@ export async function updatePackage(updateInfo: UpdatedPackage): Promise<Updated
     {
         method: 'PATCH',
         headers : {
+            'Authorization': 'Bearer ' + token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(updatadedPackage)
@@ -36,19 +37,19 @@ export async function updatePackage(updateInfo: UpdatedPackage): Promise<Updated
 }
 
 // getting all packages
-export async function fetchPackages(): Promise<PackageStructure[]> {
-    const response = await fetchData('/api/v1/packages');
+export async function fetchPackages(token: string): Promise<PackageStructure[]> {
+    const response = await fetchData('/api/v1/packages', { headers: { 'Authorization': 'Bearer ' + token } ,method: 'GET' });
     return response.json();
 }
 
 // deleting a package
-export async function deletePackage(packageId: string) {
-    const response = await fetchData(`/api/v1/packages/${packageId}`, { method: 'DELETE' });
+export async function deletePackage(packageId: string, token: string) {
+    const response = await fetchData(`/api/v1/packages/${packageId}`, { headers: { 'Authorization': 'Bearer ' + token }, method: 'DELETE' });
     return response.json();
 }
 
 // getting package
-export async function getPackage(packageId: string): Promise<PackageStructure> {
-    const response = await fetchData(`/api/v1/packages/${packageId}`);
+export async function getPackage(packageId: string, token: string): Promise<PackageStructure> {
+    const response = await fetchData(`/api/v1/packages/${packageId}`, { headers: { 'Authorization': 'Bearer ' + token } ,method: 'GET' });
     return response.json();
 }

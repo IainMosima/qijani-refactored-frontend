@@ -14,6 +14,7 @@ import AddNewPackageModal from "./AddNewPackageModal/AddNewPackageModal";
 import "./Packages.scss";
 
 const Packages = () => {
+  const [token, setToken] = useState("");
   const loggedInUser = useAppSelector((state) => state.login.user);
   const myPackages = useAppSelector((state) => state.packages);
   const [open, setOpen] = useState(false);
@@ -30,11 +31,16 @@ const Packages = () => {
     setOpen(false);
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
+  }, []);
+
   async function removePackage(itemId: string) {
     const updatedPackages = myPackages.filter((item) => item._id !== itemId);
     dispatch(setMypackages(updatedPackages));
     try {
-      await deletePackage(itemId);
+      if (token) await deletePackage(itemId, token);
     } catch (err) {
       console.error(err);
     }

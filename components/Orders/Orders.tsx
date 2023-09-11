@@ -10,30 +10,32 @@ import { cancelOrder } from "@/network/order";
 import { setOrders } from "@/redux/reducers/OrdersReducer";
 import { useRouter } from "next/navigation";
 
-
 const Orders = () => {
   const orders = useAppSelector(state => state.orders);
+  const [token, setToken] = useState("");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.login.user);
   const navigate = useRouter();
-  
+
   function onClose() {
     setOpen(false);
   }
 
   async function deleteOrder(orderId: string, packageName: string, index: number) {
     dispatch(setOrders(orders.filter((order, i) => i !== index)));
-    await cancelOrder(orderId).then(()=>{setMessage(`Canceled order for package ${packageName}`); setOpen(true)}).catch(() => alert("Something went wrong, please refresh page"));
+    if (token) await cancelOrder(orderId, token).then(() => { setMessage(`Canceled order for package ${packageName}`); setOpen(true) }).catch(() => alert("Something went wrong, please refresh page"));
   }
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setToken(token);
     if (!loggedInUser) {
       navigate.push("/loginSignup?message=orders");
     }
   }, [loggedInUser, navigate]);
-  
+
 
   return (
     <div className="app__orders">
@@ -63,7 +65,7 @@ const Orders = () => {
           <div className="frame">
             {orders.map((order, index) => (
               <div key={index}>
-                <OrderDetails order={order} deleteOrder={deleteOrder} index={index}/>
+                <OrderDetails order={order} deleteOrder={deleteOrder} index={index} />
               </div>
             ))}
           </div>

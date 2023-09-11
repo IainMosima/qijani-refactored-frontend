@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Images } from "../../constants";
-import { checkEmail, checkUsername, getUserProfileImageSignedUrl, signUp } from "../../network/users";
+import { checkEmail, checkUsername, getLoggedInUser, getUserProfileImageSignedUrl, signUp } from "../../network/users";
 import isEmailValid from "../../utils/isEmailValid";
 import isPasswordOk from "../../utils/isPasswordOk";
 import "./forms.scss";
@@ -15,7 +15,6 @@ import { useDebounce } from "use-debounce";
 
 const SignUpForm = () => {
   const dispatch = useAppDispatch();
-
 
   const [usernameClassname, setUsernameClassname] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
@@ -67,8 +66,9 @@ const SignUpForm = () => {
     // formData.append("profileImg", credentials.profileImg[0]);
 
     try {
-      const user = await signUp(formData);
-
+      const token = await signUp(formData);
+      localStorage.setItem('token', token);
+      const user = await getLoggedInUser(token);
       if (user) {
         if (user.profileImgKey) {
           const signedUrl = await getUserProfileImageSignedUrl(

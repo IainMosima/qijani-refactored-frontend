@@ -17,9 +17,15 @@ const packagesReducerSlice = createSlice({
 
 })
 
-export async function getMyPackages(dispatch: Dispatch) {
-  await fetchPackages().then(res => dispatch(setMypackages(res))).catch(err => alert('Something went wrong, please refresh the page'));
-}
+export const getMyPackages = (token: string) => async (dispatch: Dispatch) => {
+  try {
+    const response = await fetchPackages(token);
+    dispatch(setMypackages(response));
+  } catch (err) {
+    console.error(err);
+    alert('Something went wrong, please refresh the page');
+  }
+};
 
 export const { setMypackages } = packagesReducerSlice.actions;
 export default packagesReducerSlice.reducer;
