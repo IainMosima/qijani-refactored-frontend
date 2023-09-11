@@ -69,7 +69,7 @@ const SignUpForm = () => {
     try {
       const token = await signUp(formData);
       localStorage.setItem('token', token);
-      const user = await getLoggedInUser();
+      const user = await getLoggedInUser(token);
       if (user) {
         if (user.profileImgKey) {
           const signedUrl = await getUserProfileImageSignedUrl(
