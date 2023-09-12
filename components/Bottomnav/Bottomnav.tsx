@@ -1,6 +1,5 @@
 "use client";
 import { useAppSelector } from '@/hooks/reduxHook';
-import HomeIcon from '@mui/icons-material/Home';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
