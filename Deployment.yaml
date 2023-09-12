@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qijani-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: qijani-frontend
+  template:
+    metadata:
+      labels:
+        app: qijani-frontend
+    spec:
+      containers:
+        - name: qijani-frontend
+          image: mosimaiain/qijani-frontend:prod
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
