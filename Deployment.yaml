@@ -17,4 +17,4 @@ spec:
           image: mosimaiain/qijani-frontend:prod
           imagePullPolicy: Always
           ports:
-            - containerPort: 3000
+            - containerPort: 80

@@ -3,7 +3,7 @@ import { NewPackage, PackageStructure, UpdatedPackage, UpdatedPackageResponse } 
 
 // creating new package
 export async function createNewPackage(newPackage: NewPackage, token: string): Promise<PackageStructure> {
-    const response= await fetchData('/api/v1/packages/', 
+    const response= await fetchData(`${process.env.BACKEND_API}/api/v1/packages/`, 
     {
         method: 'POST',
         headers: {
@@ -22,7 +22,7 @@ export async function updatePackage(updateInfo: UpdatedPackage, token: string): 
         packageName: updateInfo.packageName,
         items: updateInfo.items,
     }
-    const response= await fetchData(`/api/v1/packages/${updateInfo.packageId}`,
+    const response= await fetchData(`${process.env.BACKEND_API}/api/v1/packages/${updateInfo.packageId}`,
     {
         method: 'PATCH',
         headers : {
@@ -38,18 +38,18 @@ export async function updatePackage(updateInfo: UpdatedPackage, token: string): 
 
 // getting all packages
 export async function fetchPackages(token: string): Promise<PackageStructure[]> {
-    const response = await fetchData('/api/v1/packages', { headers: { 'Authorization': 'Bearer ' + token } ,method: 'GET' });
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/packages/`, { headers: { 'Authorization': 'Bearer ' + token } ,method: 'GET' });
     return response.json();
 }
 
 // deleting a package
 export async function deletePackage(packageId: string, token: string) {
-    const response = await fetchData(`/api/v1/packages/${packageId}`, { headers: { 'Authorization': 'Bearer ' + token }, method: 'DELETE' });
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/packages/${packageId}`, { headers: { 'Authorization': 'Bearer ' + token }, method: 'DELETE' });
     return response.json();
 }
 
 // getting package
 export async function getPackage(packageId: string, token: string): Promise<PackageStructure> {
-    const response = await fetchData(`/api/v1/packages/${packageId}`, { headers: { 'Authorization': 'Bearer ' + token } ,method: 'GET' });
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/packages/${packageId}`, { headers: { 'Authorization': 'Bearer ' + token } ,method: 'GET' });
     return response.json();
 }

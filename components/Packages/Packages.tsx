@@ -54,6 +54,7 @@ const Packages = () => {
     navigate.push(`/checkout/${packageId}`);
   }
 
+  
   return (
     <div className="app__packages h-[70vh]">
       {loggedInUser && open && (
@@ -111,12 +112,7 @@ const Packages = () => {
                     />
                   </div>
 
-                  {item.items && item.items?.reduce((total, item) => {
-                    if (item.price) {
-                      return total + item.price;
-                    }
-                    return 0;
-                  }, 0) || 0 > 150 ? (
+                  {item.items && item.items?.reduce((total, item) => {if (item.price) return total + item.price; return 0;}, 0) || 0 >= 150 ? (
                     <button
                       className="view-checkout sm:text-[15px] text-[.8rem] px-1"
                       onClick={() => checkout(item._id)}

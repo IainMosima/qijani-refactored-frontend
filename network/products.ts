@@ -3,13 +3,13 @@ import { Product } from "../models/product";
 
 // search function
 export async function searchFunction(query: string): Promise<Product[]> {
-    const response = await fetchData(`/api/v1/products/query/${query}`);
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/query/${query}`);
     return response.json();
 }
 
 // fetching all products
 export async function fetchProducts(): Promise<Product[]> {
-    const response = await fetchData(`/api/v1/products`);
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products`);
     return response.json();
 }
 
@@ -33,11 +33,11 @@ export async function fetchCategory(category: string, records?: number, server=f
         }
     } else {
         if (records){
-            response = await fetchData(`/api/v1/products/category?category=${category}&records=${records}`, {
+            response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}&records=${records}`, {
                 next: { revalidate: 1800 },
             });
         } else {
-            response = await fetchData(`/api/v1/products/category?category=${category}`);
+            response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}`);
         }
     }
 
@@ -47,6 +47,6 @@ export async function fetchCategory(category: string, records?: number, server=f
 
 // getting a product based on id
 export async function getProduct(productId: string): Promise<Product> {
-    const response = await fetchData(`/api/v1/products/${productId}`);
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/${productId}`);
     return response.json();
 }
