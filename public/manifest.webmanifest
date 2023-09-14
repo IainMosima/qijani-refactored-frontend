@@ -1,12 +1,12 @@
 {
     "theme_color": "#e09132",
-    "background_color": "#e09132",
+    "background_color": "#454230",
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
     "name": "Qijani",
     "short_name": "Qijani",
-    "description": "Qijani's Web App",
+    "description": "Grocery ecommerce platform that delivers meal plan packages to households doorstep.  We strive to make your shopping and cooking lifestyle easier and healthier",
     "icons": [
         {
             "src": "/icon-192x192.png",
