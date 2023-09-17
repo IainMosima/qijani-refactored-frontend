@@ -8,6 +8,7 @@ import Image from 'next/image'
 export default async function Home() {
   const categories = await fetchCategories();
   const sampleProducts = await getAllProductResults(categories);
+  console.log(categories);
   return (
     <>
       <ProductResults categories={arrayShuffler(categories) as string[]} sampleProducts={sampleProducts}/>
