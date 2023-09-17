@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Images } from "../../constants";
 import { useEffect } from 'react';
+import "./Bottomnav.scss";
 
 const BottomNav = () => {
     const [value, setValue] = React.useState('home');
