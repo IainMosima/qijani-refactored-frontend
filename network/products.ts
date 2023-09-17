@@ -9,13 +9,13 @@ export async function searchFunction(query: string): Promise<Product[]> {
 
 // fetching all products
 export async function fetchProducts(): Promise<Product[]> {
-    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products`, { next: { revalidate: 1200 } });
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products`, { next: { revalidate: 1600 } });
     return response.json();
 }
 
 // fetching all categeries
 export async function fetchCategories(): Promise<string[]> {
-    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/availableCategories`, { cache: 'no-store' });
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/availableCategories`,  { next: { revalidate: 60 } });
     return response.json();
 }
 

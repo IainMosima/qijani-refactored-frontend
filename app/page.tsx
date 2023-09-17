@@ -1,9 +1,7 @@
-import { ProductResults } from '@/components'
-import { CategoriesData } from '@/models/product'
-import { fetchCategories, fetchCategory } from '@/network/products'
-import { getLoggedInUser } from '@/network/users';
+import { ProductResults } from '@/components';
+import { CategoriesData } from '@/models/product';
+import { fetchCategories, fetchCategory } from '@/network/products';
 import { arrayShuffler } from '@/utils/arrayShuffler';
-import Image from 'next/image'
 
 export default async function Home() {
   const categories = await fetchCategories();
