@@ -11,7 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import isEmailValid from "../../utils/isEmailValid";
 import stringAvatar from "../../utils/stringToColor";
 import { store } from "@/redux/store";
@@ -431,9 +431,9 @@ const ViewUserProfile = () => {
                             <Avatar className="intro_image" {...stringAvatar(user?.username)} />
 
                         )}
-                        <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
+                        {/* <button onClick={(e) => { setProfileImgClassname2("usernameInput"); setProfileImgClassname("mini_intro"); e.preventDefault() }}>
                             <Image className="edit2" src={Images.edit} alt="edit-icon" />
-                        </button>
+                        </button> */}
                     </div>
 
                     <div className={usernameClassname2}>

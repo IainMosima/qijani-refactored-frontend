@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Images } from "../../constants";
+import { useEffect } from 'react';
 
 const BottomNav = () => {
     const [value, setValue] = React.useState('home');
@@ -45,6 +46,21 @@ const BottomNav = () => {
     function homeNavigation() {
         navigate.push("/");
     }
+
+    useEffect(() => {
+        if (window.location.pathname === "/profile") {
+            setValue("profile");
+        } else if (window.location.pathname === "/orders") {
+            setValue("orders");
+        } else if (window.location.pathname === "/packages") {
+            setValue("packages");
+        } else if (window.location.pathname === "/home") {
+            setValue("home");
+        }
+        console.log(window.location.pathname)
+
+    }, []);
+
 
 
     return (
