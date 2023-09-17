@@ -7,15 +7,15 @@ export async function searchFunction(query: string): Promise<Product[]> {
     return response.json();
 }
 
-// fetching all products
-export async function fetchProducts(): Promise<Product[]> {
-    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products`, { next: { revalidate: 1600 } });
-    return response.json();
-}
+// // fetching all products
+// export async function fetchProducts(): Promise<Product[]> {
+//     const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products`, { next: { revalidate: 1200 } });
+//     return response.json();
+// }
 
 // fetching all categeries
 export async function fetchCategories(): Promise<string[]> {
-    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/availableCategories`,  { next: { revalidate: 60 } });
+    const response = await fetchData(`${process.env.BACKEND_API_2}/api/v1/products/availableCategories`, { cache: 'no-store' });
     return response.json();
 }
 
@@ -25,16 +25,16 @@ export async function fetchCategory(category: string, records?: number, server=f
 
     if(server) {
         if (records){
-            response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}&records=${records}`, {
+            response = await fetchData(`${process.env.BACKEND_API_2}/api/v1/products/category?category=${category}&records=${records}`, {
                 next: { revalidate: 1800 },
             });
         } else {
-            response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}`);
+            response = await fetchData(`${process.env.BACKEND_API_2}/api/v1/products/category?category=${category}`);
         }
     } else {
         if (records){
             response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}&records=${records}`, {
-                next: { revalidate: 1800 },
+                next: { revalidate: 360 },
             });
         } else {
             response = await fetchData(`${process.env.BACKEND_API}/api/v1/products/category?category=${category}`);
