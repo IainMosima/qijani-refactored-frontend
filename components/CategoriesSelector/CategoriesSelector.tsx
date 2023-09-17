@@ -14,8 +14,6 @@ import { Navigation } from "swiper/modules";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { selectCategory } from "@/redux/reducers/selectedCategoryReducer";
 
-const trial = ['All', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat', 'Vegatables', 'Fruits', 'Herbs', 'Meat']
-
 interface CategoriesSelectorProps {
   categories: string[]
 }
