@@ -1,6 +1,6 @@
 import { loginCredentials } from "../models/loginCredentials";
 import { signedUrl } from "../models/signedUrl";
-import { User } from "../models/user";
+import { User, updatedUser } from "../models/user";
 import { fetchData } from "./fetchData";
 
 
@@ -12,7 +12,7 @@ export async function getLoggedInUser(token: string): Promise<User> {
 
 // login function
 export async function login(credentials: loginCredentials): Promise<string> {
-    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/users/login`,
+    const response = await fetchData(`${process.env.BACKEND_API}/api/v1/users/login/`,
         {
             method: 'POST',
             headers: {
@@ -43,7 +43,7 @@ export async function getUserProfileImageSignedUrl(key: string): Promise<signedU
 
 
 // update user's profile
-export async function updateProfile(credentials: object, userId: string): Promise<User> {
+export async function updateProfile(credentials: object, userId: string): Promise<updatedUser> {
     const response = await fetchData(`${process.env.BACKEND_API}/api/v1/users/update/${userId}`,
         {
             method: 'PATCH',

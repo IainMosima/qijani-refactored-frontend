@@ -12,8 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Qijani",
   description: "Grocery ecommerce platform that delivers meal plan packages to households doorstep.  We strive to make your shopping and cooking lifestyle easier and healthier",
-  manifest: '/manifest.webmanifest'
-};
+  };
 
 
 

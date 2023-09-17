@@ -36,11 +36,6 @@ const Navbar = () => {
       img: Images.profileDefault,
       name: "My Profile",
     },
-    // {
-    //     img: Images.orderIcon,
-    //     name: 'Orders'
-    // }
-    // will add inbox later on
   ];
 
   useEffect(() => {
@@ -68,7 +63,7 @@ const Navbar = () => {
         }
       }
     }
-    checkLoggedInUser();
+    if (token) checkLoggedInUser();
     return () => {
       setSearchResults([]);
     };

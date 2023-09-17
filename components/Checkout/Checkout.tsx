@@ -51,28 +51,13 @@ const Checkout = ({ packageId }: CheckoutProps) => {
   const dispatch = useAppDispatch();
 
 
-
-
-  function onAreaChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const area = event.target.value;
-
-    setTimeout(() => {
-      if (area.length < 3) {
-        setAreaClassname("input-warning, area");
-        setAreaMessage("Area must be at least 3 characters!!");
-      } else {
-        setAreaClassname("input-ok, area");
-        setAreaMessage("");
-      }
-    }, 1500);
-  }
-
   const handleAreaChange = (event: { target: { value: any; }; }) => {
     setFormData((prevData) => ({
       ...prevData,
       area: event.target.value,
     }));
     const area = event.target.value;
+    dispatch(userLogin({ ...user, area: area }));
 
     setTimeout(() => {
       if (area.length < 3) {
@@ -85,7 +70,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
     }, 1500);
   };
 
-
+  
   function onClose() {
     setOpen(false);
   }
@@ -96,6 +81,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
       landmark: event.target.value,
     }));
     const landmark = event.target.value;
+    dispatch(userLogin({ ...user, landmark: landmark }));
 
     setTimeout(() => {
       if (landmark.length < 3) {
@@ -114,6 +100,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
       county: event.target.value,
     }));
     const county = event.target.value;
+    dispatch(userLogin({ ...user, county: county }));
 
     setTimeout(() => {
       if (county.length < 3) {
@@ -129,7 +116,6 @@ const Checkout = ({ packageId }: CheckoutProps) => {
 
 
   const onSubmit = async () => {
-    dispatch(userLogin({ ...user, county: formData.county, area: formData.area, landmark: formData.landmark }));
     try {
       // updating user location info
       await updateProfile(formData, user?._id!);
@@ -364,7 +350,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           </div>
 
           <div className="footer-checkout">
-            <button onClick={() => { setOpen(true); onSubmit() }}>Checkout</button>
+            <button className={`${user?.county && user.area && user.landmark ? 'bg-green text-yellow' : 'bg-gray'}`} disabled={user?.county && user.area && user.landmark ? false: true} onClick={() => { setOpen(true); onSubmit() }}>Checkout</button>
           </div>
         </>
       )}

@@ -1,11 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const withPWA = require('next-pwa')({
-  dest: 'public'
-})
-
-const nextConfig = withPWA(
-  {
+const nextConfig ={
     env: {
       BACKEND_API: process.env.BACKEND_API
     },
@@ -27,5 +22,4 @@ const nextConfig = withPWA(
     },
   
   }
-)
 module.exports = nextConfig;

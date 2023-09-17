@@ -1,7 +1,7 @@
 "use client";
 import { Images } from "@/constants";
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
-import { updateProfile, checkEmail, checkUsername, } from '@/network/users';
+import { checkEmail, checkUsername, updateProfile, } from '@/network/users';
 import { userLogin } from "@/redux/reducers/loginReducer";
 import isPasswordOk from '@/utils/isPasswordOk';
 import { Button, Group, Input, Modal, PasswordInput, Tooltip } from '@mantine/core';
@@ -11,11 +11,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import isEmailValid from "../../utils/isEmailValid";
 import stringAvatar from "../../utils/stringToColor";
-import { useDebounce } from "use-debounce";
+import { store } from "@/redux/store";
+
 import "./Profile.scss";
+import { getMyPackages } from "@/redux/reducers/packagesReducer";
+import { getMyOrders } from "@/redux/reducers/OrdersReducer";
 
 
 const ViewUserProfile = () => {
@@ -298,6 +301,8 @@ const ViewUserProfile = () => {
         dispatch(userLogin({ ...user, email: formData.email, username: formData.username, phoneNumber: formData.phoneNumber, county: formData.county, area: formData.area, landmark: formData.landmark }));
         try {
             const client = await updateProfile(formData, user?._id!);
+            
+            localStorage.setItem('token', client.updatedToken);
 
             if (client) {
                 setDisplayMessage("Profile updated successfully!!");
