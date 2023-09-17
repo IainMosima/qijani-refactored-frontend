@@ -1,0 +1,32 @@
+{
+    "theme_color": "#ffffff",
+    "background_color": "#454230",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "name": "Qijani",
+    "description": "Grocery ecommerce platform that delivers meal plan packages to households doorstep.  We strive to make your shopping and cooking lifestyle easier and healthier",
+    "short_name": "Qijani",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
