@@ -23,6 +23,7 @@ interface CheckoutProps {
 
 const Checkout = ({ packageId }: CheckoutProps) => {
   const user = useAppSelector(state => state.login.user);
+  
   const [packageInfo, setPackageInfo] = useState<PackageStructure>({
     _id: "",
     userId: "",
@@ -350,7 +351,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           </div>
 
           <div className="footer-checkout">
-            <button className={`${user?.county && user.area && user.landmark ? 'bg-green text-yellow' : 'bg-gray'}`} disabled={user?.county && user.area && user.landmark ? false: true} onClick={() => { setOpen(true); onSubmit() }}>Checkout</button>
+            <button className={`${user && user.county.length > 1 &&  user.area.length > 1 && user?.landmark ? ' bg-green' : 'bg-gray'}`} disabled={user?.county && user.area && user.landmark ? false: true} onClick={() => { setOpen(true); onSubmit() }}>Checkout</button>
           </div>
         </>
       )}
