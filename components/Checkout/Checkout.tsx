@@ -119,7 +119,7 @@ const Checkout = ({ packageId }: CheckoutProps) => {
   const onSubmit = async () => {
     try {
       // updating user location info
-      await updateProfile(formData, user?._id!);
+      await updateProfile(formData, user?._id!).then((res) => localStorage.setItem('token', res.updatedToken));
       // updating packages
       if (packageInfo.items && token)
         await updatePackage({
