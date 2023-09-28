@@ -58,7 +58,8 @@ const BottomNav = () => {
         } else if (window.location.pathname === "/home") {
             setValue("home");
         }
-        console.log(window.location.pathname)
+        // was showing in production
+        // console.log(window.location.pathname)
 
     }, []);
 

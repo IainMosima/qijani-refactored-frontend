@@ -23,8 +23,6 @@
         }
       }
     }
-
-    
   }
 
   div {
@@ -33,8 +31,6 @@
       place-items: center;
       gap: 0.7rem;
       margin-bottom: 1.7rem;
-
-    
 
       &.amount input::-webkit-inner-spin-button,
       &.amount input::-webkit-outer-spin-button {
@@ -45,8 +41,6 @@
       input {
         font-size: 1.1rem;
         height: 1.5rem;
-
-      
       }
       select {
         font-size: 1.2rem;
@@ -117,8 +111,6 @@
       text-transform: uppercase;
       font-weight: 900;
       cursor: pointer;
-
-    
     }
     .submit-disabled {
       background-color: var(--gray-color);
@@ -130,8 +122,7 @@
     margin-left: 1.1rem;
     cursor: pointer;
     color: var(--primary-color);
-
-    }
+  }
   .existing {
     color: var(--primary-color);
   }

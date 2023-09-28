@@ -74,7 +74,6 @@ const AddPackageModal = ({
   const [packageNameWarning, setPackageNameWarning] = useState(false);
   const packagenames = myPackages?.map((item) => item.packageName);
 
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) setToken(token);
@@ -148,6 +147,7 @@ const AddPackageModal = ({
       });
     }
   }
+
 
   function quantityChange(event: React.ChangeEvent<HTMLInputElement>) {
     const updatedPrice = priceCalc();
@@ -244,8 +244,8 @@ const AddPackageModal = ({
 
   async function submit() {
     setisSubmitting(true);
+    let response;
     if (newPackage) {
-      let response;
       try {
         if (token) response = await createNewPackage(newPackage, token);
         if (response && packageName.current?.value) {
@@ -270,13 +270,36 @@ const AddPackageModal = ({
           onClose();
         }
       } catch (error) {
+        alert("Something went wrong, please try again")
         console.error(error);
       }
-    } else if (addToExisting) {
-      let response;
+    } else if (addToExisting && existingPackageValue.current?.value.split(',')[1]) {
       let updatedPackages;
       try {
-        if (token) response = await updatePackage(addToExisting, token);
+        if (token) {
+          if (!addToExisting.packageId) {
+
+            response = await updatePackage({
+              packageId: myPackages
+                .filter((item) => item.packageName === existingPackageValue.current?.value.split(',')[1])
+                .map((item) => item._id)[0],
+              userId: loggedInUser._id,
+              packageName: existingPackageValue.current?.value.split(',')[1],
+              items: [
+                ...(myPackages
+                  .filter((item) => item.packageName === names[0])
+                  .map((item) => item.items)[0] || []),
+                { productId: product._id, price: product.price },
+              ],
+            }, token);
+
+          } else {
+
+            response = await updatePackage(addToExisting, token);
+
+          }
+
+        };
         if (token) updatedPackages = await fetchPackages(token);
 
         if (response && updatedPackages) {
@@ -289,6 +312,7 @@ const AddPackageModal = ({
           onClose();
         }
       } catch (error) {
+        alert("Something went wrong, please try again");
         console.error(error);
       }
     }
@@ -358,7 +382,7 @@ const AddPackageModal = ({
 
             {existing && myPackages && myPackages.length <= 4 && (
               <div className="field package">
-                <label className="sm:text-[1.3rem] text-[1rem]">
+                <label className="sm:text-[1.2rem] text-[1rem]">
                   Add to new package
                 </label>
                 <input
