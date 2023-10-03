@@ -1,5 +1,6 @@
 "use client";
 import { useAppSelector } from '@/hooks/reduxHook';
+import { usePathname } from 'next/navigation';
 import HomeIcon from '@mui/icons-material/Home';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -49,19 +50,19 @@ const BottomNav = () => {
         navigate.push("/");
     }
 
+    const pathname = usePathname();
+
     useEffect(() => {
-        if (window.location.pathname === "/profile") {
+        if (pathname === "/profile" || window.location.pathname === "/profile") {
             setValue("profile");
-        } else if (window.location.pathname === "/orders") {
+        } else if (pathname === "/orders" || window.location.pathname === "/orders") {
             setValue("orders");
-        } else if (window.location.pathname === "/packages") {
+        } else if (pathname === "/packages" || window.location.pathname === "/packages") {
             setValue("packages");
-        } else if (window.location.pathname === "/home") {
+        } else if (pathname === "/home" || window.location.pathname === "/home") {
             setValue("home");
         }
-        console.log(window.location.pathname)
-
-    }, []);
+    }, [pathname, window.location.pathname]);
 
 
 
