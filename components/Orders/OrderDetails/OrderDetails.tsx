@@ -63,7 +63,8 @@ const OrderDetails = ({ order, deleteOrder, index }: OrderDetailsProps) => {
 
           </div>
 
-          <p>En Route</p>
+          {order.delivered ? <p>Delivered</p> : <p>En Route</p>}
+
 
           <Image src={Images.cancelIcon} alt="delete-icon" className="cursor-pointer" width={22} onClick={() => deleteOrder(order._id, packageInfo.packageName, index)} />
         </div>

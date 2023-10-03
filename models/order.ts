@@ -4,7 +4,7 @@ export interface OrderStructure {
     price: string,
     packageId: string,
     paymentStatus: string,
-    delivered: string,
+    delivered: boolean,
 }
 
 export interface newOrder {
