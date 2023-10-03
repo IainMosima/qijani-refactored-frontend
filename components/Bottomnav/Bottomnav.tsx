@@ -59,20 +59,10 @@ const BottomNav = () => {
             setValue("orders");
         } else if (pathname === "/packages" || window.location.pathname === "/packages") {
             setValue("packages");
-        } else if (pathname === "/home" || window.location.pathname === "/home") {
+        } else if (pathname === "/home" || window.location.pathname === "/home" || pathname === "/" || window.location.pathname === "/") {
             setValue("home");
         }
-    }, [pathname]);
-    useEffect(() => {
-        if (pathname === "/profile" || window.location.pathname === "/profile") {
-            setValue("profile");
-        } else if (pathname === "/orders" || window.location.pathname === "/orders") {
-            setValue("orders");
-        } else if (pathname === "/packages" || window.location.pathname === "/packages") {
-            setValue("packages");
-        } else if (pathname === "/home" || window.location.pathname === "/home") {
-            setValue("home");
-        }
+        console.log(pathname)
     }, [pathname]);
 
 
