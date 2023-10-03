@@ -1,10 +1,7 @@
 "use client";
 import { useAppSelector } from '@/hooks/reduxHook';
-<<<<<<< HEAD
-=======
 import { usePathname } from 'next/navigation';
 import HomeIcon from '@mui/icons-material/Home';
->>>>>>> Kingsley
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
@@ -65,14 +62,7 @@ const BottomNav = () => {
         } else if (pathname === "/home" || window.location.pathname === "/home") {
             setValue("home");
         }
-<<<<<<< HEAD
-        // was showing in production
-        // console.log(window.location.pathname)
-
-    }, []);
-=======
-    }, [pathname, window.location.pathname]);
->>>>>>> Kingsley
+    }, [pathname]);
 
 
 
