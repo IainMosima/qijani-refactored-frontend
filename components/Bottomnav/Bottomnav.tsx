@@ -63,6 +63,17 @@ const BottomNav = () => {
             setValue("home");
         }
     }, [pathname]);
+    useEffect(() => {
+        if (pathname === "/profile" || window.location.pathname === "/profile") {
+            setValue("profile");
+        } else if (pathname === "/orders" || window.location.pathname === "/orders") {
+            setValue("orders");
+        } else if (pathname === "/packages" || window.location.pathname === "/packages") {
+            setValue("packages");
+        } else if (pathname === "/home" || window.location.pathname === "/home") {
+            setValue("home");
+        }
+    }, [pathname]);
 
 
 
