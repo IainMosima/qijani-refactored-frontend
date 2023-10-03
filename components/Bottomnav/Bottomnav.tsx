@@ -52,17 +52,19 @@ const BottomNav = () => {
 
     const pathname = usePathname();
 
-    useEffect(() => {
-        if (pathname === "/profile" || window.location.pathname === "/profile") {
-            setValue("profile");
-        } else if (pathname === "/orders" || window.location.pathname === "/orders") {
-            setValue("orders");
-        } else if (pathname === "/packages" || window.location.pathname === "/packages") {
-            setValue("packages");
-        } else if (pathname === "/home" || window.location.pathname === "/home") {
-            setValue("home");
-        }
-    }, [pathname, window.location.pathname]);
+    if (pathname === "/profile" || window.location.pathname === "/profile") {
+        setValue("profile");
+    } else if (pathname === "/orders" || window.location.pathname === "/orders") {
+        setValue("orders");
+    } else if (pathname === "/packages" || window.location.pathname === "/packages") {
+        setValue("packages");
+    } else if (pathname === "/home" || window.location.pathname === "/home") {
+        setValue("home");
+    }
+
+    // useEffect(() => {
+
+    // }, [pathname, window.location.pathname]);
 
 
 
