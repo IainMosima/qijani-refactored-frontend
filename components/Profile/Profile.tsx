@@ -447,7 +447,7 @@ const ViewUserProfile = () => {
                     </div>
 
                     <div className={usernameClassname}>
-                        <div className="mini_details">
+                        <div className="mini_detailss">
                             <div>{usernameMessage && <small className="text-danger">{usernameMessage}</small>}</div>
                             <div className="mini_details2">
                                 <Image className="icon2" src={Images.accountIcon} alt="profile-icon" />
