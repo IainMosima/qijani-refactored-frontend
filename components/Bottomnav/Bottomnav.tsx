@@ -58,9 +58,11 @@ const BottomNav = () => {
         setValue("orders");
     } else if (pathname === "/packages" || window.location.pathname === "/packages") {
         setValue("packages");
-    } else if (pathname === "/home" || window.location.pathname === "/home") {
+    } else if (pathname === "/home" || window.location.pathname === "/home" || pathname === "/" || window.location.pathname === "/") {
         setValue("home");
     }
+
+    console.log(pathname)
 
     // useEffect(() => {
 
