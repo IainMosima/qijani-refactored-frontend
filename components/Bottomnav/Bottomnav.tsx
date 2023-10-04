@@ -63,7 +63,7 @@ const BottomNav = () => {
             setValue("home");
         }
         console.log(pathname)
-    }, [pathname, window.location.pathname]);
+    }, [pathname]);
 
 
 
