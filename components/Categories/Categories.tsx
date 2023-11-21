@@ -57,12 +57,12 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
       case 'piece':
         result = quantity === 1 ?
           (
-            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin">
               per piece
             </p>
           ) :
           (
-            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin">
               per {quantity} piece
             </p>
           )
@@ -70,12 +70,12 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
       case 'cup':
         result = quantity === 1 ?
           (
-            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin">
               per cup
             </p>
           ) :
           (
-            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin">
               per {quantity} cup
             </p>
           )
@@ -83,12 +83,12 @@ const Categories = ({ sampleProducts }: CategoriesProps) => {
       case 'kg':
         result = quantity === 1 ?
           (
-            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin">
               per kg
             </p>
           ) :
           (
-            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin italic">
+            <p className="quantity sm:text-[0.9rem] text-[0.8rem] font-thin">
               per {quantity} kg
             </p>
           )
