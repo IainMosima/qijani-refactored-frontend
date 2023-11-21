@@ -10,7 +10,7 @@ module.exports = {
     extend: {
       colors: {
         green: '#004526',
-        yellow: '#E09132',
+        yellow: '#E9A820',
         gray: '#cdcec9',
         success: '#4bb543',
         danger: '#a83e4e'
