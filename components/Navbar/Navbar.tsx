@@ -171,7 +171,8 @@ const Navbar = () => {
           </div>
         )}
       </div>
-
+      
+      
       <div className="app__navbar-links ml-3">
         <div onClick={() => navigate.push('/')}>
           <Image

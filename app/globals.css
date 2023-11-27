@@ -42,8 +42,8 @@ html {
 }
 /* Target the scrollbar */
 ::-webkit-scrollbar {
-  width: 2px; /* Change the width of the vertical scrollbar */
-  height: 2px; /* Change the height of the horizontal scrollbar */
+  width: 5px; /* Change the width of the vertical scrollbar */
+  height: 5px; /* Change the height of the horizontal scrollbar */
 }
 
 /* Track (background) of the scrollbar */
@@ -63,3 +63,5 @@ input[type="number"]::-webkit-outer-spin-button {
     appearance: none;
     margin: 0;
 }
+
+

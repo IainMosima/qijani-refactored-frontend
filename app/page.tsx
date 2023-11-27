@@ -1,4 +1,5 @@
 import { ProductResults } from '@/components';
+import Homepage from '@/components/Homepage/Homepage';
 import { CategoriesData } from '@/models/product';
 import { fetchCategories, fetchCategory } from '@/network/products';
 import { arrayShuffler } from '@/utils/arrayShuffler';
@@ -9,7 +10,7 @@ export default async function Home() {
   
   return (
     <>
-      <ProductResults categories={arrayShuffler(categories) as string[]} sampleProducts={sampleProducts}/>
+      <Homepage categories={categories} sampleProducts={sampleProducts}/>
     </>
   )
 }

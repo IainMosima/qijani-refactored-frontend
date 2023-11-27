@@ -13,7 +13,7 @@ const ProductsResults = ({
   sampleProducts,
 }: ProductsResultsProps) => {
   return (
-    <div>
+    <div className='lg:w-[92%] w-[100%] px-2 mx-auto overflow-x-hidden'>
       <CategoriesSelector categories={["All", ...categories]} />
       <Categories sampleProducts={sampleProducts} />
     </div>

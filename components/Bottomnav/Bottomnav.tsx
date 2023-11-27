@@ -62,7 +62,7 @@ const BottomNav = () => {
         } else if (pathname === "/home" || window.location.pathname === "/home" || pathname === "/" || window.location.pathname === "/") {
             setValue("home");
         }
-        console.log(pathname)
+        // console.log(pathname)
     }, [pathname]);
 
 
