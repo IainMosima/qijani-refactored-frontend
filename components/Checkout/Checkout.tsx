@@ -184,7 +184,6 @@ const Checkout = ({ packageId }: CheckoutProps) => {
           packageId={packageId}
           open={open}
           onClose={onClose}
-          navigate={navigate}
         />
       )}
       {packageInfo.items && packageInfo.items?.length > 0 ? (

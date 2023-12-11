@@ -5,7 +5,9 @@ import "./CheckOutModal.scss";
 import PayNow from "./PayNow";
 import { useState } from "react";
 import PayLater from "./PayLater";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
+import { useRouter } from "next/router";
+
+
 
 interface CheckOutModalProps {
   loggedInUser: User | null;
@@ -13,7 +15,7 @@ interface CheckOutModalProps {
   packageId: string;
   open: boolean;
   onClose: () => void;
-  navigate: AppRouterInstance;
+
 
 }
 
@@ -23,12 +25,12 @@ const CheckOutModal = ({
   packageId,
   open,
   onClose,
-  navigate
+
 }: CheckOutModalProps) => {
   const [payNow, setPayNow] = useState(true);
+  const navigate = useRouter();
 
 
-  
   return (
     <Dialog open={open} onClose={onClose}>
       <div className="w-30rem py-7">
@@ -38,14 +40,14 @@ const CheckOutModal = ({
         </div> */}
         {!payNow ? (
           <PayNow loggedInUser={loggedInUser}
-          packageId={packageId}
-          price={price}
-    
-        />
+            packageId={packageId}
+            price={price}
+
+          />
         ) : (
           <PayLater loggedInUser={loggedInUser}
-          packageId={packageId}
-          price={price}
+            packageId={packageId}
+            price={price}
           />
         )}
       </div>

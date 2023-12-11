@@ -37,7 +37,7 @@
     "redux": "^4.2.1",
     "sass": "^1.58.1",
     "sharp": "^0.32.2",
-    "swiper": "^10.0.4",
+    "swiper": "^11.0.5",
     "tailwindcss": "3.3.2",
     "typescript": "^4.9.5",
     "use-debounce": "^9.0.3",

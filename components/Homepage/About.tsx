@@ -110,14 +110,14 @@ const About: React.FC = () => {
                     How it works
                 </button>
                 <button
-                    className="bg-[#004523] text-[#E9A820]  font-poppins rounded-md font-bold py-2 px-4 mt-4"    
+                    className="bg-[#004523] text-[#E9A820]  font-poppins rounded-md font-bold py-2 px-4 mt-4"
                 >
                     Plan your first week
                 </button>
             </div>
 
             {isModalOpen && (
-                <Swiper className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center swiper-container" spaceBetween={null}>
+                <Swiper className="bg-black bg-opacity-50 flex justify-center items-center swiper-container" spaceBetween={null}>
                     <SwiperSlide className="flex justify-center items-center h-full w-full">
                         <motion.div
                             initial="hidden"
