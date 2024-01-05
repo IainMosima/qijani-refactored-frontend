@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
 import "swiper/css";
+import Image from "next/image";
+import { Images } from "@/constants";
+import "./About.scss";
 
 interface Meal {
     id: number;
@@ -72,10 +75,10 @@ const About: React.FC = () => {
     }, []);
 
     return (
-        <div className="mx-5 w-full">
-            <div className="py-10 flex flex-col gap-5 md:flex-row mx-5 justify-center">
-                <div className="flex flex-col items-center">
-                    <img src="./restaurant.png" alt="about" />
+        <div className="w-full">
+            <div className="py-10 px-5 flex flex-col gap-5 md:flex-row justify-center place-items-center w-full">
+                <div className="flex flex-col items-center ">
+                    <Image priority={true} src="/restaurant.png" alt="about" width={50} height={50} />
                     <h3 className="text-[#004523] mt-2 font-montserrat text-sm">
                         Crafting dishes with love and finesse
                     </h3>
@@ -85,7 +88,7 @@ const About: React.FC = () => {
                     </p>
                 </div>
                 <div className="flex flex-col items-center">
-                    <img src="./knife.png" alt="about" />
+                    <Image width={50} height={50} priority={true} src="/knife.png" alt="about" />
                     <h3 className="text-[#004523] mt-2 font-montserrat text-sm">
                         Precision, pre-portioned, fresh.
                     </h3>
@@ -95,7 +98,7 @@ const About: React.FC = () => {
                     </p>
                 </div>
                 <div className="flex flex-col items-center">
-                    <img src="./manual.png" alt="about" />
+                    <Image priority={true} width={50} height={50} src="/manual.png" alt="about" />
                     <h3 className="text-[#004523] mt-2 font-montserrat text-sm">
                         Personalized Culinary Bliss
                     </h3>
@@ -105,7 +108,7 @@ const About: React.FC = () => {
                     </p>
                 </div>
             </div>
-            <div className="flex flex-col md:flex-row md:justify-center gap-2">
+            <div className="flex flex-col md:flex-row md:justify-center gap-2 px-5 relative">
                 <button className="text-[#004523] bg-[#E9A820]  font-poppins rounded-md  font-bold py-2 px-4 mt-4" onClick={openModal}>
                     How it works
                 </button>
@@ -117,33 +120,37 @@ const About: React.FC = () => {
             </div>
 
             {isModalOpen && (
-                <Swiper className="bg-black bg-opacity-50 flex justify-center items-center swiper-container" spaceBetween={null}>
+                <Swiper className="w-full flex justify-center items-center swiper-container absolute left-[-15px] sm:top-[110%] top-[125%]" spaceBetween={null}>
                     <SwiperSlide className="flex justify-center items-center h-full w-full">
                         <motion.div
                             initial="hidden"
                             animate="visible"
                             variants={variants}
                             transition={{ duration: 0.5 }}
-                            className="bg-white p-5 m-5 rounded-lg w-full h-[60vh] flex flex-col  relative"
+                            className="bg-white p-5 m-5 w-[25rem] aspect-square h-[25rem] flex flex-col relative custom-shadow"
                         >
                             <button
                                 onClick={closeModal}
                                 className="absolute top-0 right-0 m-5 font-bold"
                             >
-                                X
+                                <Image src={Images.closeModal} alt="close-modal" priority={true} width={25} />
                             </button>
                             <div className="relative flex mt-10 flex-col items-center">
-                                <img
-                                    src="./heart.png"
+                                <Image priority={true}
+                                    src="/heart.png"
                                     alt="heart"
+                                    width={50}
+                                    height={50}
                                     className="h-32 w-32 absolute"
                                 />
-                                <img
-                                    src="./person.png"
+                                <Image priority={true}
+                                    src="/person.png"
                                     alt="person"
+                                    width={50}
+                                    height={50}
                                     className="h-28 w-28 z-10"
                                 />
-                                <div className="bg-[#004523] mt-10 text-[#E9A820] rounded-lg h-10 w-10 flex justify-center items-center">
+                                <div className="bg-[#004523] mt-10 text-[#E9A820] rounded-lg aspect-square px-3 py-1 flex place-items-center">
                                     <h2 className="text-lg font-poppins font-bold">1</h2>
                                 </div>
                                 <h2 className="text-sm font-bold text-[#004523] mt-5  font-montserrat">
@@ -171,16 +178,16 @@ const About: React.FC = () => {
                             animate="visible"
                             variants={variants}
                             transition={{ duration: 0.5 }}
-                            className="bg-white p-5 m-5 rounded-lg w-full h-[60vh] flex flex-col  relative"
+                            className="bg-white p-5 m-5 w-[25rem] aspect-square h-[25rem] flex flex-col relative custom-shadow"
                         >
                             <button
                                 onClick={closeModal}
                                 className="absolute top-0 right-0 m-5 font-bold"
                             >
-                                X
+                                <Image src={Images.closeModal} alt="close-modal" priority={true} width={25} />
                             </button>
                             <div className=" flex mt-5 flex-col items-center">
-                                <div className="text-[#004523] bg-[#E9A820] rounded-lg h-10 w-10 flex justify-center items-center">
+                                <div className="bg-[#004523] mt-10 text-[#E9A820] rounded-lg aspect-square px-3 py-1 flex place-items-center">
                                     <h2 className="text-lg font-poppins font-bold">2</h2>
                                 </div>
                                 <h2 className="text-sm font-bold text-[#004523] mt-5  font-montserrat">
@@ -192,7 +199,7 @@ const About: React.FC = () => {
                                     we think your preferences should always come first!
                                 </p>
                                 <div className="mt-5">
-                                    <img src="./love.png" alt="heart" className="h-32 w-32 " />
+                                    <Image src="/love.png" alt="heart" className="h-32 w-32 " width={50} height={50} />
                                 </div>
                             </div>
                             <div className="flex justify-between mt-5">
@@ -217,23 +224,25 @@ const About: React.FC = () => {
                             animate="visible"
                             variants={variants}
                             transition={{ duration: 0.5 }}
-                            className="bg-white p-5 m-5 rounded-lg w-full h-[60vh] flex flex-col  relative"
+                            className="bg-white p-5 m-5 w-[25rem] aspect-square h-[25rem] flex flex-col relative custom-shadow"
                         >
                             <button
                                 onClick={closeModal}
                                 className="absolute top-0 right-0 m-5 font-bold"
                             >
-                                X
+                                <Image src={Images.closeModal} alt="close-modal" priority={true} width={25} />
                             </button>
                             <div className="flex mt-5 flex-col items-center">
                                 <div className="mt-5">
-                                    <img
-                                        src="./delivery.png"
+                                    <Image priority={true}
+                                        src="/delivery.png"
                                         alt="delivery"
+                                        width={50}
+                                        height={50}
                                         className="h-32 w-32 "
                                     />
                                 </div>
-                                <div className="bg-[#004523] mt-5 text-[#E9A820] rounded-lg h-10 w-10 flex justify-center items-center">
+                                <div className="bg-[#004523] mt-10 text-[#E9A820] rounded-lg aspect-square px-3 py-1 flex place-items-center">
                                     <h2 className="text-lg font-poppins font-bold">3</h2>
                                 </div>
                                 <h2 className="text-sm font-bold text-[#004523] mt-5  font-montserrat">
@@ -262,31 +271,32 @@ const About: React.FC = () => {
                         </motion.div>
                     </SwiperSlide>
                     <SwiperSlide className="flex justify-center items-center h-full w-full">
-                        <div className="bg-white p-5 m-5 rounded-lg w-full h-[70vh] flex flex-col  relative">
+                        <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            variants={variants}
+                            transition={{ duration: 0.5 }}
+                            className="bg-white p-5 m-5 w-[25rem] aspect-square h-[25rem] flex flex-col relative custom-shadow"
+                        >
                             <button
                                 onClick={closeModal}
                                 className="absolute top-0 right-0 m-5 font-bold"
                             >
-                                X
+                                <Image src={Images.closeModal} alt="close-modal" priority={true} width={25} />
                             </button>
                             <div className=" flex mt-5 flex-col items-center">
-                                <div className="text-[#004523] bg-[#E9A820] rounded-lg h-10 w-10 flex justify-center items-center">
+                                <div className="bg-[#004523] mt-10 text-[#E9A820] rounded-lg aspect-square px-3 py-1 flex place-items-center">
                                     <h2 className="text-lg font-poppins font-bold">4</h2>
                                 </div>
                                 <h2 className="text-sm font-bold text-[#004523] mt-5  font-montserrat">
-                                    Be a MasterChef
+                                Be a MasterChef
                                 </h2>
                                 <p className="text-xs font-poppins text-center text-[#004523] tracking-wide mt-1">
-                                    Cooking incredible meals becomes a breeze! Follow our easy
-                                    step-by-step guides, crafted by our kitchen experts, and
-                                    become a culinary wizard in no time.
+                                Cooking incredible meals becomes a breeze! Follow our easy step-by-step guides, crafted by our kitchen experts, and become a culinary wizard in no time.
                                 </p>
                                 <div className="mt-5">
-                                    <img src="./cooking.png" alt="heart" className="h-32 w-32 " />
+                                    <Image src="/cooking.png" alt="heart" className="h-32 w-32 " width={50} height={50} />
                                 </div>
-                                <button className="bg-[#004523] text-[#E9A820]  font-poppins rounded-md font-bold py-2 px-4 mt-4">
-                                    Get plan
-                                </button>
                             </div>
                             <div className="flex justify-between mt-5">
                                 <button
@@ -295,8 +305,14 @@ const About: React.FC = () => {
                                 >
                                     previous
                                 </button>
+                                <button
+                                    className=" text-[#E9A820]  font-poppins rounded-md font-bold"
+                                    onClick={swipe}
+                                >
+                                    Next
+                                </button>
                             </div>
-                        </div>
+                        </motion.div>
                     </SwiperSlide>
                 </Swiper>
             )}

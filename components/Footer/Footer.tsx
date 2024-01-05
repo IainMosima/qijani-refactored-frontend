@@ -1,94 +1,72 @@
 import "./Footer.scss";
 import Image from "next/image";
 import { Images } from "@/constants";
+import Link from "next/link";
 
+const footerLinks = [
+  {
+    name: "Home",
+    link: "/"
+  },
+  {
+    name: "About Us",
+    link: "#"
+  },
+  {
+    name: "Carrers",
+    link: "#"
+  },
+  {
+    name: "T's and C's",
+    link: "#"
+  },
+  {
+    name: "Help",
+    link: "#"
+  },
+]
+const footerSocials = [
+  {
+    name: "facebook",
+    image: Images.facebookIcon,
+    link: "https://www.facebook.com"
+  },
+  {
+    name: "linkedin",
+    image: Images.linkedInIcon,
+    link: "https://www.linkedin.com"
+  },
+  {
+    name: "instagram",
+    image: Images.instagramIcon,
+    link: "https://www.instagram.com"
+  },
+  {
+    name: "x",
+    image: Images.xIcon,
+    link: "https://www.x.com"
+  }
+]
 const Footer = () => {
   return (
-    <div className="app__footer">
-      <div className="upper-section">
-        <div className="footer-card horizontal-line">
-          <div>
-            <h3>
-              <b>Get to know us</b>
-            </h3>
-            <ul>
-              <li>
-                <a href="#/">About us</a>
-              </li>
-              <li>
-                <a href="#/">Carrers</a>
-              </li>
-              <li>
-                <a href="#/">{`T's and C's`}</a>
-              </li>
-            </ul>
+    <div className="mt-[3rem] pt-6 pb-7 flex flex-col border-t-2 border-yellow w-full gap-6 sm:mb-0 mb-[2.5rem]">
+      <div className="flex justify-center sm:gap-16 gap-3 w-full">
+        {footerLinks.map((item, i) => (
+          <div key={i} className={`${item.name !== 'Help' ? 'border-r-2 border-black' : ''} sm:pr-4 pr-1 sm:text-lg`}>
+            <Link href={item.link} className="hover:text-green font-semibold">{item.name}</Link>
           </div>
-
-          <div className="payment-methods">
-            <h3>
-              <b>Payment methods</b>
-            </h3>
-            <div>
-              {/* <Image className="cash" src={Images.cashIcon} alt="mpesa-icon" /> */}
-              <Image
-                className="mpesa"
-                src={Images.mpesaIcon}
-                alt="mpesa-icon"
-              />
-              <Image className="icon" src={Images.visaIcon} alt="visa-icon" />
-            </div>
-          </div>
-        </div>
-
-        <div className="footer-card">
-          <div className="column2">
-            <div>
-              <h3>
-                <b>Need Assistance?</b>
-              </h3>
-              <ul>
-                <li>
-                  <a href="#/">Help centre</a>
-                </li>
-              </ul>
-            </div>
-            <div className="socials">
-              <h3>
-                <b>Follow Us</b>
-              </h3>
-              <div>
-                <a href="#/">
-                  <Image
-                    className="icons"
-                    src={Images.linkedInIcon}
-                    alt="linkedIn-icon"
-                  />
-                </a>
-                <a href="#/">
-                  <Image
-                    className="icons"
-                    src={Images.twitterIcon}
-                    alt="linkedIn-icon"
-                  />
-                </a>
-                <a href="#/">
-                  <Image
-                    className="icons"
-                    src={Images.facebookIcon}
-                    alt="linkedIn-icon"
-                  />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
-      <div className="lower-section">
-        <p>© 2023 Qijani. All Rights Reserved</p>
+      <div className="flex justify-center w-full sm:gap-16 gap-4">
+        {footerSocials.map((item, i) => (
+          <Link key={i} href={item.link}><Image priority={true} src={item.image} alt={item.name} width={30}/></Link>
+        ))}
       </div>
-    </div>
+
+    </div>    
   );
 };
 
 export default Footer;
+

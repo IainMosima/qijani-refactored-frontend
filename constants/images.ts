@@ -24,7 +24,7 @@ import noOrderIcon from "../public/assets/no-order.png";
 import mpesaIcon from "../public/assets/mpesa.png";
 import visaIcon from "../public/assets/visa.png";
 import linkedInIcon from "../public/assets/linkedIn.png";
-import twitterIcon from "../public/assets/twitter.png";
+import xIcon from "../public/assets/x.png";
 import facebookIcon from "../public/assets/facebook.png";
 import pendingIcon from "../public/assets/pending.png";
 import searchIcon from "../public/assets/search.png";
@@ -42,6 +42,8 @@ import cancelIcon from "../public/assets/cancel.png";
 import homeIcon from "../public/assets/home.png";
 import successIcon from "../public/assets/success.png";
 import transport from "../public/assets/transport.png";
+import instagramIcon from "../public/assets/instagram.png";
+import closeModal from "../public/assets/close-modal.png";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     logo,
@@ -70,8 +72,9 @@ export default {
     mpesaIcon,
     visaIcon,
     linkedInIcon,
-    twitterIcon,
+    xIcon,
     facebookIcon,
+    instagramIcon,
     pendingIcon,
     searchIcon,
     closeWhiteIcon,
@@ -88,4 +91,5 @@ export default {
     homeIcon,
     successIcon,
     transport,
+    closeModal,
 }
