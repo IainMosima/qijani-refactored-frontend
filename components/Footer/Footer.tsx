@@ -1,7 +1,10 @@
+'use client';
 import "./Footer.scss";
 import Image from "next/image";
 import { Images } from "@/constants";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const footerLinks = [
   {
@@ -48,8 +51,24 @@ const footerSocials = [
   }
 ]
 const Footer = () => {
+  const pathname = usePathname().split("/")[1];
+  const [showFooter, setShowFooter] = useState(true);
+
+  useEffect(() => {
+    function showFooterFunc() {
+      if (pathname === 'loginSignup') {
+        setShowFooter(false);
+      } else {
+        setShowFooter(true);
+      }
+    }
+
+    showFooterFunc();
+    
+  }, [pathname]);
+  
   return (
-    <div className="mt-[3rem] pt-6 pb-7 flex flex-col border-t-2 border-yellow w-full gap-6 sm:mb-0 mb-[2.5rem]">
+    <div className={`mt-[3rem] pt-6 pb-7 flex flex-col border-t-2 border-yellow w-full gap-6 sm:mb-0 mb-[2.5rem] ${showFooter ? '' : 'hidden'}`}>
       <div className="flex justify-center sm:gap-16 gap-3 w-full">
         {footerLinks.map((item, i) => (
           <div key={i} className={`${item.name !== 'Help' ? 'border-r-2 border-black' : ''} sm:pr-4 pr-1 sm:text-lg`}>

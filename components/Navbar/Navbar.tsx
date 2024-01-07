@@ -12,7 +12,7 @@ import { store } from "@/redux/store";
 import { Avatar } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Product } from "../../models/product";
 import * as ProductsApi from "../../network/products";
 import * as UserApi from "../../network/users";
@@ -30,6 +30,8 @@ const Navbar = () => {
   const [accountToggle, setAccountToggle] = useState(false);
   const [resultAvailable, setResultAvailable] = useState(searchResults.length > 0 ? true : false);
   const navigate = useRouter();
+  const pathname = usePathname();
+  const [showNavbar, setShowNavbar] = useState(true);
 
   const myAccount = [
     {
@@ -40,6 +42,16 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+
+    function showNavbarFunc() {
+      if (pathname.split("/")[1] === 'loginSignup') {
+        setShowNavbar(false);
+      } else {
+        setShowNavbar(true);
+      }
+    }
+
+    showNavbarFunc();
 
     async function perfomSearch() {
       const results = await ProductsApi.searchFunction(debouncedQuery);
@@ -67,7 +79,12 @@ const Navbar = () => {
     return () => {
       setSearchResults([]);
     };
-  }, [debouncedQuery, dispatch]);
+    
+    
+    
+    
+
+  }, [debouncedQuery, dispatch, pathname]);
 
   function clear() {
     setQuery('');
@@ -127,7 +144,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="flex justify-evenly items-center w-full py-2 app__navbar bg-white z-20">
+    <nav className={`${showNavbar ? '' : 'hidden'} flex justify-evenly items-center w-full py-2 app__navbar bg-white z-20`}>
       <div className="basis-1/6">
         <Link href="/">
           <Image
@@ -171,8 +188,8 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      
-      
+
+
       <div className="app__navbar-links ml-3">
         <div onClick={() => navigate.push('/')}>
           <Image

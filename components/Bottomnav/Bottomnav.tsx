@@ -1,19 +1,32 @@
 "use client";
 import { useAppSelector } from '@/hooks/reduxHook';
-import { usePathname } from 'next/navigation';
-import HomeIcon from '@mui/icons-material/Home';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Images } from "../../constants";
-import { useEffect } from 'react';
 import "./Bottomnav.scss";
 
 const BottomNav = () => {
     const [value, setValue] = React.useState('home');
+    const pathname = usePathname();
+    const [showBottomNav, setShowBottomNav] = useState(true);
+
+    useEffect(() => {
+        function showBottomNavFunc() {
+            if (pathname.split("/")[1] === 'loginSignup') {
+                setShowBottomNav(false);
+            } else {
+                setShowBottomNav(true);
+            }
+        }
+
+        showBottomNavFunc();
+
+    }, [pathname]);
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -50,7 +63,6 @@ const BottomNav = () => {
         navigate.push("/");
     }
 
-    const pathname = usePathname();
 
     useEffect(() => {
         if (pathname === "/profile" || window.location.pathname === "/profile") {
@@ -69,7 +81,7 @@ const BottomNav = () => {
 
     return (
 
-        <Paper className="bottomnav lg:hidden" sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+        <Paper className={`bottomnav lg:hidden ${showBottomNav ? '' : 'hidden'}`} sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
             <BottomNavigation value={value} onChange={handleChange} showLabels>
                 <BottomNavigationAction
                     label="Home"

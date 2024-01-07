@@ -56,7 +56,7 @@ const Packages = () => {
 
   
   return (
-    <div className="app__packages">
+    <div className="app__packages px-7">
       {loggedInUser && open && (
         <AddNewPackageModal
           open={open}
