@@ -1,23 +1,21 @@
-# Base image
 FROM node:16
 
-# Set the working directory in the container
-WORKDIR /usr/
 
-# Copy package.json and package-lock.json to the working directory
+WORKDIR /usr/app
+
 COPY package*.json ./
 
-# Install dependencies
 RUN npm ci --omit=dev
 
-# Copy the rest of the application code
-COPY . .
+COPY .env.local ./
 
-# Build the TypeScript code
-RUN npm run build
+COPY .next ./.next
 
-# Expose the port that your Express app is listening on
+COPY next-env.d.ts ./
+
+COPY next.config.js ./
+
 EXPOSE 3000
 
-# Set the command to run your Express app
+# Define the command to run your app.
 CMD ["npm", "run", "start"]

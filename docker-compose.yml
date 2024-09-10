@@ -1,0 +1,9 @@
+services:
+  qijani-frontend:
+    platform: linux/amd64
+    build:
+      context: ./
+    image: mosimaiain/qijani-frontend:prod
+    ports:
+      - "3000:3000"
+    mem_limit: 200m
