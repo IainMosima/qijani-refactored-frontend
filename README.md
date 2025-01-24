@@ -12,7 +12,7 @@
 
 - [Next.js](https://nextjs.org/)
 - [React](https://reactjs.org/)
-- [List other major libraries/frameworks]
+
 
 ## Getting Started
 
