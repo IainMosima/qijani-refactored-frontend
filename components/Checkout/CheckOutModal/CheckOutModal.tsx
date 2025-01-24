@@ -5,7 +5,7 @@ import "./CheckOutModal.scss";
 import PayNow from "./PayNow";
 import { useState } from "react";
 import PayLater from "./PayLater";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 
