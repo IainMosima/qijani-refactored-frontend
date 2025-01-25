@@ -1,12 +1,13 @@
-# [Your Project Name]
+# Qijani
 
 [Brief description of what your project does]
 
 ## Features
 
-- [Key Feature 1]
-- [Key Feature 2]
-- [Key Feature 3]
+- Food stuff shopping
+- Log in & sign up
+- Checkout out
+- Packages
 
 ## Tech Stack
 
