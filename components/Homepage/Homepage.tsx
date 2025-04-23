@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React  , { useState } from "react";
 import About from "./About";
 import { useAppSelector } from "@/hooks/reduxHook";
 import { ProductResults } from "..";
 import { arrayShuffler } from "@/utils/arrayShuffler";
 import { CategoriesData } from "@/models/product";
+import QuizForm from "@/components/Homepage/QuizForm";
 import "./Homepage.scss"
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 
 const Homepage = (props: Props) => {
   const user = useAppSelector(state => state.login.user);
+  const [showForm, setShowForm] = useState(false);
   return (
     <>
       {user ? 
@@ -27,9 +29,15 @@ const Homepage = (props: Props) => {
               <p className="text-sm text-white font-poppins">
                 Embark on a culinary journey together
               </p>
-              <button className="bg-[#004523] text-[#E9A820] w-[95%] md:w-40  rounded-md font-poppins font-bold py-2 px-4 mt-4">
-                Take quiz
-              </button>
+              {showForm ? <QuizForm /> : (
+  <button
+    onClick={() => setShowForm(true)}
+    className="bg-[#004523] text-[#E9A820] w-[95%] md:w-40 rounded-md font-poppins font-bold py-2 px-4 mt-4"
+  >
+    Take quiz
+  </button>
+)}
+
             </div>
           </div>
           <About />
