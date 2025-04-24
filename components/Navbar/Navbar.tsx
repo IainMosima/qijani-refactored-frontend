@@ -157,39 +157,39 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {loggedInUser &&
-        <div className="app__searchBar basis-[47%]">
-          <SearchBar
-            query={query}
-            handleInputChange={handleSearchInput}
-            setQuery={function (event: string): void {
-              throw new Error("Function not implemented.");
-            }}
-            setResultAvailable={setResultAvailable}
-            search={search}
-            clear={clear}
-          />
 
-          {resultAvailable && searchResults.length > 0 && (
-            <div className="search-results lg:left-[8.5rem]">
-              <ul className="lg:w-[30rem] md:w-[23rem] w-[13rem]">
-                {searchResults.map((item, index) => (
-                  <div
-                    onClick={() => {
-                      navigate.push(`/search/${item.productName}`);
-                      setSearchResults([]);
-                    }}
-                    key={index}
-                    style={{ textDecoration: "none", color: "black" }}
-                  >
-                    <li>{item.productName}</li>
-                  </div>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      }
+      <div className="app__searchBar basis-[47%]">
+        <SearchBar
+          query={query}
+          handleInputChange={handleSearchInput}
+          setQuery={function (event: string): void {
+            throw new Error("Function not implemented.");
+          }}
+          setResultAvailable={setResultAvailable}
+          search={search}
+          clear={clear}
+        />
+
+        {resultAvailable && searchResults.length > 0 && (
+          <div className="search-results mt-3 lg:left-[4.5rem]">
+            <ul className="lg:w-[30rem] md:w-[23rem] w-[13rem] py-4">
+              {searchResults.map((item, index) => (
+                <div
+                  onClick={() => {
+                    navigate.push(`/search/${item.productName}`);
+                    setSearchResults([]);
+                  }}
+                  key={index}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <li>{item.productName}</li>
+                </div>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
 
       <div className="app__navbar-links ml-3">
         {loggedInUser &&
@@ -204,6 +204,7 @@ const Navbar = () => {
           </div>
         }
 
+        
         {loggedInUser &&
           <div onClick={() => packageOnClickHandler()}>
             <Image
@@ -212,7 +213,7 @@ const Navbar = () => {
               className="icon"
               width={35}
             />
-            <h4>Packages</h4>
+            <h4>Meal Plans</h4>
           </div>
         }
 

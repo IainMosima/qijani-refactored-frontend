@@ -68,15 +68,6 @@ const Packages = () => {
 
       {myPackages && (
         <>
-          <div className="crumbs mt-[5rem] cursor-pointer">
-            <Breadcrumbs>
-              <Link underline="hover" style={{ color: "#E09132" }}>
-                <span onClick={()=>navigate.push('/')}>Home</span>
-              </Link>
-              <Typography color="text.primary">Packages</Typography>
-            </Breadcrumbs>
-          </div>
-
           <div className="package-card grid lg:grid-cols-6 md:grid-cols-3 grid-cols-2">
             {myPackages.map((item, index) => (
               <div key={index} className="card h-[23rem]">

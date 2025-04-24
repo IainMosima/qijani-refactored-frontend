@@ -1,9 +1,8 @@
-import { Packages } from '@/components'
-import React from 'react'
+import { QuizWrapper } from '@/components'
 
 const page = () => {
   return (
-    <Packages/>
+    <QuizWrapper/>
   )
 }
 
