@@ -1,8 +1,11 @@
-import { QuizWrapper } from '@/components'
+import { UserProfileQuiz } from '@/components'
+import { Container } from '@mui/material'
 
 const page = () => {
   return (
-    <QuizWrapper/>
+    <div className='px-8 mb-10'>
+      <UserProfileQuiz />
+    </div>
   )
 }
 

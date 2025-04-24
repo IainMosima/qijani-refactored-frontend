@@ -36,7 +36,7 @@ export default function RootLayout({
           <div className='lg:w-[100%] w-[100%]  overflow-x-hidden'>
             {children}
           </div>
-          <Footer />
+          {/* <Footer /> */}
           <BottomNav />
         </Providers>
       </body>
