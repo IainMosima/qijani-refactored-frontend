@@ -17,7 +17,7 @@ const BottomNav = () => {
 
     useEffect(() => {
         function showBottomNavFunc() {
-            if (pathname.split("/")[1] === 'loginSignup') {
+            if (pathname && pathname.split("/")[1] === 'loginSignup') {
                 setShowBottomNav(false);
             } else {
                 setShowBottomNav(true);

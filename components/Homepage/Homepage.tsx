@@ -1,5 +1,5 @@
 "use client";
-import React  , { useState } from "react";
+import React, { useState } from "react";
 import About from "./About";
 import { useAppSelector } from "@/hooks/reduxHook";
 import { ProductResults } from "..";
@@ -18,7 +18,7 @@ const Homepage = (props: Props) => {
   const [showForm, setShowForm] = useState(false);
   return (
     <>
-      {user ? 
+      {user ?
         <ProductResults categories={arrayShuffler(props.categories) as string[]} sampleProducts={props.sampleProducts} /> :
         <>
           <div className="home-bg mt-4">
@@ -30,17 +30,17 @@ const Homepage = (props: Props) => {
                 Embark on a culinary journey together
               </p>
               {showForm ? <QuizForm /> : (
-  <button
-    onClick={() => setShowForm(true)}
-    className="bg-[#004523] text-[#E9A820] w-[95%] md:w-40 rounded-md font-poppins font-bold py-2 px-4 mt-4"
-  >
-    Take quiz
-  </button>
-)}
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="bg-[#004523] text-[#E9A820] w-[95%] md:w-40 rounded-md font-poppins font-bold py-2 px-4 mt-4"
+                >
+                  Take quiz
+                </button>
+              )}
 
             </div>
           </div>
-          <About />
+          {/* <About /> */}
         </>
       }
 

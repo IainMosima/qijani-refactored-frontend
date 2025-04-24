@@ -51,7 +51,7 @@ const footerSocials = [
   }
 ]
 const Footer = () => {
-  const pathname = usePathname().split("/")[1];
+  const pathname = usePathname()?.split("/")[1] || '';
   const [showFooter, setShowFooter] = useState(true);
 
   useEffect(() => {

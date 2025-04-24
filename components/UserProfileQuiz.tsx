@@ -15,6 +15,7 @@ import {
   Paper,
   Grid,
 } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 const activityLevels = [
   'Sedentary',
@@ -82,6 +83,22 @@ const UserProfileQuiz = () => {
     }));
   };
 
+  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     // Here you would typically send the data to your backend
@@ -101,7 +118,7 @@ const UserProfileQuiz = () => {
               label="Full Name"
               name="name"
               value={formData.name}
-              onChange={handleChange}
+              onChange={handleTextChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -111,7 +128,7 @@ const UserProfileQuiz = () => {
               name="age"
               type="number"
               value={formData.age}
-              onChange={handleChange}
+              onChange={handleTextChange}
               inputProps={{ min: 0, max: 120 }}
             />
           </Grid>
@@ -121,7 +138,7 @@ const UserProfileQuiz = () => {
               <Select
                 name="gender"
                 value={formData.gender}
-                onChange={handleChange}
+                onChange={handleSelectChange}
                 label="Gender"
               >
                 <MenuItem value="Male">Male</MenuItem>
@@ -137,7 +154,7 @@ const UserProfileQuiz = () => {
               name="height_cm"
               type="number"
               value={formData.height_cm}
-              onChange={handleChange}
+              onChange={handleTextChange}
               inputProps={{ min: 50, max: 250 }}
             />
           </Grid>
@@ -148,7 +165,7 @@ const UserProfileQuiz = () => {
               name="weight_kg"
               type="number"
               value={formData.weight_kg}
-              onChange={handleChange}
+              onChange={handleTextChange}
               inputProps={{ min: 20, max: 300 }}
             />
           </Grid>
@@ -158,7 +175,7 @@ const UserProfileQuiz = () => {
               <Select
                 name="activity_level"
                 value={formData.activity_level}
-                onChange={handleChange}
+                onChange={handleSelectChange}
                 label="Activity Level"
               >
                 {activityLevels.map((level) => (
@@ -224,7 +241,7 @@ const UserProfileQuiz = () => {
               <Select
                 name="weight_goal"
                 value={formData.weight_goal}
-                onChange={handleChange}
+                onChange={handleSelectChange}
                 label="Weight Goal"
               >
                 {weightGoals.map((goal) => (
@@ -252,4 +269,4 @@ const UserProfileQuiz = () => {
   );
 };
 
-export default UserProfileQuiz; 
+export default UserProfileQuiz;

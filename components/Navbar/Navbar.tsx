@@ -44,7 +44,7 @@ const Navbar = () => {
     const token = localStorage.getItem("token");
 
     function showNavbarFunc() {
-      if (pathname.split("/")[1] === 'loginSignup') {
+      if (pathname && pathname.split("/")[1] === 'loginSignup') {
         setShowNavbar(false);
       } else {
         setShowNavbar(true);
@@ -79,10 +79,10 @@ const Navbar = () => {
     return () => {
       setSearchResults([]);
     };
-    
-    
-    
-    
+
+
+
+
 
   }, [debouncedQuery, dispatch, pathname]);
 
@@ -144,7 +144,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className={`${showNavbar ? '' : 'hidden'} flex justify-evenly items-center w-full py-2 app__navbar bg-white z-20`}>
+    <nav className={`${showNavbar ? '' : 'hidden'} flex ${loggedInUser ? 'justify-evenly' : 'justify-between'}  items-center w-full py-2 px-4 app__navbar bg-white z-20`}>
       <div className="basis-1/6">
         <Link href="/">
           <Image
@@ -157,69 +157,76 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="app__searchBar basis-[47%]">
-        <SearchBar
-          query={query}
-          handleInputChange={handleSearchInput}
-          setQuery={function (event: string): void {
-            throw new Error("Function not implemented.");
-          }}
-          setResultAvailable={setResultAvailable}
-          search={search}
-          clear={clear}
-        />
+      {loggedInUser &&
+        <div className="app__searchBar basis-[47%]">
+          <SearchBar
+            query={query}
+            handleInputChange={handleSearchInput}
+            setQuery={function (event: string): void {
+              throw new Error("Function not implemented.");
+            }}
+            setResultAvailable={setResultAvailable}
+            search={search}
+            clear={clear}
+          />
 
-        {resultAvailable && searchResults.length > 0 && (
-          <div className="search-results lg:left-[8.5rem]">
-            <ul className="lg:w-[30rem] md:w-[23rem] w-[13rem]">
-              {searchResults.map((item, index) => (
-                <div
-                  onClick={() => {
-                    navigate.push(`/search/${item.productName}`);
-                    setSearchResults([]);
-                  }}
-                  key={index}
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  <li>{item.productName}</li>
-                </div>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-
+          {resultAvailable && searchResults.length > 0 && (
+            <div className="search-results lg:left-[8.5rem]">
+              <ul className="lg:w-[30rem] md:w-[23rem] w-[13rem]">
+                {searchResults.map((item, index) => (
+                  <div
+                    onClick={() => {
+                      navigate.push(`/search/${item.productName}`);
+                      setSearchResults([]);
+                    }}
+                    key={index}
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <li>{item.productName}</li>
+                  </div>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      }
 
       <div className="app__navbar-links ml-3">
-        <div onClick={() => navigate.push('/')}>
-          <Image
-            src={Images.homeIcon}
-            alt="package-icon"
-            className="icon"
-            width={35}
-          />
-          <h4>Home</h4>
-        </div>
+        {loggedInUser &&
+          <div onClick={() => navigate.push('/')}>
+            <Image
+              src={Images.homeIcon}
+              alt="package-icon"
+              className="icon"
+              width={35}
+            />
+            <h4>Home</h4>
+          </div>
+        }
 
-        <div onClick={() => packageOnClickHandler()}>
-          <Image
-            src={Images.packagesIcon}
-            alt="package-icon"
-            className="icon"
-            width={35}
-          />
-          <h4>Packages</h4>
-        </div>
+        {loggedInUser &&
+          <div onClick={() => packageOnClickHandler()}>
+            <Image
+              src={Images.packagesIcon}
+              alt="package-icon"
+              className="icon"
+              width={35}
+            />
+            <h4>Packages</h4>
+          </div>
+        }
 
-        <div onClick={() => orderOnClickHandler()}>
-          <Image
-            src={Images.orderIcon}
-            alt="order-icon"
-            className="icon"
-            width={35}
-          />
-          <h4>Orders</h4>
-        </div>
+        {loggedInUser &&
+          <div onClick={() => orderOnClickHandler()}>
+            <Image
+              src={Images.orderIcon}
+              alt="order-icon"
+              className="icon"
+              width={35}
+            />
+            <h4>Orders</h4>
+          </div>
+        }
 
 
         {loggedInUser === null ? (
