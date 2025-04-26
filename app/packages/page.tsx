@@ -3,7 +3,7 @@ import { Container } from '@mui/material'
 
 const page = () => {
   return (
-    <div className='px-8 mb-10'>
+    <div className='sm:px-8 px-2  mb-10'>
       <UserProfileQuiz />
     </div>
   )

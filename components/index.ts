@@ -6,7 +6,7 @@ export { default as Checkout } from "./Checkout/Checkout";
 export { default as NoResults } from "./NoResults/NoResults";
 export { default as Search } from "./Search/Search";
 export { default as Orders } from "./Orders/Orders";
-export { default as UserProfileQuiz } from "./UserProfileQuiz";
+export { default as UserProfileQuiz } from "./MealRecommendation/UserProfileQuiz";
 export { default as QuizWrapper } from "./QuizWrapper/QuizWrapper";
 // export { default as Category } from "./Categories/Category/Category";
 // export { default as Categories } from "./Categories/Categories";
