@@ -901,9 +901,11 @@ const MealTypeSection = ({ mealType, meals }: { mealType: string; meals: AIRecom
                   maxHeight: '120px',
                   overflow: 'auto',
                   paddingRight: 8,
+                  listStyleType: 'decimal',
+                  listStylePosition: 'inside',
                 }}>
                   {meal.ingredients.map((ingredient, i) => (
-                    <li key={i} style={{ marginBottom: 4 }}>{ingredient}</li>
+                    <li key={i} style={{ marginBottom: 4, textAlign: 'left' }}>{ingredient}</li>
                   ))}
                 </ul>
               </div>
@@ -934,9 +936,11 @@ const MealTypeSection = ({ mealType, meals }: { mealType: string; meals: AIRecom
                   maxHeight: '180px',
                   overflow: 'auto',
                   paddingRight: 8,
+                  listStylePosition: 'inside',
+                  listStyleType: 'decimal',
                 }}>
                   {meal.preparation_steps.map((step, i) => (
-                    <li key={i} style={{ marginBottom: 4 }}>{step}</li>
+                    <li key={i} style={{ marginBottom: 4, textAlign: 'left' }}>{step}</li>
                   ))}
                 </ol>
               </div>
